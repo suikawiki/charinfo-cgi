@@ -1,0 +1,6 @@
+[submodule "modules/manakai"]
+	path = modules/manakai
+	url = http://suika.fam.cx/gate/git/bare/manakai.git/
+[submodule "modules/charclass"]
+	path = modules/charclass
+	url = git@github.com:wakaba/perl-charclass.git
