@@ -1,0 +1,5 @@
+Options +ExecCGI +MultiViews
+AddType text/html .cgi
+AddHandler cgi-script .cgi
+
+## License: Public Domain.
