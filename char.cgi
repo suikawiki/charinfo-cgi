@@ -16,30 +16,61 @@ my $cgi = Message::CGI::HTTP->new;
 my $string = decode 'utf8', $cgi->get_parameter ('s');
 
 print "Content-Type: text/html; charset=utf-8\n\n";
-print "<!DOCTYPE HTML>";
+print "<!DOCTYPE HTML><html lang=en>";
 print qq{
+<title>Charinfo &mdash; "@{[htescape $string]}"</title>
 <style>
-  .category th {
-    background-color: #C0C0C0;
+  h1, h2 {
+    padding: 0.3em;
+    font-size: 100%;
+    color: white;
+    background-color: #5279e7;
   }
+  h1 {
+    background-color: #1841ce;
+  }
+
   th {
     text-align: left;
+  }
+  th, td {
+    padding-right: 0.5em;
+  }
+  th:first-child, td:first-child {
+    padding-left: 0.5em;
+  }
+  .category th {
+    padding: 0.3em;
+    background-color: #C0C0C0;
   }
   input[type=text] {
     width: 80%;
   }
+  .pattern-1 { background-color: #ffdddd }
+  .pattern-2 { background-color: #ffffdd }
+  .pattern-3 { background-color: #ddffdd }
+  .pattern-4 { background-color: #dde5ff }
+  .pattern-5 { background-color: #ffcccc }
+  .pattern-6 { background-color: #cc99cc }
   .error {
     color: red;
   }
 </style>
+
+<h1>Character data</h1>
+
 <form>
-  <input type=text name=s value="@{[htescape $string]}">
+  <label>String:
+    <input type=text name=s value="@{[htescape $string]}">
+  </label>
   <input type=submit>
 </form>
 
 };
 
 my $SELF_URL = 'char';
+
+my $color_indexes = {};
 
 sub print_string ($) {
   my $string = shift;
@@ -50,11 +81,13 @@ sub print_string ($) {
     print "<td colspan=2>(empty)";
     return;
   }
-  printf '<td><a href="%s?s=%s">%s</a>',
+  my $ci = $color_indexes->{$string} ||= 1 + keys %$color_indexes;
+  printf '<td class=pattern-%d><a href="%s?s=%s">%s</a>',
+      $ci,
       (htescape $SELF_URL),
       (percent_encode $string),
       $string;
-  print '<td>';
+  printf '<td class=pattern-%d>', $ci;
   for my $c (split //, $string) {
     printf 'U+%04X', ord $c;
     printf ' (%s) ', htescape $c;
@@ -70,7 +103,9 @@ sub print_ascii_string ($) {
     print "<td colspan=2>(empty)";
     return;
   }
-  printf '<td colspan=2><a href="%s?s=%s">%s</a>',
+  my $ci = $color_indexes->{$string} ||= 1 + keys %$color_indexes;
+  printf '<td colspan=2 class=pattern-%d><a href="%s?s=%s">%s</a>',
+      $ci,
       (htescape $SELF_URL),
       (percent_encode $string),
       $string;
@@ -86,7 +121,7 @@ sub or_print_error (&) {
   }
 } # or_print_error
 
-print q{<h2>Characters</h2>
+print q{<h2 id=chardata>Characters</h2>
 
 <table>
 };
@@ -94,12 +129,12 @@ print q{<h2>Characters</h2>
 my @char = split //, $string;
 
 {
-  print q{<tr><th>Char};
+  print q{<tr><th>Character};
   print q{<td>}, htescape $_ for @char;
 }
 
 {
-  print q{<tr><th>Code position};
+  print q{<tr><th>Code point};
   printf q{<td>U+%04X}, ord $_ for @char;
 }
 
@@ -128,7 +163,7 @@ use Char::Prop::Unicode::Age;
 }
 
 print q{</table>
-<h2>String</h2>
+<h2 id=strdata>String</h2>
 <table>};
 
 {
@@ -440,7 +475,22 @@ print q{<tbody><tr class=category><th colspan=3>Escapes};
 }
 
 print "</table>";
-print "/";
+
+my $commit = `git rev-parse HEAD`;
+$commit =~ s/[^0-9A-Za-z]+//g;
+
+print qq{
+
+<h2 id=about>About charinfo</h2>
+
+<p>This is Charinfo version <a
+href="https://github.com/wakaba/charinfo-cgi/commit/$commit">$commit</a>.
+
+<p>Git repository: <a
+href="http://suika.fam.cx/gate/git/wi/char/charinfo.git/tree">Suika</a>
+/ <a href="https://github.com/wakaba/charinfo-cgi">GitHub</a>
+
+};
 
 __END__
 
