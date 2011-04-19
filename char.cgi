@@ -441,7 +441,7 @@ print q{<tbody><tr class=category><th colspan=3>Escapes};
 {
   print q{<tr><th>en-UTF-8 percent-encode};
   or_print_error {
-    print_ascii_string percent_encode encode 'utf-8', $string;
+    print_ascii_string percent_encode $string;
   };
 }
 
