@@ -1,0 +1,23 @@
+AnyEvent::Util
+CGI::Carp
+
+Digest::SHA
+#^ by Mojo::Util
+
+Encode
+IDNA::Punycode
+Mojo::Util
+Net::IDN::Nameprep
+Net::IDN::Punycode
+Net::IDN::Punycode::PP
+Net::LibIDN
+Path::Class
+Unicode::Normalize
+
+#Unicode::UCD
+#^ perl
+
+URI
+#URI::_punycode
+
+URI::UTF8::Punycode
