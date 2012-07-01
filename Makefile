@@ -23,3 +23,9 @@ generatepm: %: Makefile-setupenv
 	$(MAKE) --makefile Makefile.setupenv $@ \
 	    PMB_PMTAR_REPO_URL=$(PMB_PMTAR_REPO_URL) \
 	    PMB_PMPP_REPO_URL=$(PMB_PMPP_REPO_URL)
+
+YUM = yum
+
+# sudo!
+yum-install:
+	$(YUM) install -y libidn-devel
