@@ -12,7 +12,8 @@ sub p (@) {
 } # p
 
 sub pf ($@) {
-  $Output->(sprintf @_);
+  my $format = shift;
+  $Output->(sprintf $format, @_);
 } # pf
 
 my $color_indexes = {};
@@ -58,12 +59,11 @@ sub p_ascii_string ($) {
 
 sub or_p_error (&) {
   my $code = shift;
-  my $s = eval { $code->() };
-  if ($@) {
+  eval { $code->(); 1 } or do {
     my $v = $@;
     $v =~ s/ at (?:\Q$0\E|\(eval \d+\)|\S+) line \d+(?:, <[^<>]+> line \d+)?\.?$//;
     p q{<td colspan=2 class=error>}, htescape $v;
-  }
+  };
 } # or_p_error
 
 sub main ($$) {
@@ -459,13 +459,13 @@ p q{<tbody><tr class=category><th colspan=3>Escapes};
 {
   p q{<tr><th>en-\u};
   or_p_error {
-    p_ascii_string join '', map { spf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
+    p_ascii_string join '', map { sprintf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
   };
 }
 {
   p q{<tr><th>en-\u non-ASCII};
   or_p_error {
-    p_ascii_string join '', map { 0x20 <= $_ && $_ <= 0x7E && $_ != 0x5C ? chr $_ : spf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
+    p_ascii_string join '', map { 0x20 <= $_ && $_ <= 0x7E && $_ != 0x5C ? chr $_ : sprintf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
   };
 }
 {
