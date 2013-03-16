@@ -92,14 +92,42 @@ p "<!DOCTYPE HTML><html lang=en>";
 p qq{
 <title>Charinfo &mdash; "@{[htescape $string]}"</title>
 <style>
+  .site {
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+  }
+  h1.site {
+    background: transparent;
+    margin: 0.5em 0;
+    padding: 0;
+    font-size: 80%;
+    line-height: 1.0;
+  }
+  h1.site a {
+    color: black;
+    text-decoration: none;
+  }
+  h1.site img {
+    display: block;
+  }
+
   h1, h2 {
     padding: 0.3em;
     font-size: 100%;
     color: white;
     background-color: #5279e7;
   }
+
   h1 {
+    margin: 0 0 0.5em 0;
+    padding: 0.5em;
+    font-size: 170%;
+    line-height: 1.5;
     background-color: #1841ce;
+    background: -moz-linear-gradient(left, #1841CE, #fff);
+    background: -webkit-gradient(linear, left top, right top, from(#1841CE), to(#fff));
   }
 
   th {
@@ -133,8 +161,7 @@ p qq{
   }
 
   .charname {
-    text-transform: lowercase;
-    font-variant: small-caps;
+    
   }
 
   aside.ads {
@@ -157,7 +184,9 @@ p qq{
   }
 </style>
 
-<h1>Character data</h1>
+<h1 class=site><a href="//chars.suikawiki.org/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>
+
+<h1>Charinfo &mdash; "@{[htescape $string]}"</h1>
 
 <form>
   <label>String:
@@ -183,8 +212,15 @@ if (@char == 1) {
       ucode ord $char[0], ord $char[0], ord $char[0];
 
   require Unicode::CharName;
-  pf q{<tr><th>Character name<td><code class=charname>%s</code>},
-      Unicode::CharName::uname (ord $char[0]) // '(unassigned)';
+  my $name = Unicode::CharName::uname (ord $char[0]);
+  if (defined $name) {
+    pf q{<tr><th>Character name
+         <td><a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class=charname>%s</code></a>},
+        percent_encode_c $name,
+        $name // '(unassigned)';
+  } else {
+    p q{<tr><th>Character name<td>(Unassigned)},
+  }
   pf q{<tr><th>Block<td>%s},
       Unicode::CharName::ublock (ord $char[0]) // '(unassigned)';
 
