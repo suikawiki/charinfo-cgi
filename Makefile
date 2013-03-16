@@ -27,6 +27,7 @@ pmbp-install: pmbp-upgrade
 
 # Need SERVER_ENV!
 server-config: daemontools-config
+install-server-config: install-daemontools-config
 
 SERVER_ENV = HOGE
 SERVER_ARGS = \
