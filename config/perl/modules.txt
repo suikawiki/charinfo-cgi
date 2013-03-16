@@ -21,3 +21,5 @@ URI
 #URI::_punycode
 
 URI::UTF8::Punycode
+
+Unicode::CharName

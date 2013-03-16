@@ -1,11 +1,29 @@
 package Charinfo::Main;
 use strict;
 use warnings;
+no warnings 'utf8';
 use Encode;
-use Message::CGI::Util qw(htescape percent_encode percent_decode);
+use URL::PercentEncode qw(percent_encode_c percent_decode_c
+                          percent_encode_b percent_decode_b);
+
+sub htescape ($) {
+  my $s = shift;
+  $s =~ s/&/&amp;/g;
+  $s =~ s/</&lt;/g;
+  $s =~ s/"/&quot;/g;
+  return $s;
+} # htescape
 
 our $Output = sub { die "|\$Output| not defined" };
 our $SELF_URL = 'char';
+
+sub ucode ($) {
+  if ($_[0] > 0x10FFFF) {
+    return sprintf '<a href="/char/%08X">U-%08X</a>', $_[0], $_[0];
+  } else {
+    return sprintf '<a href="/char/%04X">U+%04X</a>', $_[0], $_[0];
+  }
+} # ucode
 
 sub p (@) {
   $Output->(@_);
@@ -31,11 +49,11 @@ sub p_string ($) {
   pf '<td class=pattern-%d><a href="%s?s=%s">%s</a>',
       $ci,
       (htescape $SELF_URL),
-      (percent_encode $string),
+      (percent_encode_c $string),
       $string;
   pf '<td class=pattern-%d>', $ci;
   for my $c (split //, $string) {
-    pf 'U+%04X', ord $c;
+    p ucode ord $c;
     pf ' (%s) ', htescape $c;
   }
 } # p_string
@@ -53,7 +71,7 @@ sub p_ascii_string ($) {
   pf '<td colspan=2 class=pattern-%d><a href="%s?s=%s">%s</a>',
       $ci,
       (htescape $SELF_URL),
-      (percent_encode $string),
+      (percent_encode_c $string),
       $string;
 } # p_ascii_string
 
@@ -109,6 +127,10 @@ p qq{
   .error {
     color: red;
   }
+
+  .target-char {
+    font-size: 400%;
+  }
 </style>
 
 <h1>Character data</h1>
@@ -122,12 +144,38 @@ p qq{
 
 };
 
+my @char = split //, $string;
+
+if (@char == 1) {
+  p q{<h2 id=char>Character</h2><table>};
+
+  pf q{<tr><th>Character<td><code class=target-char>%s</code>},
+      $char[0];
+
+  pf q{<tr><th>Code point
+       <td><code>%s</code>
+           <code>%d</code><sub>10</sub>
+           <code>%o</code><sub>8</sub>},
+      ucode ord $char[0], ord $char[0], ord $char[0];
+
+  require Unicode::CharName;
+  pf q{<tr><th>Character name<td>%s},
+      Unicode::CharName::uname (ord $char[0]) // '(unassigned)';
+  pf q{<tr><th>Block<td>%s},
+      Unicode::CharName::ublock (ord $char[0]) // '(unassigned)';
+
+  pf q{<tr><th>Previous<td>%s (%s)},
+      ucode (-1 + ord $char[0]), chr (-1 + ord $char[0]);
+  pf q{<tr><th>Next<td>%s (%s)},
+      ucode (1 + ord $char[0]), chr (1 + ord $char[0]);
+
+  p q{</table>};
+}
+
 p q{<h2 id=chardata>Characters</h2>
 
 <table>
 };
-
-my @char = split //, $string;
 
 {
   p q{<tr><th>Character};
@@ -136,7 +184,7 @@ my @char = split //, $string;
 
 {
   p q{<tr><th>Code point};
-  pf q{<td>U+%04X}, ord $_ for @char;
+  pf q{<td>%s}, ucode ord $_ for @char;
 }
 
 use Unicode::UCD 'charinfo';
@@ -436,13 +484,13 @@ p q{<tbody><tr class=category><th colspan=3>Escapes};
 {
   p q{<tr><th>percent-decode de-UTF-8};
   or_p_error {
-    p_string percent_decode encode 'utf-8', $string;
+    p_string percent_decode_b encode 'utf-8', $string;
   };
 }
 {
   p q{<tr><th>en-UTF-8 percent-encode};
   or_p_error {
-    p_ascii_string percent_encode encode 'utf-8', $string;
+    p_ascii_string percent_encode_b encode 'utf-8', $string;
   };
 }
 
@@ -488,7 +536,7 @@ p qq{
 href="https://github.com/wakaba/charinfo-cgi/commit/$commit">$commit</a>.
 
 <p>Git repository: <a
-href="http://suika.fam.cx/gate/git/wi/char/charinfo.git/tree">Suika</a>
+href="http://suika.suikawiki.org/gate/git/wi/char/charinfo.git/tree">Suika</a>
 / <a href="https://github.com/wakaba/charinfo-cgi">GitHub</a>
 
 };
@@ -501,11 +549,11 @@ __END__
 
 =head1 AUTHOR
 
-Wakaba <w@suika.fam.cx>.
+Wakaba <wakaba@suikawiki.org>.
 
 =head1 LICENSE
 
-Copyright 2011-2012 Wakaba <w@suika.fam.cx>.
+Copyright 2011-2013 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

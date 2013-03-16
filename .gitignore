@@ -4,3 +4,10 @@
 .*.BAK
 pod2htmi.tmp
 pod2htmd.tmp
+/local/
+/perl
+/prove
+/plackup
+/Makefile.setupenv
+/cin
+/config/perl/libs.txt

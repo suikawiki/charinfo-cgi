@@ -1,18 +1,18 @@
-[submodule "modules/manakai"]
-	path = modules/manakai
-	url = git://github.com/wakaba/manakai.git
 [submodule "modules/charclass"]
 	path = modules/charclass
 	url = git://github.com/wakaba/perl-charclass.git
 [submodule "modules/wanage"]
 	path = modules/wanage
 	url = git://github.com/wakaba/wanage
-[submodule "modules/perl-weburl"]
-	path = modules/perl-weburl
-	url = git://github.com/wakaba/perl-weburl.git
 [submodule "modules/perl-web-utils"]
 	path = modules/perl-web-utils
 	url = git://github.com/wakaba/perl-web-utils.git
 [submodule "modules/perl-ooutils"]
 	path = modules/perl-ooutils
 	url = git://github.com/wakaba/perl-ooutils.git
+[submodule "modules/web-url"]
+	path = modules/web-url
+	url = git://github.com/manakai/perl-web-url
+[submodule "modules/web-encodings"]
+	path = modules/web-encodings
+	url = git://github.com/manakai/perl-web-encodings

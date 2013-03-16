@@ -1,31 +1,24 @@
 all:
 
-## ------ Environment setup ------
+## ------ Setup ------
 
 WGET = wget
-PERL = perl
-PERL_VERSION = latest
-PERL_PATH = $(abspath local/perlbrew/perls/perl-$(PERL_VERSION)/bin)
+GIT = git
 
-PMB_PMTAR_REPO_URL =
-PMB_PMPP_REPO_URL = 
+deps: git-submodules pmbp-install
 
-Makefile-setupenv: Makefile.setupenv
-	$(MAKE) --makefile Makefile.setupenv setupenv-update \
-	    SETUPENV_MIN_REVISION=20120338
+git-submodules:
+	$(GIT) submodule update --init
 
-Makefile.setupenv:
-	$(WGET) -O $@ https://raw.github.com/wakaba/perl-setupenv/master/Makefile.setupenv
-
-lperl lplackup local-perl perl-version perl-exec \
-pmb-install pmb-update cinnamon \
-generatepm: %: Makefile-setupenv
-	$(MAKE) --makefile Makefile.setupenv $@ \
-	    PMB_PMTAR_REPO_URL=$(PMB_PMTAR_REPO_URL) \
-	    PMB_PMPP_REPO_URL=$(PMB_PMPP_REPO_URL)
-
-YUM = yum
-
-# sudo!
-yum-install:
-	$(YUM) install -y libidn-devel
+local/bin/pmbp.pl:
+	mkdir -p local/bin
+	$(WGET) -O $@ https://raw.github.com/wakaba/perl-setupenv/master/bin/pmbp.pl
+pmbp-upgrade: local/bin/pmbp.pl
+	perl local/bin/pmbp.pl --update-pmbp-pl
+pmbp-update: pmbp-upgrade
+	perl local/bin/pmbp.pl --update
+pmbp-install: pmbp-upgrade
+	perl local/bin/pmbp.pl --install \
+            --create-perl-command-shortcut perl \
+            --create-perl-command-shortcut prove \
+            --create-perl-command-shortcut plackup
