@@ -7,7 +7,7 @@ use Cinnamon::Task::Daemontools;
 set application => 'charinfo';
 set git_repository => 'git://github.com/wakaba/charinfo-cgi';
 set deploy_dir => '/home/wakaba/server/charinfo';
-
+set daemontools_service_dir => '/service';
 set get_daemontools_service_name => sub {
   return sub {
     return sprintf '%s-%s-web', (get 'application'), (get 'server_env');
