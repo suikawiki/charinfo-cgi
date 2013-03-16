@@ -48,7 +48,7 @@ task app => {
   setup => sub {
     my ($host, @args) = @_;
     my $dir = get 'deploy_dir';
-    my $name = get 'server_instance_name';
+    my $name = get 'server_env';
     remote {
       run qq{cd \Q$dir\E && make deps server-config SERVER_ENV=$name};
     } $host;
@@ -56,7 +56,7 @@ task app => {
   install => sub {
     my ($host, @args) = @_;
     my $dir = get 'deploy_dir';
-    my $name = get 'server_instance_name';
+    my $name = get 'server_env';
     remote {
       sudo qq{sh -c "cd \Q$dir\E && LANG=C make install-server-config SERVER_ENV=$name"};
     } $host;

@@ -175,7 +175,7 @@ p qq{
       min-height: 250px;
     }
 
-    section.ads {
+    aside.ads {
       display: block;
       position: absolute;
       right: 0;
