@@ -214,7 +214,7 @@ if (@char == 1) {
   require Unicode::CharName;
   my $name = Unicode::CharName::uname (ord $char[0]);
   if (defined $name) {
-    $name =~ s/IDEOGRAPH ([0-9A-F]+)$/IDEOGRAPH $1/;
+    $name =~ s/IDEOGRAPH ([0-9A-F]+)$/IDEOGRAPH-$1/;
     pf q{<tr><th>Character name
          <td><a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class=charname>%s</code></a>},
         percent_encode_c $name,
