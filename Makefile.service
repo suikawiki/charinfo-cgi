@@ -1,0 +1,86 @@
+# -*- Makefile -*-
+
+# Writing configuration and run scripts
+
+# Usage:
+#
+# Makefile:
+# --------------------
+# WEB_MYAPPDEVEL1_ARGS = \
+#	    APP_NAME=myapplication \
+#	    SERVER_INSTANCE_NAME=myappdevel1 \
+#	    SERVER_PORT=6012 \
+#	    SERVER_ENV=default \
+#	    ROOT_DIR="$(abspath .)" \
+#	    SERVICE_DIR="/service"
+#
+#web-server-myappdevel1:
+#	$(MAKE) --makefile=Makefile.web all $(WEB_MYAPPDEVEL1_ARGS)
+#install-web-server-myappdevel1:
+#	$(MAKE) --makefile=Makefile.web install $(WEB_MYAPPDEVEL1_ARGS)
+# --------------------
+#
+# Then,
+#     $ make web-server-myappdevel1
+#     # make install-web-server-myappdevel1
+
+APP_NAME = mywebserver
+SERVER_INSTANCE_NAME = $(APP_NAME)
+SERVER_PORT = 4012
+SERVER_ENV = default
+SERVER_TYPE = web
+SERVER_TYPE_LOG = $(SERVER_TYPE)
+
+ROOT_DIR = $(abspath .)
+
+SERVICE_TEMPLATE_DIR = $(ROOT_DIR)/config/service.in/$(SERVER_TYPE)
+
+LOCAL_DIR = $(abspath local)
+SERVICE_DEST_DIR = $(LOCAL_DIR)/service
+BIN_DEST_DIR = $(LOCAL_DIR)/bin
+SERVER_INSTANCE_CONFIG_DIR = $(ROOT_DIR)/../../config
+LOG_DIR = $(LOCAL_DIR)/log
+SERVER_USER = web
+LOG_USER_GROUP = $(SERVER_USER).web
+SYSCONFIG = /etc/sysconfig/$(APP_NAME)
+
+SERVICE_DIR = /etc/service
+
+define SUBST_SED
+s/@@INSTANCENAME@@/$(subst /,\/,$(SERVER_INSTANCE_NAME))/g; \
+s/@@INSTANCECONFIG@@/$(subst /,\/,$(SERVER_INSTANCE_CONFIG_DIR))/g; \
+s/@@SYSCONFIG@@/$(subst /,\/,$(SYSCONFIG))/g; \
+s/@@ROOT@@/$(subst /,\/,$(ROOT_DIR))/g; \
+s/@@LOCAL@@/$(subst /,\/,$(LOCAL_DIR))/g; \
+s/@@LOGDIR@@/$(subst /,\/,$(LOG_DIR))/g; \
+s/@@ENV@@/$(subst /,\/,$(SERVER_ENV))/g; \
+s/@@USER@@/$(subst /,\/,$(SERVER_USER))/g; \
+s/@@PORT@@/$(subst /,\/,$(SERVER_PORT))/g;
+endef
+
+all: server-config
+
+server-config:
+	mkdir -p $(SERVICE_DEST_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE)/log
+	mkdir -p $(BIN_DEST_DIR)
+	cat $(SERVICE_TEMPLATE_DIR)/run | sed '$(SUBST_SED)' > $(SERVICE_DEST_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE)/run
+	cat $(SERVICE_TEMPLATE_DIR)/log/run | sed '$(SUBST_SED)' > $(SERVICE_DEST_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE)/log/run
+	cat $(SERVICE_TEMPLATE_DIR)/bin.sh | sed '$(SUBST_SED)' > $(BIN_DEST_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE).sh
+	chmod ugo+x $(SERVICE_DEST_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE)/run
+	chmod ugo+x $(SERVICE_DEST_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE)/log/run
+	chmod ugo+x $(BIN_DEST_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE).sh
+
+# sudo!
+install: create-log-dir install-service
+
+install-service:
+	mkdir -p $(SERVICE_DIR)
+	-svc -x $(SERVICE_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE)
+	-rm $(SERVICE_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE)
+	(ln -s $(abspath $(SERVICE_DEST_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE)) \
+	    $(SERVICE_DIR)/ || true); \
+
+create-log-dir:
+	mkdir -p $(LOG_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE_LOG)
+	chown $(LOG_USER_GROUP) $(LOG_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE_LOG)
+	chmod ugo+rwx $(LOG_DIR)/$(SERVER_INSTANCE_NAME)-$(SERVER_TYPE_LOG)
