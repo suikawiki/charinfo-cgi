@@ -11,3 +11,4 @@ pod2htmd.tmp
 /Makefile.setupenv
 /cin
 /config/perl/libs.txt
+/deps/

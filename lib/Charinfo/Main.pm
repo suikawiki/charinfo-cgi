@@ -131,6 +131,30 @@ p qq{
   .target-char {
     font-size: 400%;
   }
+
+  .charname {
+    text-transform: lowercase;
+    font-variant: small-caps;
+  }
+
+  aside.ads {
+    display: none;
+  }
+
+  \@media screen and (min-width: 600px) {
+    section#char {
+      position: relative;
+      padding-right: 300px;
+      min-height: 250px;
+    }
+
+    section.ads {
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
 </style>
 
 <h1>Character data</h1>
@@ -147,7 +171,7 @@ p qq{
 my @char = split //, $string;
 
 if (@char == 1) {
-  p q{<h2 id=char>Character</h2><table>};
+  p q{<section id=char><h2>Character</h2><table>};
 
   pf q{<tr><th>Character<td><code class=target-char>%s</code>},
       $char[0];
@@ -159,7 +183,7 @@ if (@char == 1) {
       ucode ord $char[0], ord $char[0], ord $char[0];
 
   require Unicode::CharName;
-  pf q{<tr><th>Character name<td>%s},
+  pf q{<tr><th>Character name<td><code class=charname>%s</code>},
       Unicode::CharName::uname (ord $char[0]) // '(unassigned)';
   pf q{<tr><th>Block<td>%s},
       Unicode::CharName::ublock (ord $char[0]) // '(unassigned)';
@@ -169,7 +193,19 @@ if (@char == 1) {
   pf q{<tr><th>Next<td>%s (%s)},
       ucode (1 + ord $char[0]), chr (1 + ord $char[0]);
 
-  p q{</table>};
+  p q{</table>
+
+      <aside class=ads>
+        <script>
+          google_ad_client = "ca-pub-6943204637055835";
+          google_ad_slot = "1478788718";
+          google_ad_width = 300;
+          google_ad_height = 250;
+        </script>
+        <script src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+      </aside>
+    </section>
+  };
 }
 
 p q{<h2 id=chardata>Characters</h2>
