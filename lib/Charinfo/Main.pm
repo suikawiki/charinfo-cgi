@@ -188,7 +188,7 @@ p qq{
 
 <h1>Charinfo &mdash; "@{[htescape $string]}"</h1>
 
-<form>
+<form action=/>
   <label>String:
     <input type=text name=s value="@{[htescape $string]}">
   </label>
