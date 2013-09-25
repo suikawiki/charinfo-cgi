@@ -646,6 +646,16 @@ href="https://github.com/wakaba/charinfo-cgi/commit/$commit">$commit</a>.
 href="http://suika.suikawiki.org/gate/git/wi/char/charinfo.git/tree">Suika</a>
 / <a href="https://github.com/wakaba/charinfo-cgi">GitHub</a>
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-39820773-3', 'suikawiki.org');
+  ga('send', 'pageview');
+</script>
+
 };
 
 } # main
