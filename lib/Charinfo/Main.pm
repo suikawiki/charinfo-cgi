@@ -58,6 +58,21 @@ sub p_string ($) {
   }
 } # p_string
 
+sub p_bytes ($) {
+  my $string = shift;
+  if (not defined $string) {
+    p "<td colspan=2>(undef)";
+    return;
+  } elsif ($string eq '') {
+    p "<td colspan=2>(empty)";
+    return;
+  }
+  p '<td colspan=2>';
+  for my $b (split //, $string) {
+    pf '0x%02X ', ord $b;
+  }
+} # p_bytes
+
 sub p_ascii_string ($) {
   my $string = shift;
   if (not defined $string) {
@@ -291,6 +306,25 @@ p q{</table>
 {
   p q{<tr><th>Input};
   p_string $string;
+}
+
+p q{<tbody><tr class=category><th colspan=3>Encodings};
+
+{
+  p q{<tr><th>UTF-8};
+  p_bytes encode 'utf-8', $string;
+}
+{
+  p q{<tr><th>UTF-16BE};
+  p_bytes encode 'utf-16be', $string;
+}
+{
+  p q{<tr><th>UTF-16LE};
+  p_bytes encode 'utf-16le', $string;
+}
+{
+  p q{<tr><th>UTF-32BE};
+  p_bytes encode 'utf-32be', $string;
 }
 
 use AnyEvent::Util;
