@@ -145,13 +145,16 @@ p qq{
     background: -webkit-gradient(linear, left top, right top, from(#1841CE), to(#fff));
   }
 
+  tr:hover {
+    background: #efecf2;
+  }
   th {
     text-align: left;
   }
   th, td {
     padding-right: 0.5em;
   }
-  th:first-child, td:first-child {
+  th:first-child {
     padding-left: 0.5em;
   }
   .category th {
@@ -308,7 +311,7 @@ p q{</table>
   p_string $string;
 }
 
-p q{<tbody><tr class=category><th colspan=3>Encodings};
+p q{<tbody><tr class=category><th colspan=3>Unicode encodings};
 
 {
   p q{<tr><th>UTF-8};
@@ -325,6 +328,29 @@ p q{<tbody><tr class=category><th colspan=3>Encodings};
 {
   p q{<tr><th>UTF-32BE};
   p_bytes encode 'utf-32be', $string;
+}
+
+if (@char == 1) {
+  p q{<tbody><tr class=category><th colspan=3>Web encodings};
+
+  use Charinfo::Encoding;
+  my @not_encodable;
+  for my $encoding (@$Charinfo::Encoding::EncodingNames) {
+    my $encoded = Charinfo::Encoding->from_unicode (ord $char[0] => $encoding);
+    if ($encoded and @$encoded) {
+      p qq{<tr><th rowspan="@{[scalar @$encoded]}"><a href="http://encoding.spec.whatwg.org/#$encoding">$encoding</a>};
+      my $prefix = '';
+      for (@$encoded) {
+        p $prefix . '<td colspan=2>' . join ' ', map { sprintf '0x%02X', $_ } @$_;
+        $prefix = '<tr>';
+      }
+    } else {
+      push @not_encodable, $encoding;
+    }
+  }
+  if (@not_encodable) {
+    p '<tr><th>Not encodable in<td colspan=2>' . join ' ', @not_encodable;
+  }
 }
 
 use AnyEvent::Util;
