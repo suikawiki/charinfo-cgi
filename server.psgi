@@ -16,46 +16,63 @@ sub {
 
   return $http->send_response (onready => sub {
     my $app = Warabe::App->new_from_http ($http);
-
-    my $s;
-    my $path = $app->path_segments;
-    if ($path->[0] eq '' and not defined $path->[1]) {
-      # /
-      $s = $app->text_param ('s') // '';
-    } elsif ($path->[0] eq 'char' and
-             defined $path->[1] and $path->[1] =~ /\A[0-9A-F]+\z/ and
-             not defined $path->[2]) {
-      # /char/{hex}
-      $s = chr hex $path->[1] if 0x7FFF_FFFF >= hex $path->[1];
-    } elsif ($path->[0] eq 'set' and not defined $path->[1]) {
-      # /set
-      $s = $app->text_param ('expr') // '';
-      $http->set_response_header
-          ('Content-Type' => 'text/html; charset=utf-8');
+    $app->execute (sub {
+      my $s;
+      my $path = $app->path_segments;
+      if ($path->[0] eq '' and not defined $path->[1]) {
+        # /
+        $s = $app->text_param ('s') // '';
+      } elsif ($path->[0] eq 'char' and
+               defined $path->[1] and $path->[1] =~ /\A[0-9A-F]+\z/ and
+               not defined $path->[2]) {
+        # /char/{hex}
+        $s = chr hex $path->[1] if 0x7FFF_FFFF >= hex $path->[1];
+      } elsif ($path->[0] eq 'set') {
+        if (not defined $path->[1]) {
+          # /set
+          $s = $app->text_param ('expr') // '';
+          $http->set_response_header
+              ('Content-Type' => 'text/html; charset=utf-8');
+          local $Charinfo::Main::Output = sub {
+            $http->send_response_body_as_text (join '', @_);
+          }; # Output
+          Charinfo::Main->set ($s);
+          $http->close_response_body;
+          return;
+        } elsif ($path->[1] eq 'compare' and not defined $path->[2]) {
+          # /set/compare
+          $s = $app->text_param ('expr1') // '';
+          my $s2 = $app->text_param ('expr2') // '';
+          $http->set_response_header
+              ('Content-Type' => 'text/html; charset=utf-8');
+          local $Charinfo::Main::Output = sub {
+            $http->send_response_body_as_text (join '', @_);
+          }; # Output
+          Charinfo::Main->set_compare ($s, $s2);
+          $http->close_response_body;
+          return;
+        }
+      } elsif ($path->[0] eq 'css' and not defined $path->[1]) {
+        # /css
+        $http->set_response_header
+            ('Content-Type' => 'text/css; charset=utf-8');
+        $http->set_response_last_modified ([stat $css_f]->[9]);
+        $http->send_response_body_as_ref (\(scalar $css_f->slurp));
+        $http->close_response_body;
+        return;
+      }
+      $app->throw_error (404) unless defined $s;
+      
       local $Charinfo::Main::Output = sub {
         $http->send_response_body_as_text (join '', @_);
       }; # Output
-      Charinfo::Main->set ($s);
-      $http->close_response_body;
-      return;
-    } elsif ($path->[0] eq 'css' and not defined $path->[1]) {
-      # /css
-      $http->set_response_header ('Content-Type' => 'text/css; charset=utf-8');
-      $http->set_response_last_modified ([stat $css_f]->[9]);
-      $http->send_response_body_as_ref (\(scalar $css_f->slurp));
-      $http->close_response_body;
-      return;
-    }
-    $app->throw_error (404) unless defined $s;
+      $http->set_response_header
+          ('Content-Type' => 'text/html; charset=utf-8');
+      
+      Charinfo::Main->main ($s);
 
-    local $Charinfo::Main::Output = sub {
-      $http->send_response_body_as_text (join '', @_);
-    }; # Output
-    $http->set_response_header ('Content-Type' => 'text/html; charset=utf-8');
-    
-    Charinfo::Main->main ($s);
-
-    $http->close_response_body;
+      $http->close_response_body;
+    });
   });
 };
 

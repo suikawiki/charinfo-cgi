@@ -158,6 +158,35 @@ sub evaluate_expression ($$) {
   return $current;
 } # evaluate_expression
 
+sub regexp_range_char ($) {
+  my $c = $_[0];
+  if ($c == 0x002D or $c == 0x005C or $c == 0x005E) {
+    return sprintf '\\u%04X', $c;
+  } elsif (0x0021 <= $c and $c <= 0x007E) {
+    return chr $c;
+  } elsif ($c <= 0xFFFF) {
+    return sprintf '\\u%04X', $c;
+  } else {
+    return sprintf '\\u{%X}', $c;
+  }
+} # regexp_range_char
+
+sub serialize_set ($$) {
+  my @result;
+  push @result, '[';
+  for my $range (@{$_[1]}) {
+    if ($range->[0] == $range->[1]) {
+      push @result, regexp_range_char $range->[0];
+    } else {
+      push @result, regexp_range_char $range->[0];
+      push @result, '-';
+      push @result, regexp_range_char $range->[1];
+    }
+  }
+  push @result, q{]};
+  return join '', @result;
+} # serialize_set
+
 1;
 
 =head1 LICENSE

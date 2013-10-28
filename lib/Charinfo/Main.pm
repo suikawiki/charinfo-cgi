@@ -154,19 +154,9 @@ if (@char == 1) {
   pf q{<tr><th>Next<td>%s (%s)},
       ucode (1 + ord $char[0]), chr (1 + ord $char[0]);
 
-  p q{</table>
-
-      <aside class=ads>
-        <script>
-          google_ad_client = "ca-pub-6943204637055835";
-          google_ad_slot = "1478788718";
-          google_ad_width = 300;
-          google_ad_height = 250;
-        </script>
-        <script src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-      </aside>
-    </section>
-  };
+  p q{</table>};
+  __PACKAGE__->ads;
+  p q{</section>};
 }
 
 p q{<h2 id=chardata>Characters</h2>
@@ -567,19 +557,6 @@ p "</table>";
   __PACKAGE__->footer;
 } # main
 
-sub regexp_range_char ($) {
-  my $c = $_[0];
-  if ($c == 0x002D or $c == 0x005C or $c == 0x005E) {
-    return sprintf '\\u%04X', $c;
-  } elsif (0x0021 <= $c and $c <= 0x007E) {
-    return chr $c;
-  } elsif ($c <= 0xFFFF) {
-    return sprintf '\\u%04X', $c;
-  } else {
-    return sprintf '\\u{%X}', $c;
-  }
-} # regexp_range_char
-
 sub set ($$) {
   my $expr = $_[1];
 
@@ -591,7 +568,7 @@ sub set ($$) {
   p q{<h1>Character set</h1>};
 
   use Charinfo::Set;
-  my $set = eval { Charinfo::Set->evaluate_expression ($_[1]) };
+  my $set = eval { Charinfo::Set->evaluate_expression ($expr) };
   if (not defined $set) {
     pf q{<p>Expression error: %s}, $@;
     return;
@@ -601,31 +578,18 @@ sub set ($$) {
 
   pf q{<dt>Original expression<dd><code>%s</code>}, htescape $expr;
 
-  p q{<dt>Normalized<dd><code>[};
-  for my $range (@$set) {
-    if ($range->[0] == $range->[1]) {
-      p regexp_range_char $range->[0];
-    } else {
-      pf '%s-%s',
-          regexp_range_char $range->[0],
-          regexp_range_char $range->[1];
-    }
-  }
-  p q{]</code>};
+  pf q{<dt>Normalized<dd><code>%s</code>},
+      htescape +Charinfo::Set->serialize_set ($set);
 
-  p q{
-    </dl>
-      <aside class=ads>
-        <script>
-          google_ad_client = "ca-pub-6943204637055835";
-          google_ad_slot = "1478788718";
-          google_ad_width = 300;
-          google_ad_height = 250;
-        </script>
-        <script src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-      </aside>
-    </section>
-  };
+  my $count = 0;
+  for my $range (@$set) {
+    $count += $range->[1] - $range->[0] + 1;
+  }
+  pf q{<dt>Number of characters<dd>%d}, $count;
+
+  p q{</dl>};
+  __PACKAGE__->ads;
+  p q{</section>};
 
   p q{<section id=chars><h2>Characters</h2>};
   p q{<p>};
@@ -645,6 +609,61 @@ sub set ($$) {
 
   __PACKAGE__->footer;
 } # set
+
+sub set_compare ($$$) {
+  my $expr1 = $_[1];
+  my $expr2 = $_[2];
+
+  p q{<!DOCTYPE html><html lang=en class=set-info>
+      <title>Compare haracter sets "} . (htescape $expr1) . q{" and "} . (htescape $expr2) . q{"</title>};
+  p q{<link rel=stylesheet href=/css>
+<h1 class=site><a href="//chars.suikawiki.org/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
+
+  p q{<h1>Character set &mdash; compare</h1>};
+
+  use Charinfo::Set;
+  my $set1 = eval { Charinfo::Set->evaluate_expression ($expr1) };
+  if (not defined $set1) {
+    pf q{<p>Expression error (expr1): %s}, $@;
+    return;
+  }
+  my $set2 = eval { Charinfo::Set->evaluate_expression ($expr2) };
+  if (not defined $set2) {
+    pf q{<p>Expression error (expr2): %s}, $@;
+    return;
+  }
+
+  my $only_in_1 = Charinfo::Set::set_minus $set1, $set2;
+  my $only_in_2 = Charinfo::Set::set_minus $set2, $set1;
+  my $common = Charinfo::Set::set_minus $set1, $only_in_1;
+
+  p q{<section id=set><h2>Set</h2><dl>};
+  for (Charinfo::Set->serialize_set ($set1)) {
+    pf q{<dt>Set #1<dd><a href="/set?expr=%s">%s</a>},
+        htescape percent_encode_c $_, htescape $_;
+  }
+  for (Charinfo::Set->serialize_set ($set2)) {
+    pf q{<dt>Set #2<dd><a href="/set?expr=%s">%s</a>},
+        htescape percent_encode_c $_, htescape $_;
+  }
+  for (Charinfo::Set->serialize_set ($common)) {
+    pf q{<dt>Common set<dd><a href="/set?expr=%s">%s</a>},
+        htescape percent_encode_c $_, htescape $_;
+  }
+  for (Charinfo::Set->serialize_set ($only_in_1)) {
+    pf q{<dt>Only in #1<dd><a href="/set?expr=%s">%s</a>},
+        htescape percent_encode_c $_, htescape $_;
+  }
+  for (Charinfo::Set->serialize_set ($only_in_2)) {
+    pf q{<dt>Only in #2<dd><a href="/set?expr=%s">%s</a>},
+        htescape percent_encode_c $_, htescape $_;
+  }
+
+  p q{</dl>};
+  __PACKAGE__->ads;
+  p q{</section>};
+  __PACKAGE__->footer;
+} # set_compare
 
 my $Commit = `git rev-parse HEAD`;
 $Commit =~ s/[^0-9A-Za-z]+//g;
@@ -673,6 +692,20 @@ href="http://suika.suikawiki.org/gate/git/wi/char/charinfo.git/tree">Suika</a>
 
 };
 } # footer
+
+sub ads ($) {
+  p q{
+      <aside class=ads>
+        <script>
+          google_ad_client = "ca-pub-6943204637055835";
+          google_ad_slot = "1478788718";
+          google_ad_width = 300;
+          google_ad_height = 250;
+        </script>
+        <script src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+      </aside>
+  };
+} # ads
 
 1;
 
