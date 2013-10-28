@@ -615,7 +615,7 @@ sub set_compare ($$$) {
   my $expr2 = $_[2];
 
   p q{<!DOCTYPE html><html lang=en class=set-info>
-      <title>Compare haracter sets "} . (htescape $expr1) . q{" and "} . (htescape $expr2) . q{"</title>};
+      <title>Compare character sets "} . (htescape $expr1) . q{" and "} . (htescape $expr2) . q{"</title>};
   p q{<link rel=stylesheet href=/css>
 <h1 class=site><a href="//chars.suikawiki.org/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
 
@@ -639,11 +639,13 @@ sub set_compare ($$$) {
 
   p q{<section id=set><h2>Set</h2><dl>};
   for (Charinfo::Set->serialize_set ($set1)) {
-    pf q{<dt>Set #1<dd><a href="/set?expr=%s">%s</a>},
+    pf q{<dt>Set #1<dd><a href="/set?expr=%s">%s</a><dd><a href="/set?expr=%s">%s</a>},
+        htescape percent_encode_c $expr1, htescape $expr1,
         htescape percent_encode_c $_, htescape $_;
   }
   for (Charinfo::Set->serialize_set ($set2)) {
-    pf q{<dt>Set #2<dd><a href="/set?expr=%s">%s</a>},
+    pf q{<dt>Set #2<dd><a href="/set?expr=%s">%s</a><dd><a href="/set?expr=%s">%s</a>},
+        htescape percent_encode_c $expr2, htescape $expr2,
         htescape percent_encode_c $_, htescape $_;
   }
   for (Charinfo::Set->serialize_set ($common)) {
@@ -664,6 +666,49 @@ sub set_compare ($$$) {
   p q{</section>};
   __PACKAGE__->footer;
 } # set_compare
+
+sub set_list ($) {
+  p q{<!DOCTYPE html><html lang=en class=set-info>
+      <title>Character sets</title>};
+  p q{<link rel=stylesheet href=/css>
+<h1 class=site><a href="//chars.suikawiki.org/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
+
+  p q{<h1>Character sets</h1>};
+
+  p q{
+    <section id=form>
+      <dl>
+        <dt>Show characters in the set
+        <dd>
+          <form action=/set method=get>
+            <p><label><strong>Expression</strong>: <input name=expr></label><button type=submit>Evaluate</button>
+          </form>
+        <dt>Compare characters in sets
+        <dd>
+          <form action=/set/compare method=get>
+            <p><label><strong>Expression #1</strong>: <input name=expr1></label>
+            <p><label><strong>Expression #2</strong>: <input name=expr2></label>
+            <p><button type=submit>Compare</button>
+          </form>
+      </dl>
+  };
+  __PACKAGE__->ads;
+  p q{
+      <section id=variables>
+        <h3>Variables</h3>
+        <ul>
+  };
+  for (sort { $a cmp $b } @{Charinfo::Set->get_set_list}) {
+    pf q{<li><a href="/set?expr=%s">%s</a>},
+        percent_encode_c $_, htescape $_;
+  }
+  p q{
+        </ul>
+      </section>
+    </section>
+  };
+  __PACKAGE__->footer;
+} # set_list
 
 my $Commit = `git rev-parse HEAD`;
 $Commit =~ s/[^0-9A-Za-z]+//g;

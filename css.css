@@ -19,7 +19,7 @@
     display: block;
   }
 
-  h1, h2 {
+  h1, h2, h3 {
     padding: 0.3em;
     font-size: 100%;
     color: white;
@@ -34,6 +34,10 @@
     background-color: #1841ce;
     background: -moz-linear-gradient(left, #1841CE, #fff);
     background: -webkit-gradient(linear, left top, right top, from(#1841CE), to(#fff));
+  }
+
+  h3 {
+    background-color: #a1d1ee;
   }
 
   tr:hover {
@@ -75,6 +79,10 @@
   text-align: justify;
 }
 
+#form p {
+  margin: 0;
+}
+
 dl {
   margin: 1em;
   line-height: 1.5;
@@ -84,10 +92,17 @@ dt {
   font-weight: bolder;
 }
 
+dd + dt {
+  margin-top: 1em;
+}
+
 dd {
-  margin-bottom: 1em;
   margin-left: 1.5em;
   padding-left: 0;
+}
+
+input {
+  width: 70%;
 }
 
   .charname {
@@ -99,7 +114,7 @@ dd {
   }
 
   @media screen and (min-width: 600px) {
-    section#char, section#set {
+    section#char, section#set, section#form {
       position: relative;
       padding-right: 300px;
       min-height: 250px;

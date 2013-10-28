@@ -31,14 +31,25 @@ sub {
         if (not defined $path->[1]) {
           # /set
           $s = $app->text_param ('expr') // '';
-          $http->set_response_header
-              ('Content-Type' => 'text/html; charset=utf-8');
-          local $Charinfo::Main::Output = sub {
-            $http->send_response_body_as_text (join '', @_);
-          }; # Output
-          Charinfo::Main->set ($s);
-          $http->close_response_body;
-          return;
+          if (length $s) {
+            $http->set_response_header
+                ('Content-Type' => 'text/html; charset=utf-8');
+            local $Charinfo::Main::Output = sub {
+              $http->send_response_body_as_text (join '', @_);
+            }; # Output
+            Charinfo::Main->set ($s);
+            $http->close_response_body;
+            return;
+          } else {
+            $http->set_response_header
+                ('Content-Type' => 'text/html; charset=utf-8');
+            local $Charinfo::Main::Output = sub {
+              $http->send_response_body_as_text (join '', @_);
+            }; # Output
+            Charinfo::Main->set_list;
+            $http->close_response_body;
+            return;
+          }
         } elsif ($path->[1] eq 'compare' and not defined $path->[2]) {
           # /set/compare
           $s = $app->text_param ('expr1') // '';

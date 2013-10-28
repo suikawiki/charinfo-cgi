@@ -1,6 +1,7 @@
 package Charinfo::Set;
 use strict;
 use warnings;
+use Path::Class;
 
 sub set_merge ($$) {
   my ($s1, $s2) = @_;
@@ -71,9 +72,38 @@ sub set_minus ($$) {
   return [map { [$_->[0], $_->[1]] } @$result];
 } # set_minus
 
+my $SetD = file (__FILE__)->dir->parent->parent->subdir ('data', 'set');
+our $Depth = 0;
 sub get_set ($) {
-  return undef;
+  my $name = $_[0];
+  local $Depth = $Depth + 1;
+  die "\$$name definition too deep\n" if $Depth > 100;
+  return undef if
+      not $name =~ m{\A[0-9A-Za-z][0-9A-Za-z_.:-]*\z} or
+      $name =~ m{[_.:-]\z} or
+      $name =~ m{\.\.} or
+      $name =~ m{::};
+  $name =~ s{:}{/}g;
+  my $f = $SetD->file ($name . '.expr');
+  return undef unless -f $f;
+  my $set = __PACKAGE__->evaluate_expression (scalar $f->slurp);
+  die "Bad set definition \$$_[1]\n" unless defined $set;
+  return $set;
 } # get_set
+
+sub get_set_list ($) {
+  my @list;
+  $SetD->recurse (callback => sub {
+    my $f = $_[0];
+    if (-f $f and $f =~ /\.expr\z/) {
+      my $name = $f->relative ($SetD)->stringify;
+      $name =~ s{/}{:}g;
+      $name =~ s/\.expr$//;
+      push @list, '$' . $name;
+    }
+  });
+  return \@list;
+} # get_set_list
 
 sub evaluate_expression ($$) {
   my $input = $_[1];
@@ -135,7 +165,7 @@ sub evaluate_expression ($$) {
       }
       undef $op;
     } elsif ($input =~ s/^\s*\$([0-9A-Za-z_.:-]+)//) {
-      my $set = get_set $1 or die "Unknown set |\$$1|";
+      my $set = get_set $1 or die "Unknown set |\$$1|\n";
       if ($op eq '|') {
         $current = set_merge $set, $current;
       } elsif ($op eq '-') {
@@ -160,7 +190,13 @@ sub evaluate_expression ($$) {
 
 sub regexp_range_char ($) {
   my $c = $_[0];
-  if ($c == 0x002D or $c == 0x005C or $c == 0x005E) {
+  if ($c == 0x002D or
+      $c == 0x0023 or
+      $c == 0x0024 or
+      $c == 0x0026 or
+      $c == 0x003B or
+      $c == 0x0040 or
+      (0x005B <= $c and $c <= 0x005E)) { # #$&-;@[\]^
     return sprintf '\\u%04X', $c;
   } elsif (0x0021 <= $c and $c <= 0x007E) {
     return chr $c;
