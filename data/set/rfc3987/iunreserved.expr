@@ -1,0 +1,1 @@
+$rfc2234:ALPHA | $rfc2234:DIGIT | [\u002D._~] | $rfc3987:ucschar
