@@ -1,0 +1,15 @@
+indexes.json
+
+  Encoding Standard - indexes
+  <http://encoding.spec.whatwg.org/indexes.json>
+
+  License: CC0
+
+names.pl
+
+  Generated from:
+      Unicode Character Database
+      <http://www.unicode.org/Public/UNIDATA/NamesList.txt>
+      <http://www.unicode.org/Public/UNIDATA/NameAliases.txt>
+
+  License: <http://www.unicode.org/terms_of_use.html>
