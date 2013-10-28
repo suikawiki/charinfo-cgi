@@ -2,6 +2,7 @@ package Charinfo::Set;
 use strict;
 use warnings;
 use Path::Class;
+use Charinfo::Name;
 
 sub set_merge ($$) {
   my ($s1, $s2) = @_;
@@ -130,6 +131,10 @@ sub evaluate_expression ($$) {
           $code = hex $1;
         } elsif ($chars =~ s/^\\U([0-9A-Fa-f]{8})//) {
           $code = hex $1;
+        } elsif ($chars =~ s/^\\N\{([^{}]+)\}//) {
+          my $name = $1;
+          $code = Charinfo::Name->char_name_to_code ($name);
+          die "Character |$name| not found\n" unless defined $code;
         } elsif ($chars =~ s/^\\\\//) {
           $code = 0x5C;
         } elsif ($chars =~ s/^\\//) {

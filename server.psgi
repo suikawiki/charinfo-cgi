@@ -6,6 +6,7 @@ use Path::Class;
 use Wanage::HTTP;
 use Warabe::App;
 use Charinfo::Main;
+use Charinfo::Name;
 
 $Charinfo::Main::SELF_URL = '/';
 
@@ -23,10 +24,16 @@ sub {
         # /
         $s = $app->text_param ('s') // '';
       } elsif ($path->[0] eq 'char' and
-               defined $path->[1] and $path->[1] =~ /\A[0-9A-F]+\z/ and
+               defined $path->[1] and $path->[1] =~ /\A[0-9A-F]{4,8}\z/ and
                not defined $path->[2]) {
         # /char/{hex}
         $s = chr hex $path->[1] if 0x7FFF_FFFF >= hex $path->[1];
+      } elsif ($path->[0] eq 'char' and
+               defined $path->[1] and
+               not defined $path->[2]) {
+        # /char/{name}
+        my $code = Charinfo::Name->char_name_to_code ($path->[1]);
+        $s = chr $code if defined $code;
       } elsif ($path->[0] eq 'set') {
         if (not defined $path->[1]) {
           # /set

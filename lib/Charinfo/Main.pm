@@ -116,7 +116,7 @@ p qq{
   <label>String:
     <input type=text name=s value="@{[htescape $string]}">
   </label>
-  <input type=submit>
+  <button type=submit>Show</button>
 </form>
 
 };
@@ -135,17 +135,25 @@ if (@char == 1) {
            <code>%o</code><sub>8</sub>},
       ucode ord $char[0], ord $char[0], ord $char[0];
 
-  require Unicode::CharName;
-  my $name = Unicode::CharName::uname (ord $char[0]);
-  if (defined $name) {
-    $name =~ s/IDEOGRAPH ([0-9A-F]+)$/IDEOGRAPH-$1/;
+  use Charinfo::Name;
+  my $names = Charinfo::Name->char_code_to_names (ord $char[0]);
+  if (@$names) {
     pf q{<tr><th>Character name
          <td><a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class=charname>%s</code></a>},
-        percent_encode_c $name,
-        $name // '(unassigned)';
+        percent_encode_c $names->[0],
+        $names->[0];
+    if (@$names > 1) {
+      p q{ (};
+      p join ', ', map {
+        sprintf q{<a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class=charname>%s</code></a>},
+            percent_encode_c $_, $_;
+      } @$names[1..$#$names];
+      p q{)};
+    }
   } else {
     p q{<tr><th>Character name<td>(Unassigned)},
   }
+  use Unicode::CharName;
   pf q{<tr><th>Block<td>%s},
       Unicode::CharName::ublock (ord $char[0]) // '(unassigned)';
 
