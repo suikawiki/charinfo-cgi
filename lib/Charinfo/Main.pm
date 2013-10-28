@@ -106,101 +106,7 @@ sub main ($$) {
 p "<!DOCTYPE HTML><html lang=en>";
 p qq{
 <title>Charinfo &mdash; "@{[htescape $string]}"</title>
-<style>
-  .site {
-    position: absolute;
-    display: block;
-    top: 0;
-    right: 0;
-  }
-  h1.site {
-    background: transparent;
-    margin: 0.5em 0;
-    padding: 0;
-    font-size: 80%;
-    line-height: 1.0;
-  }
-  h1.site a {
-    color: black;
-    text-decoration: none;
-  }
-  h1.site img {
-    display: block;
-  }
-
-  h1, h2 {
-    padding: 0.3em;
-    font-size: 100%;
-    color: white;
-    background-color: #5279e7;
-  }
-
-  h1 {
-    margin: 0 0 0.5em 0;
-    padding: 0.5em;
-    font-size: 170%;
-    line-height: 1.5;
-    background-color: #1841ce;
-    background: -moz-linear-gradient(left, #1841CE, #fff);
-    background: -webkit-gradient(linear, left top, right top, from(#1841CE), to(#fff));
-  }
-
-  tr:hover {
-    background: #efecf2;
-  }
-  th {
-    text-align: left;
-  }
-  th, td {
-    padding-right: 0.5em;
-  }
-  th:first-child {
-    padding-left: 0.5em;
-  }
-  .category th {
-    padding: 0.3em;
-    background-color: #C0C0C0;
-  }
-  input[type=text] {
-    width: 80%;
-  }
-  .pattern-1 { background-color: #ffdddd }
-  .pattern-2 { background-color: #ffffdd }
-  .pattern-3 { background-color: #ddffdd }
-  .pattern-4 { background-color: #dde5ff }
-  .pattern-5 { background-color: #ffcccc }
-  .pattern-6 { background-color: #cc99cc }
-  .error {
-    color: red;
-  }
-
-  .target-char {
-    font-size: 400%;
-  }
-
-  .charname {
-    
-  }
-
-  aside.ads {
-    display: none;
-  }
-
-  \@media screen and (min-width: 600px) {
-    section#char {
-      position: relative;
-      padding-right: 300px;
-      min-height: 250px;
-    }
-
-    aside.ads {
-      display: block;
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-  }
-</style>
+<link rel=stylesheet href=/css>
 
 <h1 class=site><a href="//chars.suikawiki.org/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>
 
@@ -658,15 +564,98 @@ p q{<tbody><tr class=category><th colspan=3>Escapes};
 
 p "</table>";
 
-my $commit = `git rev-parse HEAD`;
-$commit =~ s/[^0-9A-Za-z]+//g;
+  __PACKAGE__->footer;
+} # main
 
-p qq{
+sub regexp_range_char ($) {
+  my $c = $_[0];
+  if ($c == 0x002D or $c == 0x005C or $c == 0x005E) {
+    return sprintf '\\u%04X', $c;
+  } elsif (0x0021 <= $c and $c <= 0x007E) {
+    return chr $c;
+  } elsif ($c <= 0xFFFF) {
+    return sprintf '\\u%04X', $c;
+  } else {
+    return sprintf '\\u{%X}', $c;
+  }
+} # regexp_range_char
+
+sub set ($$) {
+  my $expr = $_[1];
+
+  p q{<!DOCTYPE html><html lang=en class=set-info>
+      <title>Character set "} . (htescape $expr) . q{"</title>};
+  p q{<link rel=stylesheet href=/css>
+<h1 class=site><a href="//chars.suikawiki.org/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
+
+  p q{<h1>Character set</h1>};
+
+  use Charinfo::Set;
+  my $set = eval { Charinfo::Set->evaluate_expression ($_[1]) };
+  if (not defined $set) {
+    pf q{<p>Expression error: %s}, $@;
+    return;
+  }
+
+  p q{<section id=set><h2>Set</h2><dl>};
+
+  pf q{<dt>Original expression<dd><code>%s</code>}, htescape $expr;
+
+  p q{<dt>Normalized<dd><code>[};
+  for my $range (@$set) {
+    if ($range->[0] == $range->[1]) {
+      p regexp_range_char $range->[0];
+    } else {
+      pf '%s-%s',
+          regexp_range_char $range->[0],
+          regexp_range_char $range->[1];
+    }
+  }
+  p q{]</code>};
+
+  p q{
+    </dl>
+      <aside class=ads>
+        <script>
+          google_ad_client = "ca-pub-6943204637055835";
+          google_ad_slot = "1478788718";
+          google_ad_width = 300;
+          google_ad_height = 250;
+        </script>
+        <script src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+      </aside>
+    </section>
+  };
+
+  p q{<section id=chars><h2>Characters</h2>};
+  p q{<p>};
+  for my $range (@$set) {
+    my $count = $range->[1] - $range->[0];
+    if ($count <= 255) {
+      for ($range->[0]..$range->[1]) {
+        pf ' <span>%s (%s)</span>', ucode $_, htescape chr $_;
+      }
+    } else {
+      pf ' <span>%s (%s) .. %s (%s)</span>',
+          ucode $range->[0], htescape chr $range->[0],
+          ucode $range->[1], htescape chr $range->[1];
+    }
+  }
+  p q{</section>};
+
+  __PACKAGE__->footer;
+} # set
+
+my $Commit = `git rev-parse HEAD`;
+$Commit =~ s/[^0-9A-Za-z]+//g;
+
+sub footer ($) {
+  p qq{
 
 <h2 id=about>About charinfo</h2>
 
 <p>This is Charinfo version <a
-href="https://github.com/wakaba/charinfo-cgi/commit/$commit">$commit</a>.
+href="https://github.com/wakaba/charinfo-cgi/commit/$Commit">$Commit</a>.
 
 <p>Git repository: <a
 href="http://suika.suikawiki.org/gate/git/wi/char/charinfo.git/tree">Suika</a>
@@ -683,8 +672,7 @@ href="http://suika.suikawiki.org/gate/git/wi/char/charinfo.git/tree">Suika</a>
 </script>
 
 };
-
-} # main
+} # footer
 
 1;
 

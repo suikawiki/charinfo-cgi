@@ -2,11 +2,14 @@
 use strict;
 use warnings;
 no warnings 'utf8';
+use Path::Class;
 use Wanage::HTTP;
 use Warabe::App;
 use Charinfo::Main;
 
 $Charinfo::Main::SELF_URL = '/';
+
+my $css_f = file (__FILE__)->dir->file ('css.css');
 
 sub {
   my $http = Wanage::HTTP->new_from_psgi_env ($_[0]);
@@ -24,6 +27,24 @@ sub {
              not defined $path->[2]) {
       # /char/{hex}
       $s = chr hex $path->[1] if 0x7FFF_FFFF >= hex $path->[1];
+    } elsif ($path->[0] eq 'set' and not defined $path->[1]) {
+      # /set
+      $s = $app->text_param ('expr') // '';
+      $http->set_response_header
+          ('Content-Type' => 'text/html; charset=utf-8');
+      local $Charinfo::Main::Output = sub {
+        $http->send_response_body_as_text (join '', @_);
+      }; # Output
+      Charinfo::Main->set ($s);
+      $http->close_response_body;
+      return;
+    } elsif ($path->[0] eq 'css' and not defined $path->[1]) {
+      # /css
+      $http->set_response_header ('Content-Type' => 'text/css; charset=utf-8');
+      $http->set_response_last_modified ([stat $css_f]->[9]);
+      $http->send_response_body_as_ref (\(scalar $css_f->slurp));
+      $http->close_response_body;
+      return;
     }
     $app->throw_error (404) unless defined $s;
 
