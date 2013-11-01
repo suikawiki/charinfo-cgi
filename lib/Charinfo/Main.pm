@@ -106,9 +106,11 @@ sub main ($$) {
 
 p "<!DOCTYPE HTML><html lang=en>";
 p qq{
+<head>
 <title>Charinfo &mdash; "@{[htescape $string]}"</title>
 <link rel=stylesheet href=/css>
 <meta name="google-site-verification" content="tE5pbEtqbJu0UKbNCIsW2gUzW5bWGhvCwpwynqEIBRs" />
+</head>
 
 <h1 class=site><a href="//chars.suikawiki.org/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>
 
