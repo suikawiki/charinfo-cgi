@@ -1,3 +1,4 @@
+#line 1 "Charinfo::Main"
 package Charinfo::Main;
 use strict;
 use warnings;
@@ -132,8 +133,11 @@ if (@char == 1) {
   pf q{<tr><th>Code point
        <td><code>%s</code>
            <code>%d</code><sub>10</sub>
-           <code>%o</code><sub>8</sub>},
-      ucode ord $char[0], ord $char[0], ord $char[0];
+           <code>%o</code><sub>8</sub>
+           <code>%08b %08b %08b %08b</code><sub>2</sub>},
+      ucode ord $char[0], ord $char[0], ord $char[0],
+      (ord $char[0]) >> 24, ((ord $char[0]) >> 16) & 0xFF,
+      ((ord $char[0]) >> 8) & 0xFF, (ord $char[0]) & 0xFF;
 
   use Charinfo::Name;
   my $names = Charinfo::Name->char_code_to_names (ord $char[0]);
@@ -163,6 +167,10 @@ if (@char == 1) {
       ucode (1 + ord $char[0]), chr (1 + ord $char[0]);
 
   p q{</table>};
+
+  pf q{<p>[<a href="http://unicode.org/cldr/utility/character.jsp?a=%04X">Unicode properties</a>]},
+      ord $char[0];
+
   __PACKAGE__->ads;
   p q{</section>};
 }
