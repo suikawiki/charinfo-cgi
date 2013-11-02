@@ -5,11 +5,7 @@ indexes.json
 
   License: CC0
 
-names.pl
+names.pl, set/unicode, set/unicodeN.M
 
-  Generated from:
-      Unicode Character Database
-      <http://www.unicode.org/Public/UNIDATA/NamesList.txt>
-      <http://www.unicode.org/Public/UNIDATA/NameAliases.txt>
-
+  Generated from: Unicode Character Database
   License: <http://www.unicode.org/terms_of_use.html>
