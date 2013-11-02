@@ -1,0 +1,3 @@
+$unicode:Other_Default_Ignorable_Code_Point | $unicode:Cf |
+$unicode:Variation_Selector | $unicode:White_Space |
+[\uFFF9-\uFFFB\u0600-\u0604\u06DD\u070F\u{110BD}]
