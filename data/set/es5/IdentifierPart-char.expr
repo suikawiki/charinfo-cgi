@@ -1,0 +1,2 @@
+$es5:IdentifierStart-char | $es5:UnicodeCombiningMark |
+$es5:UnicodeDigit | $es5:UnicodeConnectorPunctuation | [\u200C\u200D]
