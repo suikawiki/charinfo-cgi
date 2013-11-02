@@ -1,4 +1,4 @@
-all: unicode-names unicode-general-category
+all: unicode-names unicode-general-category unicode-prop-list
 
 WGET = wget
 PERL = ../perl
@@ -77,6 +77,34 @@ unicode-general-category-latest: ../local/unicode/latest/UnicodeData.txt
 ../local/unicode/latest/UnicodeData.txt:
 	mkdir -p ../local/unicode/latest
 	$(WGET) -O $@ http://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt
+
+unicode-prop-list: \
+  unicode-prop-list-3.2 \
+  unicode-prop-list-5.0 \
+  unicode-prop-list-5.2 \
+  unicode-prop-list-latest
+
+unicode-prop-list-3.2: ../local/unicode/3.2/PropList.txt
+	$(PERL) generate-prop-list.pl 3.2 $<
+unicode-prop-list-5.0: ../local/unicode/5.0/PropList.txt
+	$(PERL) generate-prop-list.pl 5.0 $<
+unicode-prop-list-5.2: ../local/unicode/5.2/PropList.txt
+	$(PERL) generate-prop-list.pl 5.2 $<
+unicode-prop-list-latest: ../local/unicode/latest/PropList.txt
+	$(PERL) generate-prop-list.pl latest $<
+
+../local/unicode/3.2/PropList.txt:
+	mkdir -p ../local/unicode/3.2
+	$(WGET) -O $@ http://www.unicode.org/Public/3.2-Update/PropList-3.2.0.txt
+../local/unicode/5.0/PropList.txt:
+	mkdir -p ../local/unicode/5.0
+	$(WGET) -O $@ http://www.unicode.org/Public/5.0.0/ucd/PropList.txt
+../local/unicode/5.2/PropList.txt:
+	mkdir -p ../local/unicode/5.0
+	$(WGET) -O $@ http://www.unicode.org/Public/5.2.0/ucd/PropList.txt
+../local/unicode/latest/PropList.txt:
+	mkdir -p ../local/unicode/latest
+	$(WGET) -O $@ http://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
 
 clean-unicode-latest:
 	rm -fr ../local/unicode/latest
