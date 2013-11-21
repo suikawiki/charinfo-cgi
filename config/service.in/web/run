@@ -1,4 +1,4 @@
 #!/bin/sh
-export PLACK_COMMAND_LINE_ARGS="-s Twiggy"
+export PLACK_COMMAND_LINE_ARGS="-s Twiggy::Prefork"
 [ -e "@@SYSCONFIG@@" ] && source "@@SYSCONFIG@@"
 exec @@LOCAL@@/bin/@@INSTANCENAME@@-web.sh
