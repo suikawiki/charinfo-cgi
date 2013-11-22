@@ -56,12 +56,9 @@ sub set_minus ($$) {
       }
       $minus_end = $range->[1];
     } else {
-      if ($range->[0] == $minus_end) {
+      if ($range->[0] <= $minus_end and $minus_end < $range->[1]) {
         push @$result, [$minus_end + 1, $range->[1]]
             if $minus_end + 1 < $range->[1];
-      } elsif ($range->[0] < $minus_end and $minus_end < $range->[1]) {
-        push @$result, [$range->[0], $minus_end - 1],
-            if $range->[0] < $minus_end - 1;
       } elsif ($range->[1] <= $minus_end) {
         #
       } else { # $minus_end < $range->[0]
