@@ -76,7 +76,7 @@ sub char_code_to_names ($$) {
       (0x2F800 <= $code and $code <= 0x2B81D)) { # Ext D
     $name = sprintf 'CJK UNIFIED IDEOGRAPH-%04X', $code;
   } elsif (0xAC00 <= $code and $code <= 0xD7A3) {
-    $name = $_[0]->hangul_name_to_code ($code);
+    $name = $_[0]->hangul_code_to_name ($code);
   } elsif ((0xFDD0 <= $code and $code <= 0xFDEF) or
            ((($code % 0x10000) == 0xFFFE or ($code % 0x10000 == 0xFFFF)) and
             $code <= 0x10FFFF)) {
