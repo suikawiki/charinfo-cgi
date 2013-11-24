@@ -1,1 +1,1 @@
-$rfc5322:quoted-pair-char-valid.expr | $rfc5322:obs-qp
+$rfc5322:quoted-pair-char-valid | $rfc5322:obs-qp

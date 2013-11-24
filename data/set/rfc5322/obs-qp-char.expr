@@ -1,1 +1,1 @@
-[\u0000] | $rfc5322:obs-NO-WS-CTL.expr | $rfc5234:LF | $rfc5234:CR
+[\u0000] | $rfc5322:obs-NO-WS-CTL | $rfc5234:LF | $rfc5234:CR
