@@ -51,6 +51,7 @@ task app => {
     my $name = get 'server_env';
     remote {
       run qq{cd \Q$dir\E && make deps server-config SERVER_ENV=$name};
+      run qq{cd \Q$dir\E && make clean-data all-data};
     } $host;
   },
   install => sub {

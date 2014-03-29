@@ -1,0 +1,7 @@
+- "../../modules/wanage" tests datetime mp
+- "../../modules/json-functions-xs" tests
+- "../../modules/perl-ooutils" tests operationresponse classregistry
+- "../../modules/perl-web-utils" tests
+- "../../modules/web-url" tests
+- "../../modules/web-encoding" tests
+- "../../modules/charclass" tests

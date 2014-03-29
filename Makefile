@@ -1,4 +1,4 @@
-all:
+all: all-data
 
 ## ------ Setup ------
 
@@ -53,6 +53,20 @@ install-daemontools-config:
 	mkdir -p /var/log/app
 	chown wakaba.wakaba /var/log/app
 	$(MAKE) --makefile=Makefile.service install $(SERVER_ARGS) SERVER_TYPE=web
+
+## ------ Data ------
+
+all-data: local/names.json local/sets.json
+
+clean-data:
+	rm -fr local/*.json
+
+local/names.json:
+	mkdir -p local
+	$(WGET) -O $@ https://raw.githubusercontent.com/manakai/data-chars/master/data/names.json
+local/sets.json:
+	mkdir -p local
+	$(WGET) -O $@ https://raw.githubusercontent.com/manakai/data-chars/master/data/sets.json
 
 ## ------ Deployment ------
 

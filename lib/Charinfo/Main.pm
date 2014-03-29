@@ -108,7 +108,6 @@ p qq{
 <head>
 <title>Charinfo &mdash; "@{[htescape $string]}"</title>
 <link rel=stylesheet href=/css>
-<meta name="google-site-verification" content="tE5pbEtqbJu0UKbNCIsW2gUzW5bWGhvCwpwynqEIBRs" />
 </head>
 
 <h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>
@@ -143,22 +142,30 @@ if (@char == 1) {
 
   use Charinfo::Name;
   my $names = Charinfo::Name->char_code_to_names (ord $char[0]);
-  if (@$names) {
-    pf q{<tr><th>Character name
-         <td><a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class=charname>%s</code></a>},
-        percent_encode_c $names->[0],
-        $names->[0];
-    if (@$names > 1) {
-      p q{ (};
-      p join ', ', map {
-        sprintf q{<a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class=charname>%s</code></a>},
-            percent_encode_c $_, $_;
-      } @$names[1..$#$names];
-      p q{)};
+  pf q{<tr><th>Character name
+       <td><a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class=charname>%s</code></a>},
+      percent_encode_c ($names->{name} // $names->{label}),
+      htescape ($names->{name} // $names->{label})
+          if defined $names->{name} or defined $names->{label};
+  my @alias;
+  for (@{Charinfo::Name->alias_types}) {
+    for my $name (keys %{$names->{$_}}) {
+      push @alias, sprintf q{<a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class="charname name-alias-%s">%s</code></a>},
+          percent_encode_c $name,
+          htescape $_,
+          htescape $name;
     }
-  } else {
-    p q{<tr><th>Character name<td>(Unassigned)},
   }
+  if (@alias) {
+    p q{ (};
+    p join ', ', @alias;
+    p q{)};
+  }
+
+  if (defined $names->{ja_name}) {
+    pf q{<tr><th>Japanese name<td lang=ja>%s}, htescape $names->{ja_name};
+  }
+
   use Unicode::CharName;
   pf q{<tr><th>Block<td>%s},
       Unicode::CharName::ublock (ord $char[0]) // '(unassigned)';
@@ -577,6 +584,7 @@ p "</table>";
 
 sub top ($) {
   p q{<!DOCTYPE html><html lang=en class=set-info>
+      <meta name="google-site-verification" content="tE5pbEtqbJu0UKbNCIsW2gUzW5bWGhvCwpwynqEIBRs" />
       <title>Characters - SuikaWiki</title>};
   p q{<link rel=stylesheet href=/css>
 <h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};

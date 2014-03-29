@@ -16,3 +16,6 @@
 [submodule "modules/web-encodings"]
 	path = modules/web-encodings
 	url = git://github.com/manakai/perl-web-encodings
+[submodule "modules/json-functions-xs"]
+	path = modules/json-functions-xs
+	url = git://github.com/wakaba/perl-json-functions-xs
