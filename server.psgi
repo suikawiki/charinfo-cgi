@@ -3,12 +3,11 @@ use strict;
 use warnings;
 no warnings 'utf8';
 use Path::Class;
+use URL::PercentEncode qw(percent_encode_c);
 use Wanage::HTTP;
 use Warabe::App;
 use Charinfo::Main;
 use Charinfo::Name;
-
-$Charinfo::Main::SELF_URL = '/';
 
 my $css_f = file (__FILE__)->dir->file ('css.css');
 
@@ -22,6 +21,23 @@ sub {
       my $path = $app->path_segments;
       if ($path->[0] eq '' and not defined $path->[1]) {
         # /
+        $s = $app->text_param ('s') // '';
+        if ($s eq '') {
+          $http->set_response_header
+              ('Content-Type' => 'text/html; charset=utf-8');
+          local $Charinfo::Main::Output = sub {
+            $http->send_response_body_as_text (join '', @_);
+          }; # Output
+          Charinfo::Main->top;
+          $http->close_response_body;
+          return;
+        } else {
+          $app->throw_redirect ('/string?s=' . percent_encode_c $s,
+                                status => 301);
+          return;
+        }
+      } elsif ($path->[0] eq 'string' and not defined $path->[1]) {
+        # /string
         $s = $app->text_param ('s') // '';
       } elsif ($path->[0] eq 'char' and
                defined $path->[1] and $path->[1] =~ /\A[0-9A-F]{4,8}\z/ and

@@ -16,7 +16,6 @@ sub htescape ($) {
 } # htescape
 
 our $Output = sub { die "|\$Output| not defined" };
-our $SELF_URL = 'char';
 
 sub ucode ($) {
   if ($_[0] > 0x10FFFF) {
@@ -49,7 +48,7 @@ sub p_string ($) {
   my $ci = $color_indexes->{$string} ||= 1 + keys %$color_indexes;
   pf '<td class=pattern-%d><a href="%s?s=%s">%s</a>',
       $ci,
-      (htescape $SELF_URL),
+      '/string',
       (percent_encode_c $string),
       $string;
   pf '<td class=pattern-%d>', $ci;
@@ -86,7 +85,7 @@ sub p_ascii_string ($) {
   my $ci = $color_indexes->{$string} ||= 1 + keys %$color_indexes;
   pf '<td colspan=2 class=pattern-%d><a href="%s?s=%s">%s</a>',
       $ci,
-      (htescape $SELF_URL),
+      '/string',
       (percent_encode_c $string),
       $string;
 } # p_ascii_string
@@ -112,11 +111,11 @@ p qq{
 <meta name="google-site-verification" content="tE5pbEtqbJu0UKbNCIsW2gUzW5bWGhvCwpwynqEIBRs" />
 </head>
 
-<h1 class=site><a href="//chars.suikawiki.org/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>
+<h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>
 
 <h1>Charinfo &mdash; "@{[htescape $string]}"</h1>
 
-<form action=/>
+<form action=/string>
   <label>String:
     <input type=text name=s value="@{[htescape $string]}">
   </label>
@@ -576,13 +575,36 @@ p "</table>";
   __PACKAGE__->footer;
 } # main
 
+sub top ($) {
+  p q{<!DOCTYPE html><html lang=en class=set-info>
+      <title>Characters - SuikaWiki</title>};
+  p q{<link rel=stylesheet href=/css>
+<h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
+
+  p q{<h1>Characters</h1>};
+
+  p q{
+    <div class=has-ads>
+      <ul>
+        <li><a href="/char/0000">Characters</a>
+        <li><a href="/string">Strings</a>
+        <li><a href="/set">Sets</a>
+      </ul>
+  };
+  __PACKAGE__->ads;
+  p q{
+    </div>
+  };
+  __PACKAGE__->footer;
+} # top
+
 sub set ($$) {
   my $expr = $_[1];
 
   p q{<!DOCTYPE html><html lang=en class=set-info>
       <title>Character set "} . (htescape $expr) . q{"</title>};
   p q{<link rel=stylesheet href=/css>
-<h1 class=site><a href="//chars.suikawiki.org/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
+<h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
 
   p q{<h1>Character set</h1>};
 
@@ -636,7 +658,7 @@ sub set_compare ($$$) {
   p q{<!DOCTYPE html><html lang=en class=set-info>
       <title>Compare character sets "} . (htescape $expr1) . q{" and "} . (htescape $expr2) . q{"</title>};
   p q{<link rel=stylesheet href=/css>
-<h1 class=site><a href="//chars.suikawiki.org/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
+<h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
 
   p q{<h1>Character set &mdash; compare</h1>};
 
@@ -690,7 +712,7 @@ sub set_list ($) {
   p q{<!DOCTYPE html><html lang=en class=set-info>
       <title>Character sets</title>};
   p q{<link rel=stylesheet href=/css>
-<h1 class=site><a href="//chars.suikawiki.org/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
+<h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
 
   p q{<h1>Character sets</h1>};
 
@@ -773,15 +795,13 @@ sub ads ($) {
 
 1;
 
-__END__
-
 =head1 AUTHOR
 
 Wakaba <wakaba@suikawiki.org>.
 
 =head1 LICENSE
 
-Copyright 2011-2013 Wakaba <wakaba@suikawiki.org>.
+Copyright 2011-2014 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
