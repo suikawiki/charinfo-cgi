@@ -535,6 +535,16 @@ p q{<tbody><tr class=category><th colspan=3>Punycode encoding};
 
 p q{<tbody><tr class=category><th colspan=3>Escapes};
 
+# XXX CL/CR range
+{
+  p q{<tr><th>HTML/XML decimal<td colspan=2>};
+  p join '', map { sprintf '&amp;#%d;', ord $_ } split //, $string;
+}
+{
+  p q{<tr><th>HTML/XML hexadecimal<td colspan=2>};
+  p join '', map { sprintf '&amp;#x%X;', ord $_ } split //, $string;
+}
+
 {
   p q{<tr><th>percent-decode de-UTF-8};
   or_p_error {
