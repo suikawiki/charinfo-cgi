@@ -608,6 +608,7 @@ sub top ($) {
 
 sub set ($$) {
   my $expr = $_[1];
+  my $has_ads = not $expr =~ /\[/;
 
   p q{<!DOCTYPE html><html lang=en class=set-info>
       <title>Character set "} . (htescape $expr) . q{"</title>};
@@ -623,7 +624,8 @@ sub set ($$) {
     return;
   }
 
-  p q{<section id=set><h2>Set</h2><dl>};
+  pf q{<section id=set class="%s"><h2>Set</h2><dl>},
+      $has_ads ? 'has-ads' : '';
 
   pf q{<dt>Original expression<dd><code>%s</code>}, htescape $expr;
 
@@ -637,7 +639,7 @@ sub set ($$) {
   pf q{<dt>Number of characters<dd>%d}, $count;
 
   p q{</dl>};
-  __PACKAGE__->ads;
+  __PACKAGE__->ads if $has_ads;
   p q{</section>};
 
   p q{<section id=chars><h2>Characters</h2>};
@@ -662,6 +664,7 @@ sub set ($$) {
 sub set_compare ($$$) {
   my $expr1 = $_[1];
   my $expr2 = $_[2];
+  my $has_ads = not ($expr1 =~ /\[/ or $expr2 =~ /\[/);
 
   p q{<!DOCTYPE html><html lang=en class=set-info>
       <title>Compare character sets "} . (htescape $expr1) . q{" and "} . (htescape $expr2) . q{"</title>};
@@ -686,7 +689,8 @@ sub set_compare ($$$) {
   my $only_in_2 = Charinfo::Set::set_minus $set2, $set1;
   my $common = Charinfo::Set::set_minus $set1, $only_in_1;
 
-  p q{<section id=set><h2>Set</h2><dl>};
+  pf q{<section id=set class="%s"><h2>Set</h2><dl>},
+      $has_ads ? 'has-ads' : '';
   for (Charinfo::Set->serialize_set ($set1)) {
     pf q{<dt>Set #1<dd><a href="/set?expr=%s">%s</a><dd><a href="/set?expr=%s">%s</a>},
         htescape percent_encode_c $expr1, htescape $expr1,
@@ -711,7 +715,7 @@ sub set_compare ($$$) {
   }
 
   p q{</dl>};
-  __PACKAGE__->ads;
+  __PACKAGE__->ads if $has_ads;
   p q{</section>};
   __PACKAGE__->footer;
 } # set_compare

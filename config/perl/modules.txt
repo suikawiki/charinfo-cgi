@@ -24,5 +24,4 @@ URI::UTF8::Punycode
 
 Unicode::CharName
 
-JSON
 Path::Class

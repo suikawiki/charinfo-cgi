@@ -120,7 +120,7 @@ input {
   }
 
   @media screen and (min-width: 600px) {
-    section#char, section#set, section#form, .has-ads {
+    section#char, section#form, .has-ads {
       position: relative;
       padding-right: 300px;
       min-height: 250px;

@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Path::Class;
 use Charinfo::Name;
+use JSON::Functions::XS qw(file2perl);
 
 sub set_merge ($$) {
   my ($s1, $s2) = @_;
@@ -70,37 +71,19 @@ sub set_minus ($$) {
   return [map { [$_->[0], $_->[1]] } @$result];
 } # set_minus
 
-my $SetD = file (__FILE__)->dir->parent->parent->subdir ('data', 'set');
-our $Depth = 0;
+my $Sets = file2perl file (__FILE__)->dir->parent->parent->file ('local', 'sets.json');
+
 sub get_set ($) {
   my $name = $_[0];
-  local $Depth = $Depth + 1;
-  die "\$$name definition too deep\n" if $Depth > 100;
-  return undef if
-      not $name =~ m{\A[0-9A-Za-z][0-9A-Za-z_.:-]*\z} or
-      $name =~ m{[_.:-]\z} or
-      $name =~ m{\.\.} or
-      $name =~ m{::};
-  $name =~ s{:}{/}g;
-  my $f = $SetD->file ($name . '.expr');
-  return undef unless -f $f;
-  my $set = __PACKAGE__->evaluate_expression (scalar $f->slurp);
+  my $def = $Sets->{sets}->{'$' . $name};
+  return undef unless defined $def->{chars};
+  my $set = __PACKAGE__->evaluate_expression ($def->{chars});
   die "Bad set definition \$$_[1]\n" unless defined $set;
   return $set;
 } # get_set
 
 sub get_set_list ($) {
-  my @list;
-  $SetD->recurse (callback => sub {
-    my $f = $_[0];
-    if (-f $f and $f =~ /\.expr\z/) {
-      my $name = $f->relative ($SetD)->stringify;
-      $name =~ s{/}{:}g;
-      $name =~ s/\.expr$//;
-      push @list, '$' . $name;
-    }
-  });
-  return \@list;
+  return [keys %{$Sets->{sets}}];
 } # get_set_list
 
 sub evaluate_expression ($$) {

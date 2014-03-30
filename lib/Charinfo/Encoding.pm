@@ -2,15 +2,15 @@ package Charinfo::Encoding;
 use strict;
 use warnings;
 use integer;
-use JSON;
+use JSON::Functions::XS qw(file2perl);
 use Path::Class;
 
 ## Spec: <http://encoding.spec.whatwg.org/>.
 
 BEGIN {
-  my $data = JSON->new->decode (scalar file (__FILE__)->dir->parent->parent->subdir ('data')->file ('indexes.json')->slurp);
+  my $data = file2perl file (__FILE__)->dir->parent->parent->subdir ('local')->file ('indexes.json');
   for my $index (keys %$data) {
-    next if $index eq 'gb18030';
+    next if $index eq 'gb18030-ranges';
     my $index_pointers = {};
     for my $i (0..$#{$data->{$index}}) {
       my $code_point = $data->{$index}->[$i];
@@ -175,18 +175,27 @@ sub gb18030 ($) {
   my $code_point = $_[0];
   if (0x0000 <= $code_point and $code_point <= 0x007F) {
     return [[$code_point]];
-  } elsif (DATA->{gbk}->{$code_point}) {
-    return [map { [$_ / 190 + 0x81, do { my $t = $_ % 190; $t + ($t < 0x3F ? 0x40 : 0x41) }] } @{DATA->{gbk}->{$code_point}}];
   } else {
+    my $pointer = DATA->{gb18030}->{$code_point};
+    if (defined $pointer) {
+      return [map {
+        my $lead = $_ / 190 + 0x81;
+        my $trail = $_ % 190;
+        my $offset = $trail < 0x3F ? 0x40 : 0x41;
+        [$lead, $trail + $offset];
+      } @$pointer];
+    }
+
     my $offset;
     my $pointer_offset;
-    for (@{DATA->{gb18030}}) {
+    for (@{DATA->{'gb18030-ranges'}}) {
       if ($_->[1] <= $code_point) {
         $offset = $_->[1];
         $pointer_offset = $_->[0];
       }
     }
-    my $pointer = $pointer_offset + $code_point - $offset;
+
+    $pointer = $pointer_offset + $code_point - $offset;
     my $byte1 = ($pointer / 10 / 126 / 10);
     $pointer = $pointer - $byte1 * 10 * 126 * 10;
     my $byte2 = ($pointer / 10 / 126);
@@ -203,12 +212,12 @@ sub hzgb2312 ($) {
     return [[0x7E, 0x7E]];
   } elsif (0x0000 <= $code_point and $code_point <= 0x007F) {
     return [[$code_point]];
-  } elsif (DATA->{gbk}->{$code_point}) {
+  } elsif (DATA->{gb18030}->{$code_point}) {
     return [map {
       my $l = $_ / 190 + 1;
       my $t = $_ % 190 - 0x3F;
       ($l < 0x21 or $t < 0x21) ? () : [0x7E, 0x7B, $l, $t, 0x7E, 0x7D];
-    } @{DATA->{gbk}->{$code_point}}];
+    } @{DATA->{gb18030}->{$code_point}}];
   } else {
     return undef;
   }
@@ -311,7 +320,6 @@ windows-1256
 windows-1257
 windows-1258
 x-mac-cyrillic
-gbk
 gb18030
 hz-gb-2312
 big5
@@ -333,8 +341,6 @@ sub from_unicode ($$$) {
     return single_byte 'iso-8859-8', $code_point;
   } elsif ($encoding eq 'utf-8') {
     return utf8 $code_point;
-  } elsif ($encoding eq 'gbk') {
-    return gbk $code_point;
   } elsif ($encoding eq 'gb18030') {
     return gb18030 $code_point;
   } elsif ($encoding eq 'hz-gb-2312') {
