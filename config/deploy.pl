@@ -44,14 +44,28 @@ task restart => sub {
   call 'web:restart', $host, @args;
 };
 
+task deploy => sub {
+  my ($host, @args) = @_;
+  remote { sudo '' } $host;
+  call 'update', $host, @args;
+  call 'setup', $host, @args;
+  call 'install', $host, @args;
+  call 'restart', $host, @args;
+};
+
+task tail => sub {
+  my ($host, @args) = @_;
+  call 'web:log:tail', $host, @args;
+};
+
 task app => {
   setup => sub {
     my ($host, @args) = @_;
     my $dir = get 'deploy_dir';
     my $name = get 'server_env';
     remote {
-      run qq{cd \Q$dir\E && make deps server-config SERVER_ENV=$name};
-      run qq{cd \Q$dir\E && make clean-data all-data};
+      run qq{cd \Q$dir\E && LANG=C make deps server-config SERVER_ENV=$name};
+      run qq{cd \Q$dir\E && LANG=C make clean-data all-data};
     } $host;
   },
   install => sub {
