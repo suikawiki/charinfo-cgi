@@ -112,7 +112,7 @@ input {
 }
 
 code {
-  word-break: break-word;
+  word-wrap: break-word;
   font-family: "Courier New", monospace;
 }
 
