@@ -8,6 +8,8 @@ my $CodeToNames;
 my $NameToCode;
 my $AliasTypes;
 my $NameRanges;
+my $NameToSeq;
+my $SeqToNames;
 BEGIN {
   my $data = file2perl file (__FILE__)->dir->parent->parent->subdir ('local')->file ('names.json');
   $AliasTypes = [sort { $a cmp $b } keys %{$data->{name_alias_types}}];
@@ -29,6 +31,12 @@ BEGIN {
         [hex $v[0], hex $v[1],
          $data->{range_to_prefix}->{$key}->{name},
          $data->{range_to_prefix}->{$key}->{label}];
+  }
+  for my $key (keys %{$data->{code_seq_to_name}}) {
+    my $val = $data->{code_seq_to_name}->{$key};
+    my $seq = join '', map { chr hex $_ } split / /, $key;
+    $NameToSeq->{$val->{name}} = $seq;
+    $SeqToNames->{$seq} = $val;
   }
 }
 
@@ -75,6 +83,14 @@ sub char_code_to_names ($$) {
   }
   return {label => sprintf '<reserved-%04X>', $code};
 } # char_code_to_names
+
+sub char_name_to_seq ($$) {
+  return $NameToSeq->{$_[1]}; # or undef
+} # char_name_to_seq
+
+sub char_seq_to_names ($$) {
+  return $SeqToNames->{$_[1]}; # or undef
+} # char_seq_to_names
 
 1;
 

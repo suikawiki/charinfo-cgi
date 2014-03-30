@@ -49,7 +49,11 @@ sub {
                not defined $path->[2]) {
         # /char/{name}
         my $code = Charinfo::Name->char_name_to_code ($path->[1]);
-        $s = chr $code if defined $code;
+        if (defined $code) {
+          $s = chr $code;
+        } else {
+          $s = Charinfo::Name->char_name_to_seq ($path->[1]); # or undef
+        }
       } elsif ($path->[0] eq 'set') {
         if (not defined $path->[1]) {
           # /set

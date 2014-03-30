@@ -6,6 +6,7 @@ no warnings 'utf8';
 use Encode;
 use URL::PercentEncode qw(percent_encode_c percent_decode_c
                           percent_encode_b percent_decode_b);
+use Charinfo::Name;
 
 sub htescape ($) {
   my $s = shift;
@@ -140,31 +141,8 @@ if (@char == 1) {
       (ord $char[0]) >> 24, ((ord $char[0]) >> 16) & 0xFF,
       ((ord $char[0]) >> 8) & 0xFF, (ord $char[0]) & 0xFF;
 
-  use Charinfo::Name;
   my $names = Charinfo::Name->char_code_to_names (ord $char[0]);
-  pf q{<tr><th>Character name
-       <td><a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class=charname>%s</code></a>},
-      percent_encode_c ($names->{name} // $names->{label}),
-      htescape ($names->{name} // $names->{label})
-          if defined $names->{name} or defined $names->{label};
-  my @alias;
-  for (@{Charinfo::Name->alias_types}) {
-    for my $name (keys %{$names->{$_}}) {
-      push @alias, sprintf q{<a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class="charname name-alias-%s">%s</code></a>},
-          percent_encode_c $name,
-          htescape $_,
-          htescape $name;
-    }
-  }
-  if (@alias) {
-    p q{ (};
-    p join ', ', @alias;
-    p q{)};
-  }
-
-  if (defined $names->{ja_name}) {
-    pf q{<tr><th>Japanese name<td lang=ja>%s}, htescape $names->{ja_name};
-  }
+  __PACKAGE__->char_names ($names);
 
   use Unicode::CharName;
   pf q{<tr><th>Block<td>%s},
@@ -182,6 +160,19 @@ if (@char == 1) {
 
   __PACKAGE__->ads;
   p q{</section>};
+} else {
+  my $names = Charinfo::Name->char_seq_to_names ($string);
+  if (defined $names) {
+    p q{<section id=char><h2>Named character sequence</h2><table>};
+    pf q{<tr><th>Characters<td><code class=target-char>%s</code>},
+        htescape $string;
+    pf q{<tr><th>Code points<td><code>&lt;%s></code>},
+        join ', ', map { sprintf 'U+%04X', ord $_ } @char;
+    __PACKAGE__->char_names ($names);
+    p q{</table>};
+    __PACKAGE__->ads;
+    p q{</section>};
+  }
 }
 
 p q{<h2 id=chardata>Characters</h2>
@@ -589,8 +580,68 @@ p q{<tbody><tr class=category><th colspan=3>Escapes};
 
 p "</table>";
 
+  p q{<section id=fonts><h2>Fonts</h2>
+    <p><em>Note that your system might not have specified fonts.</em>
+    <div><table>
+  };
+  for my $font (
+    'serif',
+    'sans-serif',
+    'monospace',
+    'cursive',
+    'fantasy',
+    "'Times New Roman'",
+    "'Arial'",
+    "'Helvetica'",
+    "'Verdana'",
+    "'Lucida Grande'",
+    "'Courier New'",
+    "'Comic Sans MS'",
+    "'MS PMincho'",
+    "'MS PGothic'",
+    "'Meiryo'",
+    "'Osaka'",
+    "'Hiragino Kaku Gothic ProN'",
+    "'Symbol'",
+    "'Wingdings'",
+    "'Wingdings 2'",
+    "'Wingdings 3'",
+    "'Webdings'",
+  ) {
+    pf q{<tr><th><code>%s</code><td><code style="font-family: %s">%s</code>},
+        htescape $font, htescape $font, htescape $string;
+  }
+  p q{</table></div></section>};
+
   __PACKAGE__->footer;
 } # main
+
+sub char_names ($$) {
+  my $names = $_[1];
+  pf q{<tr><th>Character name
+       <td><a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class=charname>%s</code></a>},
+      percent_encode_c ($names->{name} // $names->{label}),
+      htescape ($names->{name} // $names->{label})
+          if defined $names->{name} or defined $names->{label};
+  my @alias;
+  for (@{Charinfo::Name->alias_types}) {
+    for my $name (keys %{$names->{$_}}) {
+      push @alias, sprintf q{<a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class="charname name-alias-%s">%s</code></a>},
+          percent_encode_c $name,
+          htescape $_,
+          htescape $name;
+    }
+  }
+  if (@alias) {
+    p q{ (};
+    p join ', ', @alias;
+    p q{)};
+  }
+
+  if (defined $names->{ja_name}) {
+    pf q{<tr><th>Japanese name<td lang=ja>%s}, htescape $names->{ja_name};
+  }
+} # char_names
 
 sub top ($) {
   p q{<!DOCTYPE html><html lang=en class=set-info>

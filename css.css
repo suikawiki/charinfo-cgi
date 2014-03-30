@@ -69,14 +69,33 @@
     color: red;
   }
 
-  .target-char {
-    font-size: 400%;
-  }
+.target-char {
+  font-family: serif;
+  font-size: 500%;
+}
 
 #chars p {
   margin: 1em;
   line-height: 2.0;
   text-align: justify;
+}
+
+#fonts p {
+  margin: 1em;
+}
+
+#fonts > div {
+  -webkit-column-width: 15em;
+  column-width: 15em;
+}
+
+#fonts tr {
+  -webkit-column-break-inside: avoid;
+  column-break-inside: avoid;
+}
+
+#fonts td code {
+  font-size: 300%;
 }
 
 #form p {
