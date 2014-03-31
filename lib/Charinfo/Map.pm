@@ -69,6 +69,20 @@ sub get_diff ($$$) {
           same => $common, different => $changed};
 } # get_diff
 
+sub apply_to_string ($$$) {
+  my (undef, $name, $string) = @_;
+  my $map = __PACKAGE__->get_def_by_name ($name) or return undef;
+  my %all = (%{$map->{char_to_char} or {}}, %{$map->{char_to_seq} or {}},
+             %{$map->{char_to_empty} or {}}, %{$map->{seq_to_char} or {}},
+             %{$map->{seq_to_seq} or {}}, %{$map->{seq_to_empty} or {}});
+  my @key = sort { length $b <=> length $a } map { join '', map { chr hex $_ } split / /, $_ } keys %all;
+  my $pattern = qr/[@{[quotemeta join '', @key]}]/;
+  for (1..10) {
+    $string =~ s{($pattern)}{join '', map { chr hex $_ } split / /, $all{join ' ', map { sprintf '%04X', ord $_ } split //, $1}}ge;
+  }
+  return $string;
+} # apply_to_string
+
 1;
 
 =head1 AUTHOR

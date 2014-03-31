@@ -637,7 +637,52 @@ p q{<tbody><tr class=category><th colspan=3>Punycode encoding};
   };
 }
 
-p "</table>";
+  {
+    p q{<tbody><tr class=category><th colspan=3>Cases};
+
+    {
+      pf q{<tr><th>ASCII uppercase};
+      my $v = $string;
+      $v =~ tr/a-z/A-Z/;
+      p_string $v;
+    }
+    {
+      pf q{<tr><th>ASCII lowercase};
+      my $v = $string;
+      $v =~ tr/A-Z/a-z/;
+      p_string $v;
+    }
+    {
+      pf q{<tr><th>Uppercase (Perl <code>uc</code>)};
+      p_string uc $string;
+    }
+    {
+      pf q{<tr><th>Lowercase (Perl <code>lc</code>)};
+      p_string lc $string;
+    }
+    {
+      pf q{<tr><th>Uppercase_Mapping(C)};
+      p_string +Charinfo::Map->apply_to_string ('unicode:Uppercase_Mapping', $string);
+    }
+    {
+      pf q{<tr><th>Lowercase_Mapping(C)};
+      p_string +Charinfo::Map->apply_to_string ('unicode:Lowercase_Mapping', $string);
+    }
+    {
+      pf q{<tr><th>Case_Folding(X)};
+      p_string +Charinfo::Map->apply_to_string ('unicode:Case_Folding', $string);
+    }
+    {
+      pf q{<tr><th>NFKC_Casefold(X)};
+      p_string +Charinfo::Map->apply_to_string ('unicode:NFKC_Casefold', $string);
+    }
+    {
+      pf q{<tr><th>Compatibility case folding};
+      p_string NFKD +Charinfo::Map->apply_to_string ('unicode:Case_Folding', NFKD +Charinfo::Map->apply_to_string ('unicode:Case_Folding', NFD $string));
+    }
+  }
+
+  p "</table>";
 
   p q{<section id=fonts><h2>Fonts</h2>
     <p><em>Note that your system might not have specified fonts.</em>

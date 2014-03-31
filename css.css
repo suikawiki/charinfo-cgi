@@ -69,6 +69,12 @@ table {
   .pattern-4 { background-color: #dde5ff }
   .pattern-5 { background-color: #ffcccc }
   .pattern-6 { background-color: #cc99cc }
+  .pattern-7 { background-color: #FFEFD5 }
+  .pattern-8 { background-color: #E0FFFF }
+  .pattern-9 { background-color: #98FB98 }
+  .pattern-10 { background-color: #ADD8E6 }
+  .pattern-11 { background-color: #F0E68C }
+  .pattern-12 { background-color: #FFA07A }
   .error {
     color: red;
   }
