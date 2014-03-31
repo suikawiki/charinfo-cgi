@@ -84,6 +84,21 @@
   margin: 1em;
 }
 
+.set-list p {
+  margin: 1em;
+}
+
+.set-list ul {
+  margin: 1em;
+}
+
+.set-list ul li {
+  display: inline;
+  margin-right: 1em;
+  word-wrap: break-word;
+  line-height: 2.0;
+}
+
 #fonts > div {
   -webkit-column-width: 15em;
   column-width: 15em;

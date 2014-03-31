@@ -173,6 +173,24 @@ sub evaluate_expression ($$) {
   return $current;
 } # evaluate_expression
 
+sub get_sets_by_char ($$) {
+  my (undef, $char) = @_;
+  my @set;
+  for (@{__PACKAGE__->get_set_list}) {
+    my $set = get_set substr $_, 1;
+    push @set, $_ if __PACKAGE__->char_is_in_set ($char, $set);
+  }
+  return \@set;
+} # get_sets_by_char
+
+sub char_is_in_set ($$$) {
+  my (undef, $char, $set) = @_;
+  for (@$set) {
+    return 1 if $_->[0] <= $char and $char <= $_->[1];
+  }
+  return 0;
+} # char_is_in_set
+
 sub regexp_range_char ($) {
   my $c = $_[0];
   if ($c == 0x002D or
@@ -212,7 +230,7 @@ sub serialize_set ($$) {
 
 =head1 LICENSE
 
-Copyright 2013 Wakaba <wakaba@suikawiki.org>.
+Copyright 2013-2014 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

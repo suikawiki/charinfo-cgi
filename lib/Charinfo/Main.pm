@@ -651,6 +651,38 @@ p "</table>";
   }
   p q{</table></div></section>};
 
+  if (@char == 1) {
+    my $sets = Charinfo::Set->get_sets_by_char (ord $char[0]);
+    if (@$sets) {
+      p q{
+        <section class=set-list>
+          <h2>Sets</h2>
+          <p>The character belongs to following character sets:
+          <ul>
+      };
+      for (sort { $a cmp $b } @$sets) {
+        pf q{<li><a href="/set/%s">%s</a>},
+            percent_encode_c $_, htescape $_;
+      }
+      p q{</ul></section>};
+    }
+
+    my $maps = Charinfo::Map->get_maps_by_char (ord $char[0]);
+    if (@$maps) {
+      p q{
+        <section class=set-list>
+          <h2>Maps</h2>
+          <p>The character belongs to following character mappings:
+          <ul>
+      };
+      for (sort { $a cmp $b } @$maps) {
+        pf q{<li><a href="/map/%s">%s</a>},
+            percent_encode_c $_, htescape $_;
+      }
+      p q{</ul></section>};
+    }
+  }
+
   __PACKAGE__->footer;
 } # main
 

@@ -14,6 +14,20 @@ sub get_list ($) {
   return [keys %$Maps];
 } # get_list
 
+sub get_maps_by_char ($$) {
+  my $c = sprintf '%04X', $_[1];
+  my @map;
+  for (@{__PACKAGE__->get_list}) {
+    my $def = __PACKAGE__->get_def_by_name ($_);
+    if ($def->{char_to_char}->{$c} or
+        $def->{char_to_seq}->{$c} or
+        $def->{char_to_empty}->{$c}) {
+      push @map, $_;
+    }
+  }
+  return \@map;
+} # get_maps_by_char
+
 sub get_def_by_name ($$) {
   my (undef, $name) = @_;
   return $Maps->{$name}; # or undef
