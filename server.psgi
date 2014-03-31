@@ -113,6 +113,18 @@ sub {
           Charinfo::Main->map_list;
           $http->close_response_body;
           return;
+        } elsif ($path->[1] eq 'compare' and not defined $path->[2]) {
+          # /map/compare
+          my $map1 = $app->text_param ('expr1') // '';
+          my $map2 = $app->text_param ('expr2') // '';
+          $http->set_response_header
+              ('Content-Type' => 'text/html; charset=utf-8');
+          local $Charinfo::Main::Output = sub {
+            $http->send_response_body_as_text (join '', @_);
+          }; # Output
+          Charinfo::Main->map_compare ($app, $map1, $map2);
+          $http->close_response_body;
+          return;
         } elsif (defined $path->[1] and not defined $path->[2]) {
           # /map/{name}
           $http->set_response_header

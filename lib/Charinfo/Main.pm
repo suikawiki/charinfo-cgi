@@ -871,8 +871,19 @@ sub map_list ($) {
   __PACKAGE__->header (title => 'Character mappings');
   p q{<h1>Character mappings</h1>};
 
+  p q{
+    <section>
+      <h2>Compare maps</h2>
+      <form action=/map/compare method=get>
+        <p><label><strong>Name #1</strong> <input name=expr1></label>
+        <p><label><strong>Name #2</strong> <input name=expr2></label>
+        <p><button type=Submit>Compare</button>
+      </form>
+    </section>
+  };
+
   p q{<section class=has-ads>};
-  p q{<h2>List of mappings</h2>};
+  p q{<h2>List of maps</h2>};
 
   p q{<ul>};
   for (sort { $a cmp $b } @{Charinfo::Map->get_list}) {
@@ -886,14 +897,40 @@ sub map_list ($) {
   __PACKAGE__->footer;
 } # map_list
 
+sub print_map ($) {
+  my $map = $_[0];
+  p q{<p>};
+  if (keys %$map) {
+    my %entries;
+    for (keys %$map) {
+      my $w = [map { hex $_ } split / /, $_];
+      my $v = [map { hex $_ } split / /, $map->{$_}];
+      my $from = ucodes_with_chars $w;
+      my $to = ucodes_with_chars $v;
+      if ($to eq '') {
+        $entries{join '', map { chr $_ } @$w} = $from;
+      } else {
+        $entries{join '', map { chr $_ } @$w} = "$from&nbsp;->&nbsp;$to";
+      }
+    }
+    p join '; ', map { $entries{$_} } sort { $a cmp $b } keys %entries;
+  } else {
+    p q{(Empty)};
+  }
+} # print_map
+
 sub map_page ($$$) {
   my (undef, $app, $name) = @_;
 
   my $def = Charinfo::Map->get_def_by_name ($name);
   unless (defined $def) {
     $app->http->set_status (404);
-    __PACKAGE__->header;
+    __PACKAGE__->header (title => 'Character mapping "'.$name.'"');
+    p q{<h1>Character mappings</h1>};
+    pf q{<p>Map <code>%s</code> not found.},
+        htescape $name;
     __PACKAGE__->footer;
+    return;
   }
 
   __PACKAGE__->header (title => 'Character mapping "'.$name.'"');
@@ -939,20 +976,8 @@ sub map_page ($$$) {
     [seq_to_empty => 'Deleted character sequences'],
   ) {
     next unless keys %{$def->{$x->[0]}};
-    pf q{<section class=map-entries><h3>%s</h3><p>}, $x->[1];
-    my %entries;
-    for (keys %{$def->{$x->[0]}}) {
-      my $w = [map { hex $_ } split / /, $_];
-      my $v = [map { hex $_ } split / /, $def->{$x->[0]}->{$_}];
-      my $from = ucodes_with_chars $w;
-      my $to = ucodes_with_chars $v;
-      if ($to eq '') {
-        $entries{join '', map { chr $_ } @$w} = $from;
-      } else {
-        $entries{join '', map { chr $_ } @$w} = "$from&nbsp;->&nbsp;$to";
-      }
-    }
-    p join '; ', map { $entries{$_} } sort { $a cmp $b } keys %entries;
+    pf q{<section class=map-entries><h3>%s</h3>}, $x->[1];
+    print_map $def->{$x->[0]};
     p q{</section>};
   } # $x
 
@@ -960,6 +985,75 @@ sub map_page ($$$) {
   p q{</section>};
   __PACKAGE__->footer;
 } # map_page
+
+sub map_compare ($$$$) {
+  my (undef, $app, $name1, $name2) = @_;
+
+  my $diff = Charinfo::Map->get_diff ($name1, $name2);
+  unless (defined $diff) {
+    $app->http->set_status (404);
+    __PACKAGE__->header (title => 'Character mappings "'.$name1.'" and "'.$name2.'"');
+    p q{<h1>Character mappings</h1>};
+    pf q{<p>Map <code>%s</code> or <code>%s</code> not found.},
+        htescape $name1, htescape $name2;
+    __PACKAGE__->footer;
+    return;
+  }
+
+  __PACKAGE__->header (title => 'Character mappings "'.$name1.'" and "'.$name2.'"');
+  p q{<h1>Character mappings</h1>};
+
+  p q{<section class=has-ads>};
+  pf q{<h2>Mappings</h2>};
+
+  p q{<dl>};
+  pf q{<dt>Map #1<dd><a href="/map/%s"><code>%s</code></a>},
+      percent_encode_c $name1, htescape $name1;
+  pf q{<dt>Map #2<dd><a href="/map/%s"><code>%s</code></a>},
+      percent_encode_c $name2, htescape $name2;
+  pf q{<dt>Number of differences<dd>%d
+           (<a href=#only-1><strong>Only in #1</strong></a>: %d,
+            <a href=#only-2><strong>Only in #2</strong></a>: %d,
+            <a href=#diff><strong>Different</strong></a>: %d)},
+      (keys %{$diff->{only_in_1}}) + (keys %{$diff->{only_in_2}}) +
+      (keys %{$diff->{different}}),
+      scalar keys %{$diff->{only_in_1}},
+      scalar keys %{$diff->{only_in_2}},
+      scalar keys %{$diff->{different}};
+  p q{</dl>};
+
+  p q{<section class=map-entries id=only-1><h3>Only in #1</h3>};
+  print_map $diff->{only_in_1};
+  p q{</section>};
+
+  p q{<section class=map-entries id=only-2><h3>Only in #2</h3>};
+  print_map $diff->{only_in_2};
+  p q{</section>};
+
+  p q{<section class=map-entries id=diff><h3>Different</h3>};
+  if (keys %{$diff->{different}}) {
+    p q{<table><thead><tr><th>From<th>To #1<th>To #2<tbody>};
+    for (keys %{$diff->{different}}) {
+      my $v = $diff->{different}->{$_};
+      pf q{<tr><td>%s<td>%s<td>%s},
+          ucodes_with_chars [map { hex $_ } split / /, $_],
+          ucodes_with_chars [map { hex $_ } split / /, $v->[0]],
+          ucodes_with_chars [map { hex $_ } split / /, $v->[1]];
+    }
+    p q{</table>};
+  } else {
+    p q{<p>(Empty)};
+  }
+  p q{</section>};
+
+  p q{<section class=map-entries id=same><h3>Common</h3>};
+  print_map $diff->{same};
+  p q{</section>};
+
+  __PACKAGE__->ads;
+  p q{</section>};
+  __PACKAGE__->footer;
+} # map_compare
 
 sub header ($;%) {
   my ($class, %args) = @_;

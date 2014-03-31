@@ -19,6 +19,42 @@ sub get_def_by_name ($$) {
   return $Maps->{$name}; # or undef
 }
 
+sub get_diff ($$$) {
+  my (undef, $name1, $name2) = @_;
+  my $def1 = __PACKAGE__->get_def_by_name ($name1) or return undef;
+  my $def2 = __PACKAGE__->get_def_by_name ($name2) or return undef;
+  my $map1 = {};
+  my $map2 = {};
+  for my $key (qw(char_to_char char_to_empty char_to_seq
+                  seq_to_char seq_to_empty seq_to_seq)) {
+    $map1->{$_} = $def1->{$key}->{$_} for keys %{$def1->{$key} or {}};
+    $map2->{$_} = $def2->{$key}->{$_} for keys %{$def2->{$key} or {}};
+  }
+
+  my $only1 = {};
+  my $only2 = {};
+  my $changed = {};
+  my $common = {};
+  for (keys %$map1) {
+    if (defined $map1->{$_} and defined $map2->{$_}) {
+      if ($map1->{$_} eq $map2->{$_}) {
+        $common->{$_} = $map1->{$_};
+      } else {
+        $changed->{$_} = [$map1->{$_}, $map2->{$_}];
+      }
+    } else {
+      $only1->{$_} = $map1->{$_};
+    }
+  }
+  for (keys %$map2) {
+    if (not defined $map1->{$_}) {
+      $only2->{$_} = $map2->{$_};
+    }
+  }
+  return {only_in_1 => $only1, only_in_2 => $only2,
+          same => $common, different => $changed};
+} # get_diff
+
 1;
 
 =head1 AUTHOR
