@@ -251,16 +251,12 @@ use Char::Prop::Unicode::Age;
   p q{<td>}, htescape (unicode_age_c $_) for @char;
 }
 
-p q{</table>
-<h2 id=strdata>String</h2>
-<table>};
+  p q{</table>};
 
-{
-  p q{<tr><th>Input};
-  p_string $string;
-}
+  {
+    p q{<section id=encodings><h2>Encodings</h2>};
 
-p q{<tbody><tr class=category><th colspan=3>Unicode encodings};
+    p q{<table><tbody><tr class=category><th colspan=3>Unicode encodings};
 
 {
   p q{<tr><th>UTF-8};
@@ -278,6 +274,10 @@ p q{<tbody><tr class=category><th colspan=3>Unicode encodings};
   p q{<tr><th>UTF-32BE};
   p_bytes encode 'utf-32be', $string;
 }
+{
+  p q{<tr><th>UTF-32LE};
+  p_bytes encode 'utf-32le', $string;
+}
 
 if (@char == 1) {
   p q{<tbody><tr class=category><th colspan=3>Web encodings};
@@ -290,7 +290,10 @@ if (@char == 1) {
       p qq{<tr><th rowspan="@{[scalar @$encoded]}"><a href="http://encoding.spec.whatwg.org/#$encoding">$encoding</a>};
       my $prefix = '';
       for (@$encoded) {
-        p $prefix . '<td colspan=2>' . join ' ', map { sprintf '0x%02X', $_ } @$_;
+        pf $prefix . '<td colspan=2><a href="data:text/plain;charset=%s,%s">%s</a>',
+            percent_encode_c $encoding,
+            percent_encode_b (join '', map { pack 'C', $_ } @$_),
+            join ' ', map { sprintf '0x%02X', $_ } @$_;
         $prefix = '<tr>';
       }
     } else {
@@ -298,9 +301,82 @@ if (@char == 1) {
     }
   }
   if (@not_encodable) {
-    p '<tr><th>Not encodable in<td colspan=2>' . join ' ', @not_encodable;
+    p '<tr><td colspan=3><strong>Not encodable in</strong>: ' . join ' ', @not_encodable;
   }
 }
+
+    p q{</table></section>};
+  }
+
+  {
+    p q{<section id=escapes><h2>Escapes</h2><table>};
+
+    {
+      p q{<tr><th>Input};
+      p_string $string;
+    }
+p q{<tbody><tr class=category><th colspan=3>Escapes};
+
+# XXX CL/CR range
+{
+  p q{<tr><th>HTML/XML decimal<td colspan=2>};
+  p join '', map { sprintf '&amp;#%d;', ord $_ } split //, $string;
+}
+{
+  p q{<tr><th>HTML/XML hexadecimal<td colspan=2>};
+  p join '', map { sprintf '&amp;#x%X;', ord $_ } split //, $string;
+}
+
+{
+  p q{<tr><th>percent-decode de-UTF-8};
+  or_p_error {
+    p_string percent_decode_b encode 'utf-8', $string;
+  };
+}
+{
+  p q{<tr><th>en-UTF-8 percent-encode};
+  or_p_error {
+    p_ascii_string percent_encode_b encode 'utf-8', $string;
+  };
+}
+
+{
+  p q{<tr><th>de-\u};
+  or_p_error {
+    my $s = $string;
+    $s =~ s{\\u([0-9A-Fa-f]{4})|\\U([0-9A-Fa-f]{8})}{
+      chr hex ($1 || $2 || 0);
+    }ge;
+    p_string $s;
+  };
+}
+{
+  p q{<tr><th>en-\u};
+  or_p_error {
+    p_ascii_string join '', map { sprintf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
+  };
+}
+{
+  p q{<tr><th>en-\u non-ASCII};
+  or_p_error {
+    p_ascii_string join '', map { 0x20 <= $_ && $_ <= 0x7E && $_ != 0x5C ? chr $_ : sprintf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
+  };
+}
+{
+  p q{<tr><th>de-surrogate};
+  or_p_error {
+    p_string decode 'utf-16-be', join '', map { $_ > 0x10FFFF ? "\xFF\xFD" : $_ >= 0x10000 ? encode 'utf-16-be', chr $_ : pack 'CC', $_ / 0x100, $_ % 0x100 } map { ord $_ } split //, $string;
+  };
+}
+    p q{</table></section>};
+  }
+
+  p q{<h2 id=strdata>String</h2><table>};
+
+  {
+    p q{<tr><th>Input};
+    p_string $string;
+  }
 
 use AnyEvent::Util;
 {
@@ -558,60 +634,6 @@ p q{<tbody><tr class=category><th colspan=3>Punycode encoding};
       htescape $AnyEvent::Util::VERSION;
   or_p_error {
     p_ascii_string AnyEvent::Util::idn_to_ascii $string;
-  };
-}
-
-p q{<tbody><tr class=category><th colspan=3>Escapes};
-
-# XXX CL/CR range
-{
-  p q{<tr><th>HTML/XML decimal<td colspan=2>};
-  p join '', map { sprintf '&amp;#%d;', ord $_ } split //, $string;
-}
-{
-  p q{<tr><th>HTML/XML hexadecimal<td colspan=2>};
-  p join '', map { sprintf '&amp;#x%X;', ord $_ } split //, $string;
-}
-
-{
-  p q{<tr><th>percent-decode de-UTF-8};
-  or_p_error {
-    p_string percent_decode_b encode 'utf-8', $string;
-  };
-}
-{
-  p q{<tr><th>en-UTF-8 percent-encode};
-  or_p_error {
-    p_ascii_string percent_encode_b encode 'utf-8', $string;
-  };
-}
-
-{
-  p q{<tr><th>de-\u};
-  or_p_error {
-    my $s = $string;
-    $s =~ s{\\u([0-9A-Fa-f]{4})|\\U([0-9A-Fa-f]{8})}{
-      chr hex ($1 || $2 || 0);
-    }ge;
-    p_string $s;
-  };
-}
-{
-  p q{<tr><th>en-\u};
-  or_p_error {
-    p_ascii_string join '', map { sprintf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
-  };
-}
-{
-  p q{<tr><th>en-\u non-ASCII};
-  or_p_error {
-    p_ascii_string join '', map { 0x20 <= $_ && $_ <= 0x7E && $_ != 0x5C ? chr $_ : sprintf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
-  };
-}
-{
-  p q{<tr><th>de-surrogate};
-  or_p_error {
-    p_string decode 'utf-16-be', join '', map { $_ > 0x10FFFF ? "\xFF\xFD" : $_ >= 0x10000 ? encode 'utf-16-be', chr $_ : pack 'CC', $_ / 0x100, $_ % 0x100 } map { ord $_ } split //, $string;
   };
 }
 

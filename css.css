@@ -40,6 +40,10 @@
     background-color: #a1d1ee;
   }
 
+table {
+  width: 100%;
+}
+
   tr:hover {
     background: #efecf2;
   }
