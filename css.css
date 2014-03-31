@@ -74,7 +74,7 @@
   font-size: 500%;
 }
 
-#chars p {
+#chars p, .map-entries p {
   margin: 1em;
   line-height: 2.0;
   text-align: justify;

@@ -64,7 +64,7 @@ sub {
             local $Charinfo::Main::Output = sub {
               $http->send_response_body_as_text (join '', @_);
             }; # Output
-            Charinfo::Main->set ($s);
+            Charinfo::Main->set ($app, $s);
             $http->close_response_body;
             return;
           } else {
@@ -89,7 +89,41 @@ sub {
           Charinfo::Main->set_compare ($s, $s2);
           $http->close_response_body;
           return;
+        } elsif ($path->[1] =~ /\A\$[0-9A-Za-z_.:-]+\z/ and
+                 not defined $path->[2]) {
+          # /set/{set_id}
+          $http->set_response_header
+              ('Content-Type' => 'text/html; charset=utf-8');
+          local $Charinfo::Main::Output = sub {
+            $http->send_response_body_as_text (join '', @_);
+          }; # Output
+          Charinfo::Main->set ($app, $path->[1]);
+          $http->close_response_body;
+          return;
         }
+
+      } elsif ($path->[0] eq 'map') {
+        if (not defined $path->[1]) {
+          # /map
+          $http->set_response_header
+              ('Content-Type' => 'text/html; charset=utf-8');
+          local $Charinfo::Main::Output = sub {
+            $http->send_response_body_as_text (join '', @_);
+          }; # Output
+          Charinfo::Main->map_list;
+          $http->close_response_body;
+          return;
+        } elsif (defined $path->[1] and not defined $path->[2]) {
+          # /map/{name}
+          $http->set_response_header
+              ('Content-Type' => 'text/html; charset=utf-8');
+          local $Charinfo::Main::Output = sub {
+            $http->send_response_body_as_text (join '', @_);
+          }; # Output
+          Charinfo::Main->map_page ($app, $path->[1]);
+          $http->close_response_body;
+        }
+
       } elsif ($path->[0] eq 'css' and not defined $path->[1]) {
         # /css
         $http->set_response_header

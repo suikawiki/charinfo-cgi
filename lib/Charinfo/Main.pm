@@ -7,6 +7,8 @@ use Encode;
 use URL::PercentEncode qw(percent_encode_c percent_decode_c
                           percent_encode_b percent_decode_b);
 use Charinfo::Name;
+use Charinfo::Set;
+use Charinfo::Map;
 
 sub htescape ($) {
   my $s = shift;
@@ -25,6 +27,41 @@ sub ucode ($) {
     return sprintf '<a href="/char/%04X">U+%04X</a>', $_[0], $_[0];
   }
 } # ucode
+
+sub ucode_with_char ($) {
+  if ($_[0] > 0x10FFFF) {
+    return sprintf '<a href="/char/%08X">U-%08X</a>', $_[0], $_[0];
+  } else {
+    return sprintf '<a href="/char/%04X">U+%04X</a>&nbsp;(<bdo>%s</bdo>)',
+        $_[0], $_[0], chr $_[0];
+  }
+} # ucode_with_char
+
+sub ucodes_with_chars ($) {
+  if (@{$_[0]} == 0) {
+    return '';
+  } elsif (@{$_[0]} == 1) {
+    if ($_[0]->[0] > 0x10FFFF) {
+      return sprintf '<a href="/char/%08X">U-%08X</a>',
+          $_[0]->[0], $_[0]->[0];
+    } else {
+      return sprintf '<a href="/char/%04X">U+%04X</a>&nbsp;(<bdo>%s</bdo>)',
+          $_[0]->[0], $_[0]->[0], chr $_[0]->[0];
+    }
+  } else {
+    return '<a href="/string?s='.(
+      percent_encode_c join '', map { chr $_ } @{$_[0]}
+    ).'"><code>&lt;' . join (',&nbsp;', map {
+      if ($_ > 0x10FFFF) {
+        sprintf 'U-%08X', $_;
+      } else {
+        sprintf 'U+%04X', $_;
+      }
+    } @{$_[0]}) . '&gt;</code></a>&nbsp;(<bdo>'.(
+      htescape join '', map { chr $_ } @{$_[0]}
+    ).'</bdo>)'
+  }
+} # ucode_with_char
 
 sub p (@) {
   $Output->(@_);
@@ -55,7 +92,7 @@ sub p_string ($) {
   pf '<td class=pattern-%d>', $ci;
   for my $c (split //, $string) {
     p ucode ord $c;
-    pf ' (%s) ', htescape $c;
+    pf ' (<bdo>%s</bdo>) ', htescape $c;
   }
 } # p_string
 
@@ -95,7 +132,7 @@ sub or_p_error (&) {
   my $code = shift;
   eval { $code->(); 1 } or do {
     my $v = $@;
-    $v =~ s/ at (?:\Q$0\E|\(eval \d+\)|\S+) line \d+(?:, <[^<>]+> line \d+)?\.?$//;
+    $v =~ s/ at (?:\Q$0\E|\(eval \d+\)|\S+) line \d+(?:, <[^<>]*> line \d+)?\.?$//;
     p q{<td colspan=2 class=error>}, htescape $v;
   };
 } # or_p_error
@@ -592,6 +629,7 @@ p "</table>";
     'fantasy',
     "'Times New Roman'",
     "'Arial'",
+    "'Arial Unicode MS'",
     "'Helvetica'",
     "'Verdana'",
     "'Lucida Grande'",
@@ -658,6 +696,7 @@ sub top ($) {
         <li><a href="/char/0000">Characters</a>
         <li><a href="/string">Strings</a>
         <li><a href="/set">Sets</a>
+        <li><a href="/map">Maps</a>
       </ul>
   };
   __PACKAGE__->ads;
@@ -667,28 +706,33 @@ sub top ($) {
   __PACKAGE__->footer;
 } # top
 
-sub set ($$) {
-  my $expr = $_[1];
+sub set ($$$) {
+  my (undef, $app, $expr) = @_;
   my $has_ads = not $expr =~ /\[/;
 
-  p q{<!DOCTYPE html><html lang=en class=set-info>
-      <title>Character set "} . (htescape $expr) . q{"</title>};
-  p q{<link rel=stylesheet href=/css>
-<h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
+  my $set = eval { Charinfo::Set->evaluate_expression ($expr) };
+  unless (defined $set) {
+    $app->http->set_status (400);
+  }
 
+  my $is_set = $expr =~ /\A\$[0-9A-Za-z_.:-]+\z/;
+
+  __PACKAGE__->header (title => 'Character set "'.$expr.'"',
+                       class => 'set-info');
   p q{<h1>Character set</h1>};
 
-  use Charinfo::Set;
-  my $set = eval { Charinfo::Set->evaluate_expression ($expr) };
   if (not defined $set) {
     pf q{<p>Expression error: %s}, $@;
+    __PACKAGE__->footer;
     return;
   }
 
   pf q{<section id=set class="%s"><h2>Set</h2><dl>},
       $has_ads ? 'has-ads' : '';
 
-  pf q{<dt>Original expression<dd><code>%s</code>}, htescape $expr;
+  my $orig = htescape $expr;
+  $orig =~ s{(\$[0-9A-Za-z0-9:_.-]+)}{sprintf '<a href="/set/%s">%s</a>', percent_encode_c $1, $1}ge;
+  pf q{<dt>Original expression<dd><code>%s</code>}, $orig;
 
   pf q{<dt>Normalized<dd><code>%s</code>},
       htescape +Charinfo::Set->serialize_set ($set);
@@ -700,6 +744,10 @@ sub set ($$) {
   pf q{<dt>Number of characters<dd>%d}, $count;
 
   p q{</dl>};
+
+  p q{<p><em>The set definition is contained in <a href="https://github.com/manakai/data-chars/blob/master/data/sets.json"><code>sets.json</code></a> data file.</em>}
+      if $is_set;
+
   __PACKAGE__->ads if $has_ads;
   p q{</section>};
 
@@ -709,7 +757,7 @@ sub set ($$) {
     my $count = $range->[1] - $range->[0];
     if ($count <= 255) {
       for ($range->[0]..$range->[1]) {
-        pf ' <span>%s (%s)</span>', ucode $_, htescape chr $_;
+        pf ' <span>%s (<bdo>%s</bdo>)</span>', ucode $_, htescape chr $_;
       }
     } else {
       pf ' <span>%s (%s) .. %s (%s)</span>',
@@ -734,7 +782,6 @@ sub set_compare ($$$) {
 
   p q{<h1>Character set &mdash; compare</h1>};
 
-  use Charinfo::Set;
   my $set1 = eval { Charinfo::Set->evaluate_expression ($expr1) };
   if (not defined $set1) {
     pf q{<p>Expression error (expr1): %s}, $@;
@@ -782,11 +829,7 @@ sub set_compare ($$$) {
 } # set_compare
 
 sub set_list ($) {
-  p q{<!DOCTYPE html><html lang=en class=set-info>
-      <title>Character sets</title>};
-  p q{<link rel=stylesheet href=/css>
-<h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
-
+  __PACKAGE__->header (title => 'Character sets', class => 'set-info');
   p q{<h1>Character sets</h1>};
 
   p q{
@@ -813,7 +856,7 @@ sub set_list ($) {
         <ul>
   };
   for (sort { $a cmp $b } @{Charinfo::Set->get_set_list}) {
-    pf q{<li><a href="/set?expr=%s">%s</a>},
+    pf q{<li><a href="/set/%s">%s</a>},
         percent_encode_c $_, htescape $_;
   }
   p q{
@@ -823,6 +866,110 @@ sub set_list ($) {
   };
   __PACKAGE__->footer;
 } # set_list
+
+sub map_list ($) {
+  __PACKAGE__->header (title => 'Character mappings');
+  p q{<h1>Character mappings</h1>};
+
+  p q{<section class=has-ads>};
+  p q{<h2>List of mappings</h2>};
+
+  p q{<ul>};
+  for (sort { $a cmp $b } @{Charinfo::Map->get_list}) {
+    pf q{<li><a href="/map/%s"><code>%s</code></a>},
+        percent_encode_c $_, htescape $_;
+  }
+  p q{</ul>};
+
+  __PACKAGE__->ads;
+  p q{</section>};
+  __PACKAGE__->footer;
+} # map_list
+
+sub map_page ($$$) {
+  my (undef, $app, $name) = @_;
+
+  my $def = Charinfo::Map->get_def_by_name ($name);
+  unless (defined $def) {
+    $app->http->set_status (404);
+    __PACKAGE__->header;
+    __PACKAGE__->footer;
+  }
+
+  __PACKAGE__->header (title => 'Character mapping "'.$name.'"');
+  p q{<h1>Character mapping</h1>};
+
+  p q{<section class=has-ads>};
+  pf q{<h2>Mapping <code>%s</code></h2>},
+      htescape $name;
+
+  p q{<dl>};
+  pf q{<dt>Name<dd><code>%s</code>},
+      htescape $name;
+
+  {
+    my $n = 0;
+    for (qw(char_to_char char_to_empty char_to_seq
+            seq_to_char seq_to_empty seq_to_seq)) {
+      $n += scalar keys %{$def->{$_}};
+    }
+    pf q{<dt>Number of non-identical mapping entries
+         <dd>%d (<strong>1->1</strong>: %d, <strong>1->n</strong>: %d,
+                 <strong>n->1</strong>: %d, <strong>n->n</strong>: %d,
+                 <strong>1->0</strong>: %d, <strong>n->0</strong>: %d)},
+             $n,
+             scalar keys %{$def->{char_to_char}},
+             scalar keys %{$def->{char_to_seq}},
+             scalar keys %{$def->{seq_to_char}},
+             scalar keys %{$def->{seq_to_seq}},
+             scalar keys %{$def->{char_to_empty}},
+             scalar keys %{$def->{seq_to_empty}};
+  }
+
+  p q{</dl>};
+
+  p q{<p><em>The map definition is contained in <a href="https://github.com/manakai/data-chars/blob/master/data/maps.json"><code>maps.json</code></a> data file.</em>};
+
+  for my $x (
+    [char_to_char => 'One-to-one mapping entries'],
+    [char_to_seq => 'One-to-many mapping entries'],
+    [seq_to_char => 'Many-to-one mapping entries'],
+    [seq_to_seq => 'Many-to-many mapping entries'],
+    [char_to_empty => 'Deleted characters'],
+    [seq_to_empty => 'Deleted character sequences'],
+  ) {
+    next unless keys %{$def->{$x->[0]}};
+    pf q{<section class=map-entries><h3>%s</h3><p>}, $x->[1];
+    my %entries;
+    for (keys %{$def->{$x->[0]}}) {
+      my $w = [map { hex $_ } split / /, $_];
+      my $v = [map { hex $_ } split / /, $def->{$x->[0]}->{$_}];
+      my $from = ucodes_with_chars $w;
+      my $to = ucodes_with_chars $v;
+      if ($to eq '') {
+        $entries{join '', map { chr $_ } @$w} = $from;
+      } else {
+        $entries{join '', map { chr $_ } @$w} = "$from&nbsp;->&nbsp;$to";
+      }
+    }
+    p join '; ', map { $entries{$_} } sort { $a cmp $b } keys %entries;
+    p q{</section>};
+  } # $x
+
+  __PACKAGE__->ads;
+  p q{</section>};
+  __PACKAGE__->footer;
+} # map_page
+
+sub header ($;%) {
+  my ($class, %args) = @_;
+  pf q{<!DOCTYPE html><html lang=en class="%s">
+       <title>%s</title>},
+      htescape ($args{class} // ''),
+      htescape ($args{title} // 'Charinfo');
+  p q{<link rel=stylesheet href=/css>
+<h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
+} # header
 
 my $Commit = `git rev-parse HEAD`;
 $Commit =~ s/[^0-9A-Za-z]+//g;

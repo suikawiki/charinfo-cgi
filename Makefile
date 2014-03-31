@@ -56,7 +56,7 @@ install-daemontools-config:
 
 ## ------ Data ------
 
-all-data: local/names.json local/sets.json local/indexes.json
+all-data: local/names.json local/sets.json local/indexes.json local/maps.json
 
 clean-data:
 	rm -fr local/*.json
@@ -67,6 +67,9 @@ local/names.json:
 local/sets.json:
 	mkdir -p local
 	$(WGET) -O $@ https://raw.githubusercontent.com/manakai/data-chars/master/data/sets.json
+local/maps.json:
+	mkdir -p local
+	$(WGET) -O $@ https://raw.githubusercontent.com/manakai/data-chars/master/data/maps.json
 
 local/indexes.json:
 	mkdir -p local
