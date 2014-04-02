@@ -387,6 +387,20 @@ use AnyEvent::Util;
 
 p q{<tbody><tr class=category><th colspan=3>Normalization forms};
 
+
+    {
+      pf q{<tr><th>Canonical decomposition};
+      p_string +Charinfo::Map->apply_to_string ('unicode:canon_decomposition', $string);
+    }
+    {
+      pf q{<tr><th>Compatibility decomposition};
+      p_string +Charinfo::Map->apply_to_string ('unicode:compat_decomposition', $string);
+    }
+    {
+      pf q{<tr><th>Canonical composition};
+      p_string +Charinfo::Map->apply_to_string ('unicode:canon_composition', $string);
+    }
+
 use Unicode::Normalize;
 use Net::LibIDN;
 

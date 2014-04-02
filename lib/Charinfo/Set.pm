@@ -1,6 +1,7 @@
 package Charinfo::Set;
 use strict;
 use warnings;
+no warnings 'utf8';
 use Path::Class;
 use Charinfo::Name;
 use JSON::Functions::XS qw(file2perl);
