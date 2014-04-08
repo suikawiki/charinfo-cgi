@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use Cinnamon::DSL;
 use Cinnamon::Task::Git;
+use Cinnamon::Task::Cron;
 use Cinnamon::Task::Daemontools;
 
 set application => 'charinfo';
@@ -37,6 +38,7 @@ task setup => sub {
 task install => sub {
   my ($host, @args) = @_;
   call 'app:install', $host, @args;
+  call 'cron:install', $host, @args;
 };
 
 task restart => sub {
@@ -65,7 +67,7 @@ task app => {
     my $name = get 'server_env';
     remote {
       run qq{cd \Q$dir\E && LANG=C make deps server-config SERVER_ENV=$name};
-      run qq{cd \Q$dir\E && LANG=C make clean-data all-data};
+      run qq{cd \Q$dir\E && LANG=C make dataupdate};
     } $host;
   },
   install => sub {
