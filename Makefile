@@ -57,7 +57,7 @@ install-daemontools-config:
 # Need SERVER_ENV!
 batch-server:
 	mkdir -p local/config/cron.d
-	cd config/cron.d.in && find -type f | \
+	cd config/cron.d.in && ls *-cron | \
             xargs -l1 -i% -- sh -c "cat % | sed 's/@@ROOT@@/$(subst /,\/,$(abspath .))/g' > ../../local/config/cron.d/$(SERVER_ENV)-%"
 
 ## ------ Data ------
