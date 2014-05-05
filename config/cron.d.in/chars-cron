@@ -1,1 +1,2 @@
-55 16 * * * wakaba cd @@ROOT@@ && make dataaupdate
+MAILTO=wakaba@suikawiki.org
+55 4,16 * * * wakaba cd @@ROOT@@ && make dataupdate
