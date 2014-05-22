@@ -6,8 +6,6 @@ use Path::Class;
 use URL::PercentEncode qw(percent_encode_c);
 use Wanage::HTTP;
 use Warabe::App;
-use Charinfo::Main;
-use Charinfo::Name;
 
 my $css_f = file (__FILE__)->dir->file ('css.css');
 
@@ -19,6 +17,8 @@ sub {
     $app->execute (sub {
       my $s;
       my $path = $app->path_segments;
+      require Charinfo::Main;
+      require Charinfo::Name;
       if ($path->[0] eq '' and not defined $path->[1]) {
         # /
         $s = $app->text_param ('s') // '';
