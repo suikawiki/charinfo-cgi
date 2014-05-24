@@ -795,7 +795,7 @@ sub char_names ($$) {
 } # char_names
 
 sub top ($) {
-  p q{<!DOCTYPE html><html lang=en class=set-info>
+  p q{<!DOCTYPE html><html lang=en class=set-info><head>
       <meta name="google-site-verification" content="tE5pbEtqbJu0UKbNCIsW2gUzW5bWGhvCwpwynqEIBRs" />
       <title>Characters - SuikaWiki</title>};
   p q{<link rel=stylesheet href=/css>
