@@ -406,7 +406,7 @@ p q{<tbody><tr class=category><th colspan=3>Normalization forms};
     }
 
 use Unicode::Normalize;
-use Net::LibIDN;
+#use Net::LibIDN;
 
 {
   p q{<tr><th>NFC (<code>Unicode::Normalize</code>)};
@@ -455,7 +455,7 @@ use Net::IDN::Nameprep;
   };
 }
 
-{
+if (0) {
   pf q{<tr><th>Nameprep (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
@@ -493,7 +493,7 @@ IDNA::Punycode::idn_prefix (undef);
   };
 }
 
-{
+if (0) {
   pf q{<tr><th>de-Punycode (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
@@ -552,14 +552,14 @@ use URI::UTF8::Punycode;
   };
 }
 
-{
+if (0) {
   pf q{<tr><th>ToUnicode (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
     p_string decode 'utf-8', Net::LibIDN::idn_to_unicode $string, 'utf-8';
   };
 }
-{
+if (0) {
   pf q{<tr><th>ToUnicode AllowUnassigned (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
@@ -597,7 +597,7 @@ p q{<tbody><tr class=category><th colspan=3>Punycode encoding};
     p_ascii_string IDNA::Punycode::encode_punycode $string;
   };
 }
-{
+if (0) {
   pf q{<tr><th>en-Punycode (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
@@ -633,14 +633,14 @@ p q{<tbody><tr class=category><th colspan=3>Punycode encoding};
     p_ascii_string URI::UTF8::Punycode::puny_enc $string;
   };
 }
-{
+if (0) {
   pf q{<tr><th>ToASCII (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
     p_ascii_string decode 'utf-8', Net::LibIDN::idn_to_ascii $string, 'utf-8';
   };
 }
-{
+if (0) {
   pf q{<tr><th>ToASCII AllowUnassigned (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
