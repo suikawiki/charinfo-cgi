@@ -459,7 +459,7 @@ if (0) {
   pf q{<tr><th>Nameprep (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
-    p_string decode 'utf-8', Net::LibIDN::idn_prep_name $string, 'utf-8';
+    p_string decode 'utf-8', Net::LibIDN::idn_prep_name ($string, 'utf-8');
   };
 }
 
@@ -497,7 +497,7 @@ if (0) {
   pf q{<tr><th>de-Punycode (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
-    p_string decode 'utf-8', Net::LibIDN::idn_punycode_decode $string, 'utf-8';
+    p_string decode 'utf-8', Net::LibIDN::idn_punycode_decode ($string, 'utf-8');
   };
 }
 
@@ -556,14 +556,14 @@ if (0) {
   pf q{<tr><th>ToUnicode (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
-    p_string decode 'utf-8', Net::LibIDN::idn_to_unicode $string, 'utf-8';
+    p_string decode 'utf-8', Net::LibIDN::idn_to_unicode ($string, 'utf-8');
   };
 }
 if (0) {
   pf q{<tr><th>ToUnicode AllowUnassigned (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
-    p_string decode 'utf-8', Net::LibIDN::idn_to_unicode $string, 'utf-8', Net::LibIDN::IDNA_ALLOW_UNASSIGNED;
+    p_string decode 'utf-8', Net::LibIDN::idn_to_unicode ($string, 'utf-8', Net::LibIDN::IDNA_ALLOW_UNASSIGNED ());
   };
 }
 {
@@ -601,7 +601,7 @@ if (0) {
   pf q{<tr><th>en-Punycode (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
-    p_ascii_string Net::LibIDN::idn_punycode_encode $string, 'utf-8';
+    p_ascii_string Net::LibIDN::idn_punycode_encode ($string, 'utf-8');
   };
 }
 {
@@ -637,14 +637,14 @@ if (0) {
   pf q{<tr><th>ToASCII (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
-    p_ascii_string decode 'utf-8', Net::LibIDN::idn_to_ascii $string, 'utf-8';
+    p_ascii_string decode 'utf-8', Net::LibIDN::idn_to_ascii ($string, 'utf-8');
   };
 }
 if (0) {
   pf q{<tr><th>ToASCII AllowUnassigned (<code>Net::LibIDN</code> %s)},
       htescape $Net::LibIDN::VERSION;
   or_p_error {
-    p_ascii_string decode 'utf-8', Net::LibIDN::idn_to_ascii $string, 'utf-8', Net::LibIDN::IDNA_ALLOW_UNASSIGNED;
+    p_ascii_string decode 'utf-8', Net::LibIDN::idn_to_ascii ($string, 'utf-8', Net::LibIDN::IDNA_ALLOW_UNASSIGNED ());
   };
 }
 {
