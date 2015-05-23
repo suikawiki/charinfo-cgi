@@ -69,6 +69,8 @@ batch-server:
 
 ## ------ Data ------
 
+data: all-data
+
 dataupdate: clean-data all-data
 
 all-data: local/names.json local/sets.json local/indexes.json local/maps.json

@@ -74,6 +74,10 @@ sub set_minus ($$) {
 
 my $Sets = file2perl file (__FILE__)->dir->parent->parent->file ('local', 'sets.json');
 
+sub get_set_def ($$) {
+  return $Sets->{sets}->{$_[1]}; # or undef
+} # get_set_def
+
 sub get_set ($) {
   my $name = $_[0];
   my $def = $Sets->{sets}->{'$' . $name};
