@@ -812,6 +812,9 @@ sub top ($) {
       <ul>
         <li><a href="/char/0000">Characters</a>
         <li><a href="/string">Strings</a>
+          <form action=/string method=get>
+            <p><input type=search name=s placeholder=String><button type=submit>Go</button>
+          </form>
         <li><a href="/set">Sets</a>
         <li><a href="/map">Maps</a>
       </ul>
@@ -833,8 +836,9 @@ sub set ($$$) {
   }
 
   my $is_set = $expr =~ /\A\$[0-9A-Za-z_.:-]+\z/;
+  my $def = $is_set ? Charinfo::Set->get_set_def ($expr) : undef;
 
-  __PACKAGE__->header (title => 'Character set "'.$expr.'"',
+  __PACKAGE__->header (title => 'Character set "'.($def->{label} // $expr).'"',
                        class => 'set-info');
   p q{<h1>Character set</h1>};
 
@@ -847,6 +851,10 @@ sub set ($$$) {
   pf q{<section id=set class="%s"><h2>Set</h2><dl>},
       $has_ads ? 'has-ads' : '';
 
+  if ($is_set) {
+    pf q{<dt>Name<dd>%s}, $def->{label};
+  }
+
   my $orig = htescape $expr;
   $orig =~ s{(\$[0-9A-Za-z0-9:_.-]+)}{sprintf '<a href="/set/%s">%s</a>', percent_encode_c $1, $1}ge;
   pf q{<dt>Original expression<dd><code>%s</code>}, $orig;
@@ -854,13 +862,20 @@ sub set ($$$) {
   pf q{<dt>Normalized<dd><code>%s</code>},
       htescape +Charinfo::Set->serialize_set ($set);
 
-  my $count = 0;
-  for my $range (@$set) {
-    $count += $range->[1] - $range->[0] + 1;
-  }
-  pf q{<dt>Number of characters<dd>%d}, $count;
-
   p q{</dl>};
+
+  if ($is_set) {
+    pf q{<p>[<a href="http://wiki.suikawiki.org/n/%s">Note</a>] },
+        percent_encode_c $def->{suikawiki_name};
+    if (defined $def->{spec}) {
+      if ($def->{spec} =~ /^RFC([0-9]+)$/) {
+        pf q{[<a href="https://tools.ietf.org/html/rfc%d">%s</a>] },
+            $1, $def->{spec};
+      } else {
+        pf q{[%s] }, $def->{spec};
+      }
+    }
+  }
 
   p q{<p><em>The set definition is contained in <a href="https://github.com/manakai/data-chars/blob/master/data/sets.json"><code>sets.json</code></a> data file.</em>}
       if $is_set;
@@ -868,7 +883,11 @@ sub set ($$$) {
   __PACKAGE__->ads if $has_ads;
   p q{</section>};
 
-  p q{<section id=chars><h2>Characters</h2>};
+  my $count = 0;
+  for my $range (@$set) {
+    $count += $range->[1] - $range->[0] + 1;
+  }
+  pf q{<section id=chars><h2>Characters (%d)</h2>}, $count;
   p q{<p>};
   for my $range (@$set) {
     my $count = $range->[1] - $range->[0];
