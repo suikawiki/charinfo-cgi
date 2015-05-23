@@ -84,6 +84,40 @@ table {
   font-size: 500%;
 }
 
+.char-info td {
+  text-align: center;
+}
+
+th.in-set {
+  background-color: green;
+}
+
+th.not-in-set {
+  background-color: red;
+}
+
+th.in-set a, th.not-in-set a {
+  color: white;
+}
+
+th.error a {
+  color: red;
+}
+
+td.in-set {
+  color: green;
+}
+
+td.not-in-set {
+  font-weight: bolder;
+  color: white;
+  background: red;
+}
+
+.char-escapes td {
+  padding: 0 0.5em;
+}
+
 #chars p, .map-entries p, .map-entries table {
   margin: 1em;
   line-height: 2.0;

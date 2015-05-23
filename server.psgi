@@ -153,7 +153,7 @@ sub {
       $http->set_response_header
           ('Content-Type' => 'text/html; charset=utf-8');
       
-      Charinfo::Main->main ($s);
+      Charinfo::Main->main ($s, $app);
 
       $http->close_response_body;
     });
