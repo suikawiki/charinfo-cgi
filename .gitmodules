@@ -1,21 +1,28 @@
 [submodule "modules/charclass"]
 	path = modules/charclass
 	url = git://github.com/wakaba/perl-charclass.git
+	track = master
 [submodule "modules/wanage"]
 	path = modules/wanage
 	url = git://github.com/wakaba/wanage
+	track = master
 [submodule "modules/perl-web-utils"]
 	path = modules/perl-web-utils
 	url = git://github.com/wakaba/perl-web-utils.git
+	track = master
 [submodule "modules/perl-ooutils"]
 	path = modules/perl-ooutils
 	url = git://github.com/wakaba/perl-ooutils.git
+	track = master
 [submodule "modules/web-url"]
 	path = modules/web-url
 	url = git://github.com/manakai/perl-web-url
+	track = master
 [submodule "modules/web-encodings"]
 	path = modules/web-encodings
 	url = git://github.com/manakai/perl-web-encodings
+	track = master
 [submodule "modules/json-functions-xs"]
 	path = modules/json-functions-xs
 	url = git://github.com/wakaba/perl-json-functions-xs
+	track = master
