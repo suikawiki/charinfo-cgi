@@ -128,6 +128,21 @@ sub p_ascii_string ($) {
       $string;
 } # p_ascii_string
 
+sub p_link_string ($) {
+  my $string = shift;
+  if (not defined $string) {
+    p "<td colspan=2>(undef)";
+    return;
+  } elsif ($string eq '') {
+    p "<td colspan=2>(empty)";
+    return;
+  }
+  pf '<td colspan=2><a href="%s?s=%s">%s</a>',
+      '/string',
+      (percent_encode_c $string),
+      $string;
+} # p_link_string
+
 sub or_p_error (&) {
   my $code = shift;
   eval { $code->(); 1 } or do {
@@ -137,8 +152,8 @@ sub or_p_error (&) {
   };
 } # or_p_error
 
-sub main ($$) {
-  my (undef, $string) = @_;
+sub main ($$$) {
+  my (undef, $string, $app) = @_;
   $color_indexes = {};
 
 p "<!DOCTYPE HTML><html lang=en>";
@@ -214,7 +229,7 @@ if (@char == 1) {
 
 p q{<h2 id=chardata>Characters</h2>
 
-<table>
+<table class=char-info>
 };
 
 {
@@ -250,6 +265,37 @@ use Char::Prop::Unicode::Age;
   p q{<tr><th>Age (DerivedAge.txt)};
   p q{<td>}, htescape (unicode_age_c $_) for @char;
 }
+
+  {
+    my $sets = $app->text_param_list ('set');
+    @$sets = @$sets[0..4] if @$sets > 5;
+    next unless @$sets;
+    p q{<tbody>};
+    for my $set_expr (@$sets) {
+      my $set = eval { Charinfo::Set->evaluate_expression ($set_expr) };
+      my @in;
+      if (defined $set) {
+        for (@char) {
+          push @in, Charinfo::Set->char_is_in_set (ord $_, $set);
+        }
+      }
+      pf q{<tr><th class="%s"><a href="/set?expr=%s"><code>%s</code></a>},
+          htescape (defined $set ? (not grep { not $_ } @in) ? 'in-set' : 'not-in-set' : 'error'),
+          percent_encode_c $set_expr,
+          htescape $set_expr;
+      if (defined $set) {
+        for (@in) {
+          if ($_) {
+            pf q{<td class=in-set>&#x2714;};
+          } else {
+            pf q{<td class=not-in-set>-};
+          }
+        }
+      } else {
+        pf q{<td colspan=%d class=error>Set expression error}, 0+@char;
+      }
+    }
+  }
 
   p q{</table>};
 
@@ -309,7 +355,7 @@ if (@char == 1) {
   }
 
   {
-    p q{<section id=escapes><h2>Escapes</h2><table>};
+    p q{<section id=escapes><h2>Escapes</h2><table class=char-escapes>};
 
     {
       p q{<tr><th>Input};
@@ -319,16 +365,16 @@ p q{<tbody><tr class=category><th colspan=3>Escapes};
 
 # XXX CL/CR range
 {
-  p q{<tr><th>HTML/XML decimal<td colspan=2>};
-  p join '', map { sprintf '&amp;#%d;', ord $_ } split //, $string;
+  p q{<tr><th>HTML/XML decimal};
+  p_link_string join '', map { sprintf '&amp;#%d;', ord $_ } split //, $string;
 }
 {
-  p q{<tr><th>HTML/XML hexadecimal<td colspan=2>};
-  p join '', map { sprintf '&amp;#x%X;', ord $_ } split //, $string;
+  p q{<tr><th>HTML/XML hexadecimal};
+  p_link_string join '', map { sprintf '&amp;#x%X;', ord $_ } split //, $string;
 }
 {
-  p q{<tr><th>CSS<td colspan=2>};
-  p join '', map { sprintf '\\%06X', ord $_ } split //, $string;
+  p q{<tr><th>CSS};
+  p_link_string join '', map { sprintf '\\%06X', ord $_ } split //, $string;
 }
 
 {
@@ -357,13 +403,13 @@ p q{<tbody><tr class=category><th colspan=3>Escapes};
 {
   p q{<tr><th>en-\u};
   or_p_error {
-    p_ascii_string join '', map { sprintf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
+    p_link_string join '', map { sprintf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
   };
 }
 {
   p q{<tr><th>en-\u non-ASCII};
   or_p_error {
-    p_ascii_string join '', map { 0x20 <= $_ && $_ <= 0x7E && $_ != 0x5C ? chr $_ : sprintf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
+    p_link_string join '', map { 0x20 <= $_ && $_ <= 0x7E && $_ != 0x5C ? chr $_ : sprintf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
   };
 }
 {
@@ -372,6 +418,20 @@ p q{<tbody><tr class=category><th colspan=3>Escapes};
     p_string decode 'utf-16-be', join '', map { $_ > 0x10FFFF ? "\xFF\xFD" : $_ >= 0x10000 ? encode 'utf-16-be', chr $_ : pack 'CC', $_ / 0x100, $_ % 0x100 } map { ord $_ } split //, $string;
   };
 }
+
+    {
+      p q{<tr><th>Perl bytes};
+      or_p_error {
+        p_link_string join '', map { sprintf '\x%02X', ord $_ } split //, encode 'utf-8', $string;
+      };
+    }
+    {
+      p q{<tr><th>Perl text};
+      or_p_error {
+        p_link_string join '', map { ord $_ < 0x100 ? sprintf '\x%02X', ord $_ : sprintf '\x{%04X}', ord $_ } split //, $string;
+      };
+    }
+
     p q{</table></section>};
   }
 
@@ -863,6 +923,14 @@ sub set ($$$) {
       htescape +Charinfo::Set->serialize_set ($set);
 
   p q{</dl>};
+
+  pf q{
+    <form action=/string method=get>
+      <input type=hidden name=set value="%s">
+      <p><label>Test a string: <input type=search name=s required></label>
+      <button type=submit>Show</button>
+    </form>
+  }, htescape $expr;
 
   if ($is_set) {
     pf q{<p>[<a href="http://wiki.suikawiki.org/n/%s">Note</a>] },
