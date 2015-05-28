@@ -1,7 +1,7 @@
 JSON::XS~3.01
+HTTP::Status~6.03
 Encode~2.73
 IO::HTML~1.001
-HTTP::Headers~6.05
 List::MoreUtils~0.412
 Devel::StackTrace~2.00
 HTTP::Body~1.22
@@ -36,8 +36,8 @@ Net::IDN::Nameprep~1.101
 Test::NoWarnings~1.04
 Stream::Buffered~0.03
 Test::TCP~2.12
-Twiggy::Prefork~0.08
 AnyEvent::Util
+Twiggy::Prefork~0.08
 Digest::SHA~5.95
 Unicode::CharName~1.07
 Time::Local~1.2300
