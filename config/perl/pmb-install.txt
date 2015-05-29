@@ -1,10 +1,10 @@
 JSON::XS~3.01
-HTTP::Status~6.03
 Encode~2.73
 IO::HTML~1.001
 List::MoreUtils~0.412
 Devel::StackTrace~2.00
 HTTP::Body~1.22
+HTTP::Message~6.06
 POSIX::strftime::Compiler~0.41
 Path::Class~0.35
 common::sense~3.73
@@ -46,7 +46,7 @@ Test::SharedFork~0.31
 Try::Tiny~0.22
 AnyEvent~7.09
 Exporter::Lite~0.06
-Server::Starter~0.27
+Server::Starter~0.28
 Test::Class~0.48
 Twiggy~0.1025
 Data::Dumper~2.154
