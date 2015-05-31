@@ -6,5 +6,5 @@ RUN apt-get update && \
 
 RUN git clone git://github.com/wakaba/charinfo-cgi /charinfo && \
     cd /charinfo && make deps && \
-    echo 'while true; do; /charinfo/plackup /charinfo/server.psgi -p 8080' > /server &&
+    echo 'while true; do; /charinfo/plackup /charinfo/server.psgi -p 8080; fi' > /server &&
     chmod u+x /server
