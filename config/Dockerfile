@@ -7,5 +7,5 @@ RUN apt-get update && \
 RUN git clone git://github.com/wakaba/charinfo-cgi /charinfo && \
     cd /charinfo && make deps PMBP_OPTIONS=--execute-system-package-installer && \
     echo '#!/bin/bash' > /server && \
-    echo '/charinfo/plackup /charinfo/server.psgi -p 8080' >> /server && \
+    echo '/charinfo/plackup /charinfo/server.psgi -p 8080 -s Twiggy::Prefork' >> /server && \
     chmod u+x /server
