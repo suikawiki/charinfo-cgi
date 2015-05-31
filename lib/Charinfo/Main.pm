@@ -165,16 +165,22 @@ p qq{
 
 <h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>
 
-<h1>Charinfo &mdash; "@{[htescape $string]}"</h1>
+<h1>Charinfo &mdash; "@{[htescape $string]}"</h1>};
 
+  my $sets = $app->text_param_list ('set');
+  @$sets = @$sets[0..4] if @$sets > 5;
+
+  p qq{
 <form action=/string>
   <label>String:
     <input type=text name=s value="@{[htescape $string]}">
   </label>
   <button type=submit>Show</button>
-</form>
-
 };
+  for (@$sets) {
+    p qq{<input type=hidden name=set value="@{[htescape $_]}">};
+  }
+  p qq{</form>};
 
 my @char = split //, $string;
 
@@ -267,8 +273,6 @@ use Char::Prop::Unicode::Age;
 }
 
   {
-    my $sets = $app->text_param_list ('set');
-    @$sets = @$sets[0..4] if @$sets > 5;
     next unless @$sets;
     p q{<tbody>};
     for my $set_expr (@$sets) {
