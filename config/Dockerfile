@@ -6,5 +6,6 @@ RUN apt-get update && \
 
 RUN git clone git://github.com/wakaba/charinfo-cgi /charinfo && \
     cd /charinfo && make deps PMBP_OPTIONS=--execute-system-package-installer && \
-    echo '/charinfo/plackup /charinfo/server.psgi -p 8080' > /server && \
+    echo '#!/bin/bash' > /server && \
+    echo '/charinfo/plackup /charinfo/server.psgi -p 8080' >> /server && \
     chmod u+x /server
