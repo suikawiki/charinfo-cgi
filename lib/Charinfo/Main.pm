@@ -946,6 +946,8 @@ sub set ($$$) {
       } else {
         pf q{[%s] }, $def->{spec};
       }
+    } elsif (defined $def->{url}) {
+      pf q{[<a href="%s">Official</a>] }, htescape $def->{url};
     }
   }
 
