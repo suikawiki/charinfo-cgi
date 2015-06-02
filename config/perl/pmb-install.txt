@@ -32,7 +32,7 @@ Devel::StackTrace::AsHTML~0.14
 HTML::Tagset~3.20
 Exporter::Tiny~0.042
 File::ShareDir::Install~0.10
-Net::IDN::Nameprep~1.101
+Net::IDN::Nameprep~1.102
 Test::NoWarnings~1.04
 Stream::Buffered~0.03
 Test::TCP~2.12
