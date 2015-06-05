@@ -8,10 +8,10 @@ HTTP::Body~1.22
 POSIX::strftime::Compiler~0.41
 Path::Class~0.35
 common::sense~3.73
-LWP::MediaTypes~6.02
 Net::IDN::Punycode~1.101
 IO::Handle~1.28
 Types::Serialiser~1.0
+LWP::MediaTypes~6.02
 Net::LibIDN~0.12
 Module::Runtime~0.014
 Unicode::Normalize~1.18
@@ -43,11 +43,11 @@ Digest::SHA~5.95
 Time::Local~1.2300
 Unicode::CharName~1.07
 CGI::Carp~4.20
-Test::SharedFork~0.31
+Test::SharedFork~0.32
 Try::Tiny~0.22
 AnyEvent~7.09
 Test::Class~0.48
-Server::Starter~0.28
+Server::Starter~0.29
 Exporter::Lite~0.06
 Twiggy~0.1025
 Data::Dumper~2.154
