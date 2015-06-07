@@ -5,3 +5,8 @@
 - "../../modules/web-url" tests
 - "../../modules/web-encoding" tests
 - "../../modules/charclass" tests
+- "../../modules/promise" tests
+- "../../modules/promised-command" tests
+- "../../t_deps/modules/test-x1" tests
+- "../../t_deps/modules/promised-plackup" tests
+- "../../t_deps/modules/web-ua" tests cli testws lwp anyeventsocks oauth wsse curl
