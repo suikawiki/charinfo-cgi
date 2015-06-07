@@ -26,3 +26,22 @@
 	path = modules/json-functions-xs
 	url = git://github.com/wakaba/perl-json-functions-xs
 	track = master
+[submodule "modules/promise"]
+	path = modules/promise
+	url = git://github.com/wakaba/perl-promise
+	track = master
+[submodule "modules/promised-command"]
+	path = modules/promised-command
+	url = git://github.com/wakaba/perl-promised-command
+	track = master
+[submodule "t_deps/modules/promised-plackup"]
+	path = t_deps/modules/promised-plackup
+	url = git://github.com/wakaba/perl-promised-plackup
+	track = master
+[submodule "t_deps/modules/web-ua"]
+	path = t_deps/modules/web-ua
+	url = git://github.com/wakaba/perl-web-useragent-functions
+	track = master
+[submodule "t_deps/modules/test-x1"]
+	path = t_deps/modules/test-x1
+	url = git://github.com/wakaba/perl-test-x1
