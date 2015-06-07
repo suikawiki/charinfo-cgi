@@ -22,6 +22,4 @@ URI
 
 URI::UTF8::Punycode
 
-Unicode::CharName
-
 Path::Class

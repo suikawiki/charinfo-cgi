@@ -202,9 +202,9 @@ if (@char == 1) {
   my $names = Charinfo::Name->char_code_to_names (ord $char[0]);
   __PACKAGE__->char_names ($names);
 
-  use Unicode::CharName;
-  pf q{<tr><th>Block<td>%s},
-      Unicode::CharName::ublock (ord $char[0]) // '(unassigned)';
+  #use Unicode::CharName;
+  #pf q{<tr><th>Block<td>%s},
+  #    Unicode::CharName::ublock (ord $char[0]) // '(unassigned)';
 
   pf q{<tr><th>Previous<td>%s (%s)},
       ucode (-1 + ord $char[0]), chr (-1 + ord $char[0]);
