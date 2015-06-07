@@ -41,7 +41,6 @@ AnyEvent::Util
 Twiggy::Prefork~0.08
 Digest::SHA~5.95
 Time::Local~1.2300
-Unicode::CharName~1.07
 CGI::Carp~4.20
 Test::SharedFork~0.33
 Try::Tiny~0.22
