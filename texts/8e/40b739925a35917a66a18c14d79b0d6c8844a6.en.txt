@@ -1,0 +1,8 @@
+$body_0:About charinfo
+$body_1:
+$body_2:
+$body_3:
+$body_4:
+$body_5:
+$forms:0
+$last_modified:1433765659
