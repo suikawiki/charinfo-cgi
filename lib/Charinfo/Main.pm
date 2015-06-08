@@ -862,27 +862,40 @@ sub char_names ($$) {
   }
 } # char_names
 
-sub top ($) {
-  p q{<!DOCTYPE html><html lang=en class=set-info><head>
+sub top ($$) {
+  my $locale = $_[1];
+  pf q{<!DOCTYPE html><html lang="%s" class=set-info><head>
       <meta name="google-site-verification" content="tE5pbEtqbJu0UKbNCIsW2gUzW5bWGhvCwpwynqEIBRs" />
-      <title>Characters - SuikaWiki</title>};
+      <title>%s - SuikaWiki</title>},
+      htescape $locale->lang,
+      htescape $locale->text ('chars');
+  p q{<link rel=canonical href="http://chars.suikawiki.org/">};
+  for (@{$locale->avail_langs}) {
+    pf q{<link rel=alternate href="http://%s.chars.suikawiki.org/" hreflang="%s">},
+        htescape $_, htescape $_;
+  }
   p q{<link rel=stylesheet href=/css>
 <h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
 
-  p q{<h1>Characters</h1>};
+  pf q{<h1>%s</h1>}, htescape $locale->text ('chars');
 
-  p q{
+  pf q{
     <div class=has-ads>
       <ul>
-        <li><a href="/char/0000">Characters</a>
-        <li><a href="/string">Strings</a>
+        <li><a href="/char/0000">%s</a>
+        <li><a href="/string">%s</a>
           <form action=/string method=get>
-            <p><input type=search name=s placeholder=String><button type=submit>Go</button>
+            <p><input type=search name=s placeholder=String><button type=submit>%s</button>
           </form>
-        <li><a href="/set">Sets</a>
-        <li><a href="/map">Maps</a>
+        <li><a href="/set">%s</a>
+        <li><a href="/map">%s</a>
       </ul>
-  };
+  },
+      htescape $locale->text ('chars'),
+      htescape $locale->text ('strings'),
+      htescape $locale->text ('go'),
+      htescape $locale->text ('sets'),
+      htescape $locale->text ('maps');
   __PACKAGE__->ads;
   p q{
     </div>
