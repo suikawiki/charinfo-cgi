@@ -1,6 +1,6 @@
 FROM wakaba/docker-perl-app-base
 
-RUN apt-get update && \
+RUN (apt-get update || (sleep 3 && apt-get update)) && \
     apt-get -y install libidn11-dev bzip2 && \
     rm -rf /var/lib/apt/lists/*
 
