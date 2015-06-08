@@ -1,0 +1,15 @@
+{
+   "avail_lang_keys" : [
+      "en",
+      "ja"
+   ],
+   "langs" : {
+      "en" : {
+         "id" : "en"
+      },
+      "ja" : {
+         "id" : "ja"
+      }
+   },
+   "license" : {}
+}
