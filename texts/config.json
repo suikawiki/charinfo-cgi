@@ -4,7 +4,7 @@
       "ja"
    ],
    "export": [
-      {"format": "json-tr", "fileTemplate": "../texts.json"}
+      {"format": "json-tr", "fileTemplate": "texts.json"}
    ],
    "langs" : {
       "en" : {
