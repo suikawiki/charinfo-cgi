@@ -3,6 +3,7 @@ all: all-data
 WGET = wget
 CURL = curl
 GIT = git
+PERL = ./perl
 
 updatenightly: local/bin/pmbp.pl
 	$(CURL) https://gist.githubusercontent.com/motemen/667573/raw/git-submodule-track | sh
@@ -12,7 +13,7 @@ updatenightly: local/bin/pmbp.pl
 
 ## ------ Setup ------
 
-deps: git-submodules pmbp-install data
+deps: git-submodules pmbp-install data local/texts.pl
 
 git-submodules:
 	$(GIT) submodule update --init
@@ -56,6 +57,9 @@ local/maps.json:
 local/indexes.json:
 	mkdir -p local
 	$(WGET) -O $@ https://raw.githubusercontent.com/manakai/data-web-defs/master/data/encoding-indexes.json
+
+local/texts.pl: bin/create-texts-pl.pl texts/texts.json
+	$(PERL) bin/create-texts-pl.pl > $@
 
 ## ------ Tests ------
 

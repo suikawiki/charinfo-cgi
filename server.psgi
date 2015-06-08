@@ -6,14 +6,32 @@ use Path::Class;
 use URL::PercentEncode qw(percent_encode_c);
 use Wanage::HTTP;
 use Warabe::App;
+use Charinfo::Locale;
 
 my $css_f = file (__FILE__)->dir->file ('css.css');
+
+my $texts = do scalar file (__FILE__)->dir->file ('local/texts.pl')
+    or die "$@ / $!";
 
 sub {
   my $http = Wanage::HTTP->new_from_psgi_env ($_[0]);
 
   return $http->send_response (onready => sub {
     my $app = Warabe::App->new_from_http ($http);
+    my $locale = Charinfo::Locale->new_from_texts ($texts);
+    if ($app->http->url->{host} =~ /suikawiki\.org/ and
+        not $app->http->url->{host} =~ /\A(?:[a-z]{2}\.|)chars\.suikawiki\.org\z/) {
+      return $app->execute (sub {
+        return $app->send_redirect ('http://chars.suikawiki.org/', status => 301);
+      });
+    } elsif ($app->http->url->{host} =~ /^([a-z]{2})\./) {
+      $locale->set_accept_langs ([$1]);
+      return $app->execute (sub {
+        return $app->send_redirect ('http://chars.suikawiki.org/', status => 301);
+      }) unless $1 eq $locale->lang;
+    } else {
+      $locale->set_accept_langs ($app->http->accept_langs);
+    }
     $app->execute (sub {
       my $s;
       my $path = $app->path_segments;
@@ -28,7 +46,7 @@ sub {
           local $Charinfo::Main::Output = sub {
             $http->send_response_body_as_text (join '', @_);
           }; # Output
-          Charinfo::Main->top;
+          Charinfo::Main->top ($locale);
           $http->close_response_body;
           return;
         } else {
