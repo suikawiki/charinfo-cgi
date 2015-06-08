@@ -3,6 +3,9 @@
       "en",
       "ja"
    ],
+   "export": [
+      {"format": "json-tr", "fileNameTemplate": "../texts.json"}
+   ],
    "langs" : {
       "en" : {
          "id" : "en"
