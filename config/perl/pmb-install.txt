@@ -2,11 +2,11 @@ Net::SSLeay~1.69
 JSON::XS~3.01
 Encode~2.73
 IO::HTML~1.001
+HTTP::Headers~6.05
 Module::Build~0.4212
 List::MoreUtils~0.412
 Devel::StackTrace~2.00
 HTTP::Body~1.22
-HTTP::Message~6.06
 POSIX::strftime::Compiler~0.41
 Path::Class~0.35
 common::sense~3.73
@@ -25,7 +25,7 @@ Socket~2.019
 Path::Tiny~0.068
 URI~1.67
 Plack~1.0036
-Exporter~5.70
+Exporter~5.72
 Class::Accessor::Lite~0.08
 Carp~1.36
 Proc::Wait3~0.04
@@ -63,7 +63,7 @@ Test::Requires~0.08
 Scalar::Util~1.42
 Scope::Guard~0.20
 IPC::Signal~1.00
-Encode::Locale~1.04
+Encode::Locale~1.05
 File::ShareDir~1.102
 IDNA::Punycode~0.03
 Class::Data::Inheritable~0.08
