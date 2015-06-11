@@ -1,10 +1,10 @@
 Net::SSLeay~1.69
 JSON::XS~3.01
+HTTP::Status~6.03
 Encode~2.73
 IO::HTML~1.001
-HTTP::Headers~6.05
 Module::Build~0.4212
-List::MoreUtils~0.412
+List::MoreUtils~0.413
 Devel::StackTrace~2.00
 HTTP::Body~1.22
 POSIX::strftime::Compiler~0.41
