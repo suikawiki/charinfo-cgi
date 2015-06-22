@@ -9,6 +9,6 @@ RUN mv /app /app.orig && \
     mv /app.orig/* /app/ && \
     cd /app && make deps PMBP_OPTIONS=--execute-system-package-installer && \
     echo '#!/bin/bash' > /server && \
-    echo 'cd /app && ./plackup ./server.psgi -p 8080 -s Twiggy::Prefork' >> /server && \
+    echo 'cd /app && ./plackup ./server.psgi -p 8080 -s Twiggy::Prefork --max-workers 3' >> /server && \
     chmod u+x /server && \
     rm -fr /app/deps /app.orig
