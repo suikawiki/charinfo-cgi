@@ -1,8 +1,8 @@
-Net::SSLeay~1.69
+Net::SSLeay~1.70
 JSON::XS~3.01
+HTTP::Status~6.03
 Encode~2.74
 IO::HTML~1.001
-HTTP::Headers~6.05
 Module::Build~0.4214
 List::MoreUtils~0.413
 Devel::StackTrace~2.00
@@ -23,7 +23,7 @@ Parallel::Prefork~0.17
 URI::UTF8::Punycode~1.00
 Socket~2.020
 Path::Tiny~0.068
-URI~1.67
+URI~1.68
 Plack~1.0037
 Exporter~5.72
 Class::Accessor::Lite~0.08
