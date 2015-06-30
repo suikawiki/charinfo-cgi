@@ -1,15 +1,15 @@
 Net::SSLeay~1.70
 JSON::XS~3.01
+HTTP::Status~6.03
 Encode~2.74
 IO::HTML~1.001
 Module::Build~0.4214
 List::MoreUtils~0.413
 Devel::StackTrace~2.00
 HTTP::Body~1.22
-HTTP::Message~6.06
 POSIX::strftime::Compiler~0.41
 Path::Class~0.35
-common::sense~3.73
+common::sense~3.74
 IO::Handle~1.28
 Types::Serialiser~1.0
 LWP::MediaTypes~6.02
@@ -17,7 +17,7 @@ Net::IDN::Punycode~1.101
 Net::LibIDN~0.12
 Module::Runtime~0.014
 Unicode::Normalize~1.18
-Cookie::Baker~0.05
+Cookie::Baker~0.06
 HTML::Entities~3.69
 Parallel::Prefork~0.17
 URI::UTF8::Punycode~1.00
