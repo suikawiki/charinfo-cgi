@@ -1,7 +1,7 @@
 Net::SSLeay~1.70
 JSON::XS~3.01
 HTTP::Status~6.03
-Encode~2.74
+Encode~2.75
 IO::HTML~1.001
 Module::Build~0.4214
 List::MoreUtils~0.413
