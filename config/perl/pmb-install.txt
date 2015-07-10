@@ -1,8 +1,8 @@
 Net::SSLeay~1.70
 JSON::XS~3.01
-Encode~2.75
+HTTP::Status~6.07
 IO::HTML~1.001
-HTTP::Headers~6.07
+Encode~2.75
 Module::Build~0.4214
 List::MoreUtils~0.413
 Devel::StackTrace~2.00
@@ -65,10 +65,11 @@ Scope::Guard~0.20
 IPC::Signal~1.00
 Encode::Locale~1.05
 File::ShareDir~1.102
-IDNA::Punycode~0.03
 Class::Data::Inheritable~0.08
+IDNA::Punycode~0.03
 MRO::Compat~0.12
 Mojo::Util
 Hash::MultiValue~0.16
 Apache::LogFormat::Compiler~0.32
+Time::HiRes~1.9726
 HTTP::Date~6.02
