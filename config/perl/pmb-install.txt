@@ -16,7 +16,7 @@ LWP::MediaTypes~6.02
 Net::IDN::Punycode~1.101
 Net::LibIDN~0.12
 Module::Runtime~0.014
-Unicode::Normalize~1.18
+Unicode::Normalize~1.19
 Cookie::Baker~0.06
 HTML::Entities~3.69
 Parallel::Prefork~0.17
