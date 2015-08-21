@@ -36,7 +36,7 @@ Devel::StackTrace::AsHTML~0.14
 HTML::Tagset~3.20
 Exporter::Tiny~0.042
 File::ShareDir::Install~0.10
-HTTP::Headers::Fast~0.18
+HTTP::Headers::Fast~0.19
 Net::IDN::Nameprep~1.102
 Test::NoWarnings~1.04
 Stream::Buffered~0.03
