@@ -2,15 +2,16 @@ Net::SSLeay~1.70
 JSON::XS~3.01
 IO::HTML~1.001
 Encode~2.76
-HTTP::Headers~6.10
 Module::Build~0.4214
 List::MoreUtils~0.413
 Devel::StackTrace~2.00
 HTTP::Body~1.22
+HTTP::Message~6.10
 Canary::Stability~2006
 POSIX::strftime::Compiler~0.41
 Path::Class~0.35
 common::sense~3.74
+URI::Escape~3.31
 IO::Handle~1.28
 Types::Serialiser~1.0
 LWP::MediaTypes~6.02
@@ -24,7 +25,6 @@ Parallel::Prefork~0.17
 URI::UTF8::Punycode~1.00
 Socket~2.020
 Path::Tiny~0.072
-URI~1.69
 Plack~1.0037
 Exporter~5.72
 Class::Accessor::Lite~0.08
@@ -51,7 +51,7 @@ Try::Tiny~0.22
 AnyEvent~7.11
 Term::ANSIColor~4.03
 Exporter::Lite~0.06
-Server::Starter~0.31
+Server::Starter~0.32
 Test::Class~0.50
 Twiggy~0.1025
 Data::Dumper~2.154
