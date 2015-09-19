@@ -1,4 +1,4 @@
-Net::SSLeay~1.70
+Net::SSLeay~1.71
 JSON::XS~3.01
 HTTP::Status~6.11
 Encode~2.77
