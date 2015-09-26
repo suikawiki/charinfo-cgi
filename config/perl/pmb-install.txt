@@ -1,6 +1,6 @@
 Net::SSLeay~1.72
 JSON::XS~3.01
-Encode~2.77
+Encode~2.78
 IO::HTML~1.001
 HTTP::Headers~6.11
 Module::Build~0.4214
