@@ -40,14 +40,14 @@ HTTP::Headers::Fast~0.19
 Net::IDN::Nameprep~1.102
 Test::NoWarnings~1.04
 Stream::Buffered~0.03
-Test::TCP~2.13
+Test::TCP~2.14
 Twiggy::Prefork~0.08
 AnyEvent::Util
 Test::Builder~1.001014
 Digest::SHA~5.95
 Time::Local~1.2300
 CGI::Carp~4.21
-Test::SharedFork~0.33
+Test::SharedFork~0.34
 Try::Tiny~0.22
 Term::ANSIColor~4.03
 AnyEvent~7.11
