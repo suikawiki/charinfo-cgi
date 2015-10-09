@@ -2,11 +2,11 @@ Net::SSLeay~1.72
 JSON::XS~3.01
 Encode~2.78
 IO::HTML~1.001
-HTTP::Headers~6.11
 Module::Build~0.4214
 List::MoreUtils~0.413
 Devel::StackTrace~2.00
 HTTP::Body~1.22
+HTTP::Message~6.11
 Canary::Stability~2006
 POSIX::strftime::Compiler~0.41
 Path::Class~0.35
@@ -17,7 +17,7 @@ LWP::MediaTypes~6.02
 Types::Serialiser~1.0
 Net::LibIDN~0.12
 Module::Runtime~0.014
-Unicode::Normalize~1.19
+Unicode::Normalize~1.21
 Cookie::Baker~0.06
 HTML::Entities~3.69
 Parallel::Prefork~0.17
