@@ -1326,6 +1326,7 @@ sub ads ($) {
           google_ad_height = 250;
         </script>
         <script src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+        <p><script src="https://www.gstatic.com/xads/publisher_badge/contributor_badge.js" data-width="300" data-height="62" data-theme="white" data-pub-name="SuikaWiki" data-pub-id="ca-pub-6943204637055835"></script>
       </aside>
   };
 } # ads
