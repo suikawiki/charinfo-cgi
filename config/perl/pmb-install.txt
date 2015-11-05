@@ -29,7 +29,7 @@ Plack~1.0037
 Exporter~5.72
 Class::Accessor::Lite~0.08
 Carp~1.36
-Proc::Wait3~0.04
+Proc::Wait3~0.05
 Filesys::Notify::Simple~0.12
 MIME::Base64~3.15
 HTML::Tagset~3.20
