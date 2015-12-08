@@ -2,11 +2,11 @@ Net::SSLeay~1.72
 JSON::XS~3.01
 Encode~2.78
 IO::HTML~1.001
+HTTP::Headers~6.11
 Module::Build~0.4214
 List::MoreUtils~0.413
 Devel::StackTrace~2.00
 HTTP::Body~1.22
-HTTP::Message~6.11
 Canary::Stability~2006
 POSIX::strftime::Compiler~0.41
 Path::Class~0.35
@@ -25,7 +25,7 @@ URI::UTF8::Punycode~1.00
 Socket~2.021
 Path::Tiny~0.076
 URI~1.69
-Plack~1.0038
+Plack~1.0039
 Exporter~5.72
 Class::Accessor::Lite~0.08
 Carp~1.38
@@ -49,7 +49,7 @@ Time::Local~1.2300
 CGI::Carp~4.22
 Test::SharedFork~0.34
 Try::Tiny~0.22
-Term::ANSIColor~4.03
+Term::ANSIColor~4.04
 AnyEvent~7.11
 Exporter::Lite~0.07
 Server::Starter~0.32
