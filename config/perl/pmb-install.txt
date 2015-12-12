@@ -48,7 +48,7 @@ Digest::SHA~5.95
 Time::Local~1.2300
 CGI::Carp~4.22
 Test::SharedFork~0.34
-Try::Tiny~0.22
+Try::Tiny~0.24
 Term::ANSIColor~4.04
 AnyEvent~7.11
 Exporter::Lite~0.07
