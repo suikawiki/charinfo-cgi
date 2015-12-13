@@ -39,7 +39,8 @@ data: all-data
 
 dataupdate: clean-data all-data
 
-all-data: local/names.json local/sets.json local/indexes.json local/maps.json
+all-data: local/names.json local/sets.json local/indexes.json local/maps.json \
+    local/number-values.json
 
 clean-data:
 	rm -fr local/*.json
@@ -53,6 +54,9 @@ local/sets.json:
 local/maps.json:
 	mkdir -p local
 	$(WGET) -O $@ https://raw.githubusercontent.com/manakai/data-chars/master/data/maps.json
+local/number-values.json:
+	mkdir -p local
+	$(WGET) -O $@ https://raw.githubusercontent.com/manakai/data-chars/master/data/number-values.json
 
 local/indexes.json:
 	mkdir -p local

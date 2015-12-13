@@ -9,6 +9,7 @@ use URL::PercentEncode qw(percent_encode_c percent_decode_c
 use Charinfo::Name;
 use Charinfo::Set;
 use Charinfo::Map;
+use Charinfo::Number;
 
 sub htescape ($) {
   my $s = shift;
@@ -270,6 +271,19 @@ use Char::Prop::Unicode::Age;
 {
   p q{<tr><th>Age (DerivedAge.txt)};
   p q{<td>}, htescape (unicode_age_c $_) for @char;
+}
+
+{
+  p q{<tr><th><a href=https://manakai.github.io/spec-numbers/#value>CJK numeral value</a>};
+  for (@char) {
+    my $value = Charinfo::Number->char_to_cjk_numeral ($_);
+    if (defined $value) {
+      pf q{<td><a href="https://data.suikawiki.org/number/%d">%d</a>},
+          $value, $value;
+    } else {
+      p q{<td>-};
+    }
+  }
 }
 
   {
