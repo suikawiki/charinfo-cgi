@@ -85,7 +85,10 @@ sub p_string ($) {
     return;
   }
   my $ci = $color_indexes->{$string} ||= 1 + keys %$color_indexes;
-  pf '<td class=pattern-%d><a href="%s?s=%s">%s</a>',
+  pf q{<td class=pattern-%d>
+    <a href="%s?s=%s">%s</a>
+    <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>
+  },
       $ci,
       '/string',
       (percent_encode_c $string),
@@ -106,10 +109,14 @@ sub p_bytes ($) {
     p "<td colspan=2>(empty)";
     return;
   }
-  p '<td colspan=2>';
-  for my $b (split //, $string) {
-    pf '0x%02X ', ord $b;
-  }
+  pf q{<td colspan=2>
+    <code>%s</code>
+    <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>
+    <code hidden>%s</code>
+    <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy \x<var>HH</var></button>
+  },
+      (join ' ', map { sprintf '0x%02X', ord $_ } split //, $string),
+      (join '', map { sprintf '\x%02X', ord $_ } split //, $string);
 } # p_bytes
 
 sub p_ascii_string ($) {
@@ -122,7 +129,10 @@ sub p_ascii_string ($) {
     return;
   }
   my $ci = $color_indexes->{$string} ||= 1 + keys %$color_indexes;
-  pf '<td colspan=2 class=pattern-%d><a href="%s?s=%s">%s</a>',
+  pf q{<td colspan=2 class=pattern-%d>
+    <a href="%s?s=%s">%s</a>
+    <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>
+  },
       $ci,
       '/string',
       (percent_encode_c $string),
@@ -138,7 +148,10 @@ sub p_link_string ($) {
     p "<td colspan=2>(empty)";
     return;
   }
-  pf '<td colspan=2><a href="%s?s=%s">%s</a>',
+  pf q{<td colspan=2>
+    <a href="%s?s=%s">%s</a>
+    <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>
+  },
       '/string',
       (percent_encode_c $string),
       $string;
@@ -182,15 +195,25 @@ my @char = split //, $string;
 if (@char == 1) {
   p q{<section id=char><h2>Character</h2><table>};
 
-  pf q{<tr><th>Character<td><code class=target-char>%s</code>},
+  pf q{<tr><th>Character
+           <td><code class=target-char>%s</code>
+               <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>
+  },
       $char[0];
 
-  pf q{<tr><th>Code point
-       <td><code>%s</code>
-           <code>%d</code><sub>10</sub>
-           <code>%o</code><sub>8</sub>
-           <code>%08b %08b %08b %08b</code><sub>2</sub>},
-      ucode ord $char[0], ord $char[0], ord $char[0],
+  pf q{<tr><th rowspan=2>Code point
+       <td><strong><code>%s</code></strong>
+           <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>
+           = <a href="https://data.suikawiki.org/number/%d"><code>%d</code><sub>10</sub></a>
+             <button type=button class=copy onclick=" copyElement (previousElementSibling.firstElementChild) ">Copy</button>
+           = <code>%o</code><sub>8</sub>
+             <button type=button class=copy onclick=" copyElement (previousElementSibling.previousElementSibling) ">Copy</button>
+       <tr>
+       <td>= <code>%08b %08b %08b %08b</code><sub>2</sub>
+             <button type=button class=copy onclick=" copyElement (previousElementSibling.previousElementSibling) ">Copy</button>},
+      ucode ord $char[0],
+      ord $char[0], ord $char[0],
+      ord $char[0],
       (ord $char[0]) >> 24, ((ord $char[0]) >> 16) & 0xFF,
       ((ord $char[0]) >> 8) & 0xFF, (ord $char[0]) & 0xFF;
 
@@ -217,7 +240,10 @@ if (@char == 1) {
   my $names = Charinfo::Name->char_seq_to_names ($string);
   if (defined $names) {
     p q{<section id=char><h2>Named character sequence</h2><table>};
-    pf q{<tr><th>Characters<td><code class=target-char>%s</code>},
+    pf q{<tr><th>Characters
+             <td><code class=target-char>%s</code>
+                 <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>
+    },
         htescape $string;
     pf q{<tr><th>Code points<td><code>&lt;%s></code>},
         join ', ', map { sprintf 'U+%04X', ord $_ } @char;
@@ -345,13 +371,18 @@ if (@char == 1) {
   for my $encoding (@$Charinfo::Encoding::EncodingNames) {
     my $encoded = Charinfo::Encoding->from_unicode (ord $char[0] => $encoding);
     if ($encoded and @$encoded) {
-      p qq{<tr><th rowspan="@{[scalar @$encoded]}"><a href="http://encoding.spec.whatwg.org/#$encoding">$encoding</a>};
+      p qq{<tr><th rowspan="@{[scalar @$encoded]}"><a href="https://encoding.spec.whatwg.org/#$encoding">$encoding</a>};
       my $prefix = '';
       for (@$encoded) {
-        pf $prefix . '<td colspan=2><a href="data:text/plain;charset=%s,%s">%s</a>',
+        pf q{%s<td colspan=2>
+               <a href="data:text/plain;charset=%s,%s">%s</a> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>
+               <span hidden>%s</span> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy \x<var>HH</var></button>
+        },
+            $prefix,
             percent_encode_c $encoding,
             percent_encode_b (join '', map { pack 'C', $_ } @$_),
-            join ' ', map { sprintf '0x%02X', $_ } @$_;
+            (join ' ', map { sprintf '0x%02X', $_ } @$_),
+            (join '', map { sprintf '\x%02X', $_ } @$_);
         $prefix = '<tr>';
       }
     } else {
@@ -846,14 +877,14 @@ if (0) {
 sub char_names ($$) {
   my $names = $_[1];
   pf q{<tr><th>Character name
-       <td><a href="https://wiki.suikawiki.org/n/%s"><code class=charname>%s</code></a>},
+       <td><a href="https://wiki.suikawiki.org/n/%s"><code class=charname>%s</code></a> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>},
       percent_encode_c ($names->{name} // $names->{label}),
       htescape ($names->{name} // $names->{label})
           if defined $names->{name} or defined $names->{label};
   my @alias;
   for (@{Charinfo::Name->alias_types}) {
     for my $name (keys %{$names->{$_}}) {
-      push @alias, sprintf q{<a href="https://wiki.suikawiki.org/n/%s"><code class="charname name-alias-%s">%s</code></a>},
+      push @alias, sprintf q{<a href="https://wiki.suikawiki.org/n/%s"><code class="charname name-alias-%s">%s</code></a> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>},
           percent_encode_c $name,
           htescape $_,
           htescape $name;
@@ -866,7 +897,7 @@ sub char_names ($$) {
   }
 
   if (defined $names->{ja_name}) {
-    pf q{<tr><th>Japanese name<td lang=ja>%s}, htescape $names->{ja_name};
+    pf q{<tr><th>Japanese name<td lang=ja><data>%s</data><button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>}, htescape $names->{ja_name};
   }
 } # char_names
 
@@ -937,12 +968,12 @@ sub set ($$$) {
       $has_ads ? 'has-ads' : '';
 
   if ($is_set) {
-    pf q{<dt>Name<dd>%s}, $def->{label};
+    pf q{<dt>Name<dd><span>%s</span> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>}, $def->{label};
   }
 
   my $orig = htescape $expr;
   $orig =~ s{(\$[0-9A-Za-z0-9:_.-]+)}{sprintf '<a href="/set/%s">%s</a>', percent_encode_c $1, $1}ge;
-  pf q{<dt>Original expression<dd><code>%s</code>}, $orig;
+  pf q{<dt>Original expression<dd><code>%s</code> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>}, $orig;
 
   pf q{<dt>Normalized<dd><code>%s</code> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>},
       htescape +Charinfo::Set->serialize_set ($set);
@@ -1174,7 +1205,7 @@ sub map_page ($$$) {
       htescape $name;
 
   p q{<dl>};
-  pf q{<dt>Name<dd><code>%s</code>},
+  pf q{<dt>Name<dd><code>%s</code> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>},
       htescape $name;
 
   {
@@ -1298,11 +1329,14 @@ sub header ($;%) {
 
 <script>
   function copyElement (el) {
+    var hidden = el.hidden;
+    if (hidden) el.hidden = false;
     var range = document.createRange ();
     range.selectNode (el);
     getSelection ().empty ();
     getSelection ().addRange (range);
     document.execCommand ('copy');
+    if (hidden) el.hidden = true;
   } // copyElement
 </script>
 
