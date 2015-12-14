@@ -231,11 +231,25 @@ sub serialize_set ($$) {
   return join '', @result;
 } # serialize_set
 
+sub serialize_set_for_perl ($$) {
+  my $result = $_[0]->serialize_set ($_[1]);
+  $result =~ s{\\u([0-9A-F]{4})}{
+    my $code = hex $1;
+    if ($code < 0x100) {
+      sprintf '\x%02X', $code;
+    } else {
+      sprintf '\x{%04X}', $code;
+    }
+  }ge;
+  $result =~ s{\\u}{\\x}g;
+  return $result;
+} # serialize_set_for_perl
+
 1;
 
 =head1 LICENSE
 
-Copyright 2013-2014 Wakaba <wakaba@suikawiki.org>.
+Copyright 2013-2015 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

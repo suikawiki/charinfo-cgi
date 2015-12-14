@@ -216,3 +216,17 @@ code {
       top: 0;
     }
   }
+
+button.copy {
+  font-size: 80%;
+  cursor: pointer;
+  border-style: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  line-height: 1.4;
+}
+
+button.copy:not(:hover) {
+  background: transparent;
+  color: gray;
+}

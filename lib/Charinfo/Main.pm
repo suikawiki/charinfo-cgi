@@ -157,14 +157,8 @@ sub main ($$$) {
   my (undef, $string, $app) = @_;
   $color_indexes = {};
 
-p "<!DOCTYPE HTML><html lang=en>";
-p qq{
-<head>
-<title>Charinfo &mdash; "@{[htescape $string]}"</title>
-<link rel=stylesheet href=/css>
-</head>
-
-<h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>
+  __PACKAGE__->header (title => '"'.$string.'" - Charinfo');
+  p qq{
 
 <h1>Charinfo &mdash; "@{[htescape $string]}"</h1>};
 
@@ -852,14 +846,14 @@ if (0) {
 sub char_names ($$) {
   my $names = $_[1];
   pf q{<tr><th>Character name
-       <td><a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class=charname>%s</code></a>},
+       <td><a href="https://wiki.suikawiki.org/n/%s"><code class=charname>%s</code></a>},
       percent_encode_c ($names->{name} // $names->{label}),
       htescape ($names->{name} // $names->{label})
           if defined $names->{name} or defined $names->{label};
   my @alias;
   for (@{Charinfo::Name->alias_types}) {
     for my $name (keys %{$names->{$_}}) {
-      push @alias, sprintf q{<a href="http://suika.suikawiki.org/~wakaba/wiki/sw/n/%s"><code class="charname name-alias-%s">%s</code></a>},
+      push @alias, sprintf q{<a href="https://wiki.suikawiki.org/n/%s"><code class="charname name-alias-%s">%s</code></a>},
           percent_encode_c $name,
           htescape $_,
           htescape $name;
@@ -889,7 +883,7 @@ sub top ($$) {
         htescape $_, htescape $_;
   }
   p q{<link rel=stylesheet href=/css>
-<h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
+<h1 class=site><a href="/">Chars</a>.<a href="https://suikawiki.org/"><img src="https://wiki.suikawiki.org/images/sw.png" alt=SuikaWiki.org></a></h1>};
 
   pf q{<h1>%s</h1>}, htescape $locale->text ('chars');
 
@@ -950,8 +944,10 @@ sub set ($$$) {
   $orig =~ s{(\$[0-9A-Za-z0-9:_.-]+)}{sprintf '<a href="/set/%s">%s</a>', percent_encode_c $1, $1}ge;
   pf q{<dt>Original expression<dd><code>%s</code>}, $orig;
 
-  pf q{<dt>Normalized<dd><code>%s</code>},
+  pf q{<dt>Normalized<dd><code>%s</code> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>},
       htescape +Charinfo::Set->serialize_set ($set);
+  pf q{<dt>Perl<dd><code>%s</code> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>},
+      htescape +Charinfo::Set->serialize_set_for_perl ($set);
 
   p q{</dl>};
 
@@ -1299,7 +1295,18 @@ sub header ($;%) {
       htescape ($args{class} // ''),
       htescape ($args{title} // 'Charinfo');
   p q{<link rel=stylesheet href=/css>
-<h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
+
+<script>
+  function copyElement (el) {
+    var range = document.createRange ();
+    range.selectNode (el);
+    getSelection ().empty ();
+    getSelection ().addRange (range);
+    document.execCommand ('copy');
+  } // copyElement
+</script>
+
+<h1 class=site><a href="/">Chars</a>.<a href="https://suikawiki.org/"><img src="https://wiki.suikawiki.org/images/sw.png" alt=SuikaWiki.org></a></h1>};
 } # header
 
 my $Commit = `git rev-parse HEAD`;
@@ -1313,9 +1320,9 @@ sub footer ($) {
 <p>This is Charinfo version <a
 href="https://github.com/wakaba/charinfo-cgi/commit/$Commit">$Commit</a>.
 
-<p>Git repository: <a
+<p>Git repository: <!--<a
 href="http://suika.suikawiki.org/gate/git/wi/char/charinfo.git/tree">Suika</a>
-/ <a href="https://github.com/wakaba/charinfo-cgi">GitHub</a>
+/ --><a href="https://github.com/wakaba/charinfo-cgi">GitHub</a>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
