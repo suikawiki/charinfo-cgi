@@ -7,6 +7,7 @@ use URL::PercentEncode qw(percent_encode_c);
 use Wanage::HTTP;
 use Warabe::App;
 use Charinfo::Locale;
+use Charinfo::Set;
 
 my $css_f = file (__FILE__)->dir->file ('css.css');
 
@@ -125,6 +126,29 @@ sub {
             $http->send_response_body_as_text (join '', @_);
           }; # Output
           Charinfo::Main->set ($app, $path->[1]);
+          $http->close_response_body;
+          return;
+        } elsif (@$path == 2 and $path->[1] eq 'perlrevars') {
+          # /set/perlrevars
+          my $result = '';
+          for (@{$app->text_param_list ('item')}) {
+            if (s/\A\$([A-Za-z_][A-Za-z_0-9]+)=//) {
+              my $name = $1;
+              my $set = eval { Charinfo::Set->evaluate_expression ($_) };
+              unless (defined $set) {
+                return $app->throw_error
+                    (400, reason_phrase => "Bad expression |$_|");
+              }
+              my $value = Charinfo::Set->serialize_set_for_perl ($set);
+              $result .= "\$$name = qr{$value};\n";
+            } else {
+              return $app->throw_error
+                  (400, reason_phrase => "Bad item |$_|");
+            }
+          }
+          $http->set_response_header
+              ('Content-Type' => 'text/perl; charset=utf-8');
+          $http->send_response_body_as_text ($result);
           $http->close_response_body;
           return;
         }

@@ -204,7 +204,12 @@ sub regexp_range_char ($) {
       $c == 0x0026 or
       $c == 0x003B or
       $c == 0x0040 or
-      (0x005B <= $c and $c <= 0x005E)) { # #$&-;@[\]^
+      $c == 0x007B or
+      $c == 0x007D or
+      $c == 0x0028 or
+      $c == 0x0029 or
+      $c == 0x002F or
+      (0x005B <= $c and $c <= 0x005E)) { # #$&-;@[\]^{}()/
     return sprintf '\\u%04X', $c;
   } elsif (0x0021 <= $c and $c <= 0x007E) {
     return chr $c;
