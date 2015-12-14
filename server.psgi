@@ -14,6 +14,9 @@ my $css_f = file (__FILE__)->dir->file ('css.css');
 my $texts = do scalar file (__FILE__)->dir->file ('local/texts.pl')
     or die "$@ / $!";
 
+$Wanage::HTTP::UseXForwardedScheme = 1;
+$Wanage::HTTP::UseXForwardedHost = 1;
+
 sub {
   my $http = Wanage::HTTP->new_from_psgi_env ($_[0]);
 
