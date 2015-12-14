@@ -19,17 +19,26 @@ sub {
   return $http->send_response (onready => sub {
     my $app = Warabe::App->new_from_http ($http);
     my $locale = Charinfo::Locale->new_from_texts ($texts);
-    if ($app->http->url->{host} =~ /suikawiki\.org/ and
-        not $app->http->url->{host} =~ /\A(?:[a-z]{2}\.|)chars\.suikawiki\.org\z/) {
+    if ($app->http->url->{scheme} eq 'http' and
+        $app->http->url->{host} =~ /suikawiki\.org/) {
+      my $url = $app->http->url->clone;
+      $url->{scheme} = 'https';
       return $app->execute (sub {
-        return $app->send_redirect ('http://chars.suikawiki.org/', status => 301);
+        return $app->send_redirect ($url->stringify, status => 301);
+      });
+    } elsif ($app->http->url->{host} =~ /suikawiki\.org/ and
+             not $app->http->url->{host} =~ /\A(?:[a-z]{2}\.|)chars\.suikawiki\.org\z/) {
+      return $app->execute (sub {
+        return $app->send_redirect ('https://chars.suikawiki.org/', status => 301);
       });
     } elsif ($app->http->url->{host} =~ /^([a-z]{2})\./) {
       $locale->set_accept_langs ([$1]);
       return $app->execute (sub {
-        return $app->send_redirect ('http://chars.suikawiki.org/', status => 301);
+        return $app->send_redirect ('https://chars.suikawiki.org/', status => 301);
       }) unless $1 eq $locale->lang;
     } else {
+      $app->http->set_response_header
+          ('Strict-Transport-Security' => 'max-age=10886400; includeSubDomains; preload');
       $locale->set_accept_langs ($app->http->accept_langs);
     }
     $app->execute (sub {
