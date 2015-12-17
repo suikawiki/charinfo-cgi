@@ -10,6 +10,7 @@ use Charinfo::Locale;
 use Charinfo::Set;
 
 my $css_f = file (__FILE__)->dir->file ('css.css');
+my $fonts_d = file (__FILE__)->dir->subdir ('fonts');
 
 my $texts = do scalar file (__FILE__)->dir->file ('local/texts.pl')
     or die "$@ / $!";
@@ -198,6 +199,18 @@ sub {
         $http->send_response_body_as_ref (\(scalar $css_f->slurp));
         $http->close_response_body;
         return;
+      } elsif (@$path == 2 and $path->[0] eq 'fonts' and
+               $path->[1] =~ m{\A[A-Za-z0-9]+\.otf\z}) {
+        # /fonts/{name}
+        my $font_f = $fonts_d->file ($path->[1]);
+        if (-f $font_f) {
+          $http->set_response_header
+              ('Content-Type' => 'application/octet-stream');
+          $http->set_response_last_modified ([stat $font_f]->[9]);
+          $http->send_response_body_as_ref (\(scalar $font_f->slurp));
+          $http->close_response_body;
+          return;
+        }
       }
       $app->throw_error (404) unless defined $s;
       

@@ -143,14 +143,36 @@ td.not-in-set {
   line-height: 2.0;
 }
 
-#fonts > div {
+#fonts section > div {
   -webkit-column-width: 15em;
   column-width: 15em;
 }
 
+#fonts section > div > table {
+  display: block;
+}
+
+#fonts section > div > table > tbody {
+  display: block;
+}
+
 #fonts tr {
+  display: block;
   -webkit-column-break-inside: avoid;
   column-break-inside: avoid;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+}
+
+#fonts tr th,
+#fonts tr td {
+  display: block;
+}
+
+#fonts tr:nth-child(2n) th,
+#fonts tr:nth-child(2n) td {
+  background: #f9f9f9;
+  color: black;
 }
 
 #fonts td code {

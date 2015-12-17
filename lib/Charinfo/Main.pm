@@ -10,6 +10,7 @@ use Charinfo::Name;
 use Charinfo::Set;
 use Charinfo::Map;
 use Charinfo::Number;
+use Charinfo::Fonts;
 
 sub htescape ($) {
   my $s = shift;
@@ -806,35 +807,47 @@ if (0) {
   p "</table>";
 
   p q{<section id=fonts><h2>Fonts</h2>
+    <section id=css-fonts><h3>CSS fonts</h3>
+    <div><table>
+  };
+  for my $font (@{Charinfo::Fonts->css_font_keywords}) {
+    pf q{<tr><th><code>%s</code><td><code style="font-family: %s">%s</code>},
+        htescape $font, htescape $font, htescape $string;
+  }
+  p q{
+    </table></div>
+    </section>
+    <section id=web-fonts>
+    <h3>Web fonts</h3>
+    <div><table>
+  };
+  for (@{Charinfo::Fonts->web_fonts}) {
+    pf q{<tr><th><a href="%s"><code>%s</code></a><td>
+      <style scoped>
+        @font-face {
+          font-family: '%s';
+          src: url('/fonts/%s');
+        }
+      </style>
+      <code style="font-family: '%s';text-rendering: optimizeLegibility;-webkit-font-smoothing: antialiased;">%s</code>
+    },
+        htescape $_->{url},
+        htescape $_->{name},
+        htescape $_->{name},
+        htescape $_->{file_name},
+        htescape $_->{name},
+        htescape $string;
+  }
+  p q{
+    </table></div>
+    </section>
+    <section id=other-fonts>
+    <h3>Other fonts</h3>
     <p><em>Note that your system might not have specified fonts.</em>
     <div><table>
   };
-  for my $font (
-    'serif',
-    'sans-serif',
-    'monospace',
-    'cursive',
-    'fantasy',
-    "'Times New Roman'",
-    "'Arial'",
-    "'Arial Unicode MS'",
-    "'Helvetica'",
-    "'Verdana'",
-    "'Lucida Grande'",
-    "'Courier New'",
-    "'Comic Sans MS'",
-    "'MS PMincho'",
-    "'MS PGothic'",
-    "'Meiryo'",
-    "'Osaka'",
-    "'Hiragino Kaku Gothic ProN'",
-    "'Symbol'",
-    "'Wingdings'",
-    "'Wingdings 2'",
-    "'Wingdings 3'",
-    "'Webdings'",
-  ) {
-    pf q{<tr><th><code>%s</code><td><code style="font-family: %s">%s</code>},
+  for my $font (@{Charinfo::Fonts->other_font_names}) {
+    pf q{<tr><th><code>%s</code><td><code style="font-family: '%s'">%s</code>},
         htescape $font, htescape $font, htescape $string;
   }
   p q{</table></div></section>};
@@ -1394,7 +1407,7 @@ Wakaba <wakaba@suikawiki.org>.
 
 =head1 LICENSE
 
-Copyright 2011-2014 Wakaba <wakaba@suikawiki.org>.
+Copyright 2011-2015 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
