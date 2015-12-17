@@ -255,10 +255,11 @@ if (@char == 1) {
   }
 }
 
-p q{<h2 id=chardata>Characters</h2>
+p q{<h2 id=chardata>Characters</h2>};
 
-<table class=char-info>
-};
+pf q{<p>Length = <data>%d</data>}, 0+@char;
+
+p q{<table class=char-info>};
 
 {
   p q{<tr><th>Character};
@@ -451,9 +452,11 @@ p q{<tbody><tr class=category><th colspan=3>Escapes};
   };
 }
 {
-  p q{<tr><th>en-\u non-ASCII};
+  my $escaped = join '', map { 0x20 <= $_ && $_ <= 0x7E && $_ != 0x5C ? chr $_ : sprintf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
+  pf q{<tr><th><a href="/string?s=%s&amp;escape=u">en-\u non-ASCII</a>},
+      percent_encode_c $escaped;
   or_p_error {
-    p_link_string join '', map { 0x20 <= $_ && $_ <= 0x7E && $_ != 0x5C ? chr $_ : sprintf (($_ <= 0xFFFF ? '\\u%04X' : '\\U%08X'), $_) } map { ord $_ } split //, $string;
+    p_link_string $escaped;
   };
 }
 {

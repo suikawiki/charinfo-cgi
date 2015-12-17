@@ -71,6 +71,11 @@ sub {
       } elsif ($path->[0] eq 'string' and not defined $path->[1]) {
         # /string
         $s = $app->text_param ('s') // '';
+        my $escape = $app->bare_param ('escape') // '';
+        if ($escape eq 'u') {
+          $s =~ s/\\U([0-9A-Fa-f]{8})/chr hex $1/ge;
+          $s =~ s/\\u([0-9A-Fa-f]{4})/chr hex $1/ge;
+        }
       } elsif ($path->[0] eq 'char' and
                defined $path->[1] and $path->[1] =~ /\A[0-9A-F]{4,8}\z/ and
                not defined $path->[2]) {
