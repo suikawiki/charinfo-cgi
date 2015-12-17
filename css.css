@@ -143,6 +143,34 @@ td.not-in-set {
   line-height: 2.0;
 }
 
+.seq-list {
+  margin: 0 0.5rem;
+}
+
+.seq-list ul {
+  padding: 0;
+}
+
+.seq-list li {
+  display: inline-block;
+  margin: 0 1em 0 0;
+  padding: 0;
+  font-size: 150%;
+  line-height: 2;
+  min-width: 2em;
+  text-align: center;
+}
+
+@font-face {
+  font-family: 'css-wf-NotoEmoji';
+  src: url(/fonts/NotoEmoji-Regular.ttf);
+}
+
+.seq-list li > a {
+  display: block;
+  font-family: sans-serif, "css-wf-NotoEmoji";
+}
+
 #fonts section > div {
   -webkit-column-width: 15em;
   -moz-column-width: 15em;

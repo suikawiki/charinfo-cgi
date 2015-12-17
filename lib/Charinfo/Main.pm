@@ -9,6 +9,7 @@ use URL::PercentEncode qw(percent_encode_c percent_decode_c
 use Charinfo::Name;
 use Charinfo::Set;
 use Charinfo::Map;
+use Charinfo::Seq;
 use Charinfo::Number;
 use Charinfo::Fonts;
 
@@ -960,6 +961,7 @@ sub top ($$) {
     <div class=has-ads>
       <ul>
         <li><a href="/char/0000">%s</a>
+        <li><a href="/seq">Character sequences</a>
         <li><a href="/string">%s</a>
           <form action=/string method=get>
             <p><input type=search name=s placeholder=String><button type=submit>%s</button>
@@ -1198,6 +1200,22 @@ sub map_list ($) {
   p q{</section>};
   __PACKAGE__->footer;
 } # map_list
+
+sub seq_list ($) {
+  __PACKAGE__->header (title => 'Character sequences', class => 'seq-info');
+  p q{<h1>Character sequences</h1>};
+  p q{<div class="seq-list has-ads">};
+  __PACKAGE__->ads;
+  p q{<ul>};
+  for (@{Charinfo::Seq->seqs}) {
+    pf q{<li><a href="/string?s=%s">%s</a>},
+        percent_encode_c $_, htescape $_;
+  }
+  p q{
+    </ul></div>
+  };
+  __PACKAGE__->footer;
+} # seq_list
 
 sub print_map ($) {
   my $map = $_[0];

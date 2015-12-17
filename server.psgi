@@ -196,6 +196,17 @@ sub {
           $http->close_response_body;
         }
 
+      } elsif (@$path == 1 and $path->[0] eq 'seq') {
+        # /seq
+        $http->set_response_header
+            ('Content-Type' => 'text/html; charset=utf-8');
+        local $Charinfo::Main::Output = sub {
+          $http->send_response_body_as_text (join '', @_);
+        }; # Output
+        Charinfo::Main->seq_list ($app);
+        $http->close_response_body;
+        return;
+
       } elsif ($path->[0] eq 'css' and not defined $path->[1]) {
         # /css
         $http->set_response_header
