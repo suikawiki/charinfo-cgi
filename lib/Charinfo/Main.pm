@@ -811,7 +811,7 @@ if (0) {
     <div><table>
   };
   for my $font (@{Charinfo::Fonts->css_font_keywords}) {
-    pf q{<tr><th><code>%s</code><td><code style="font-family: %s">%s</code>},
+    pf q{<tr><th><code>%s</code><td><data style="font-family: %s">%s</data>},
         htescape $font, htescape $font, htescape $string;
   }
   p q{
@@ -825,11 +825,11 @@ if (0) {
     pf q{<tr><th><a href="%s"><code>%s</code></a><td>
       <style scoped>
         @font-face {
-          font-family: '%s';
+          font-family: 'wf-%s';
           src: url('/fonts/%s');
         }
       </style>
-      <code style="font-family: '%s';text-rendering: optimizeLegibility;-webkit-font-smoothing: antialiased;">%s</code>
+      <data style="font-family: 'wf-%s';text-rendering: optimizeLegibility;-webkit-font-smoothing: antialiased;">%s</data>
     },
         htescape $_->{url},
         htescape $_->{name},
@@ -841,13 +841,35 @@ if (0) {
   p q{
     </table></div>
     </section>
+    <section id=2ch-aa-fonts>
+    <h3>2ch-compatible AA fonts</h3>
+    <p><em>Note that your system might not have specified fonts.</em>
+    <div><table>
+  };
+  for (@{Charinfo::Fonts->aa_font_names}) {
+    pf q{<tr><th><code>%s</code><td><data style="font-family: '%s'">%s</data> <output class=width></output>},
+        htescape $_->{name}, htescape $_->{name}, htescape $string;
+    if ($_->{has_web_font}) {
+      pf q{<tr><th><code>%s (Web font)</code><td><data style="font-family: 'wf-%s';text-rendering: optimizeLegibility;-webkit-font-smoothing: antialiased;">%s</data> <output class=width></output>},
+          htescape $_->{name}, htescape $_->{name}, htescape $string;
+    }
+  }
+  p q{
+    </table></div>
+      <script>
+        Array.prototype.forEach.call (document.querySelectorAll ('#\\\\32 ch-aa-fonts data[style]'), function (data) {
+          var rect = data.getClientRects ()[0];
+          data.nextElementSibling.textContent = 'h=' + rect.height + 'px, w=' + rect.width + 'px';
+        });
+      </script>
+    </section>
     <section id=other-fonts>
     <h3>Other fonts</h3>
     <p><em>Note that your system might not have specified fonts.</em>
     <div><table>
   };
   for my $font (@{Charinfo::Fonts->other_font_names}) {
-    pf q{<tr><th><code>%s</code><td><code style="font-family: '%s'">%s</code>},
+    pf q{<tr><th><code>%s</code><td><data style="font-family: '%s'">%s</data>},
         htescape $font, htescape $font, htescape $string;
   }
   p q{</table></div></section>};

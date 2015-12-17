@@ -145,6 +145,7 @@ td.not-in-set {
 
 #fonts section > div {
   -webkit-column-width: 15em;
+  -moz-column-width: 15em;
   column-width: 15em;
 }
 
@@ -159,6 +160,7 @@ td.not-in-set {
 #fonts tr {
   display: block;
   -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
   column-break-inside: avoid;
   margin-bottom: 0.5rem;
   padding: 0.5rem;
@@ -167,16 +169,27 @@ td.not-in-set {
 #fonts tr th,
 #fonts tr td {
   display: block;
+  padding: 0.2rem 0.5rem;
 }
 
-#fonts tr:nth-child(2n) th,
-#fonts tr:nth-child(2n) td {
+#fonts td data {
+  margin: 0;
+  border-style: none;
+  padding: 0;
+  font-size: 300%;
   background: #f9f9f9;
   color: black;
+  line-height: 1.0;
 }
 
-#fonts td code {
-  font-size: 300%;
+#fonts #\32 ch-aa-fonts td data {
+  font-size: 16px;
+}
+
+#fonts #\32 ch-aa-fonts td output {
+  display: block;
+  margin-top: .2rem;
+  font-size: 80%;
 }
 
 #form p {

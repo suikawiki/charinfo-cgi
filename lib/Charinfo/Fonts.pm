@@ -1,6 +1,7 @@
 package Charinfo::Fonts;
 use strict;
 use warnings;
+use utf8;
 use Path::Tiny;
 use JSON::Functions::XS;
 
@@ -37,7 +38,16 @@ my $OtherFontNames = [
 my $WebFonts = [
   {name => 'OpenSansEmoji', file_name => 'OpenSansEmoji.otf',
    url => q<https://github.com/MorbZ/OpenSansEmoji>},
+  {name => 'Mona', file_name => 'mona.ttf',
+   url => q<https://osdn.jp/projects/sfnet_monafont/>},
+  {name => '小夏', file_name => 'Konatu.ttf',
+   url => q<http://www.masuseki.com/?u=be/konatu.htm>},
+  {name => 'Noto Color Emoji', file_name => 'NotoColorEmoji.ttf',
+   url => q<http://www.google.com/get/noto/#emoji-qaae-color>},
+  {name => 'Noto Emoji', file_name => 'NotoEmoji-Regular.ttf',
+   url => q<http://www.google.com/get/noto/#emoji-qaae>},
 ];
+my $HasWebFont = {map { $_->{name} => 1 } @$WebFonts};
 
 sub css_font_keywords ($) {
   return $CSSKeywords;
@@ -50,6 +60,15 @@ sub web_fonts ($) {
 sub other_font_names ($) {
   return $OtherFontNames;
 } # other_font_names
+
+my $AAFonts = [];
+for (@{$CSSFonts->{aa_2ch_font_family}}) {
+  push @$AAFonts, {name => $_, has_web_font => $HasWebFont->{$_}};
+}
+
+sub aa_font_names ($) {
+  return $AAFonts;
+} # aa_font_names
 
 1;
 

@@ -200,7 +200,7 @@ sub {
         $http->close_response_body;
         return;
       } elsif (@$path == 2 and $path->[0] eq 'fonts' and
-               $path->[1] =~ m{\A[A-Za-z0-9]+\.otf\z}) {
+               $path->[1] =~ m{\A[A-Za-z0-9-]+\.[ot]tf\z}) {
         # /fonts/{name}
         my $font_f = $fonts_d->file ($path->[1]);
         if (-f $font_f) {
