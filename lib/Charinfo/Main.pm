@@ -810,10 +810,18 @@ if (0) {
 
   p "</table>";
 
-  p q{<section id=fonts><h2>Fonts</h2>
+  pf q{<section id=fonts><h2>Fonts</h2>
+    <section id=writing-modes><h3>Writing modes</h3>
+      <div><table>
+        <tr><th><code>dir=ltr</code><td><data dir=ltr>%s</data>
+        <tr><th><code>dir=rtl</code><td><data dir=rtl>%s</data>
+        <tr><th><code>'writing-mode: vertical-rl'</code><td><data style="-webkit-writing-mode:vertical-rl;writing-mode:vertical-rl">%s</data>
+      </table></div>
+    </section>
     <section id=css-fonts><h3>CSS fonts</h3>
     <div><table>
-  };
+  },
+    htescape $string, htescape $string, htescape $string;
   for my $font (@{Charinfo::Fonts->css_font_keywords}) {
     pf q{<tr><th><code>%s</code><td><data style="font-family: %s">%s</data>},
         htescape $font, htescape $font, htescape $string;
