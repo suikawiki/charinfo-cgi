@@ -43,9 +43,9 @@ my $WebFonts = [
   {name => '小夏', file_name => 'Konatu.ttf',
    url => q<http://www.masuseki.com/?u=be/konatu.htm>},
   {name => 'Noto Color Emoji', file_name => 'NotoColorEmoji.ttf',
-   url => q<http://www.google.com/get/noto/#emoji-qaae-color>},
+   url => q<https://www.google.com/get/noto/#emoji-qaae-color>},
   {name => 'Noto Emoji', file_name => 'NotoEmoji-Regular.ttf',
-   url => q<http://www.google.com/get/noto/#emoji-qaae>},
+   url => q<https://www.google.com/get/noto/#emoji-qaae>},
 ];
 my $HasWebFont = {map { $_->{name} => 1 } @$WebFonts};
 

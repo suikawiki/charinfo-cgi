@@ -955,9 +955,9 @@ sub top ($$) {
       <title>%s - SuikaWiki</title>},
       htescape $locale->lang,
       htescape $locale->text ('chars');
-  p q{<link rel=canonical href="http://chars.suikawiki.org/">};
+  p q{<link rel=canonical href="https://chars.suikawiki.org/">};
   for (@{$locale->avail_langs}) {
-    pf q{<link rel=alternate href="http://%s.chars.suikawiki.org/" hreflang="%s">},
+    pf q{<link rel=alternate href="https://%s.chars.suikawiki.org/" hreflang="%s">},
         htescape $_, htescape $_;
   }
   p q{<link rel=stylesheet href=/css>
@@ -1039,7 +1039,7 @@ sub set ($$$) {
   }, htescape $expr;
 
   if ($is_set) {
-    pf q{<p>[<a href="http://wiki.suikawiki.org/n/%s">Note</a>] },
+    pf q{<p>[<a href="https://wiki.suikawiki.org/n/%s">Note</a>] },
         percent_encode_c $def->{suikawiki_name};
     if (defined $def->{spec}) {
       if ($def->{spec} =~ /^RFC([0-9]+)$/) {
@@ -1444,7 +1444,7 @@ sub ads ($) {
           google_ad_width = 300;
           google_ad_height = 250;
         </script>
-        <script src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+        <script src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
         <p><script src="https://www.gstatic.com/xads/publisher_badge/contributor_badge.js" data-width="300" data-height="62" data-theme="white" data-pub-name="SuikaWiki" data-pub-id="ca-pub-6943204637055835"></script>
       </aside>
   };

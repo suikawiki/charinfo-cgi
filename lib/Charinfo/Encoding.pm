@@ -6,7 +6,7 @@ use integer;
 use JSON::Functions::XS qw(file2perl);
 use Path::Class;
 
-## Spec: <http://encoding.spec.whatwg.org/>.
+## Spec: <https://encoding.spec.whatwg.org/>.
 
 BEGIN {
   my $data = file2perl file (__FILE__)->dir->parent->parent->subdir ('local')->file ('indexes.json');
