@@ -9,9 +9,9 @@ my $RootPath = path (__FILE__)->parent->parent->parent;
 my $CSSFonts = json_bytes2perl $RootPath->child ('local/css-fonts.json')->slurp;
 
 my $CSSKeywords = [
-  (keys %{$CSSFonts->{generic_font_families}}),
-  (keys %{$CSSFonts->{font_family_keywords}}),
-  (keys %{$CSSFonts->{system_fonts}}),
+  (sort { $a cmp $b } keys %{$CSSFonts->{generic_font_families}}),
+  (sort { $a cmp $b } keys %{$CSSFonts->{font_family_keywords}}),
+  (sort { $a cmp $b } keys %{$CSSFonts->{system_fonts}}),
 ];
 
 my $OtherFontNames = [
