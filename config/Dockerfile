@@ -7,7 +7,7 @@ ADD bin/ /app/bin/
 ADD texts/ /app/texts/
 ADD lib/ /app/lib/
 ADD fonts/ /app/fonts/
-ADD data/ /app/data/
+#ADD data/ /app/data/
 ADD config/ /app/config/
 ADD modules/ /app/modules/
 ADD server.psgi /app/server.psgi
