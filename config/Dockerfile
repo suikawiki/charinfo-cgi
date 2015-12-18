@@ -3,6 +3,8 @@ FROM quay.io/wakaba/docker-perl-app-base
 ADD .git/ /app/.git/
 ADD .gitmodules /app/.gitmodules
 ADD Makefile /app/
+ADD bin/ /app/bin/
+ADD texts/ /app/texts/
 ADD lib/ /app/lib/
 ADD fonts/ /app/fonts/
 ADD data/ /app/data/

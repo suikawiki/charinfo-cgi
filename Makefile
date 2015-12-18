@@ -13,7 +13,9 @@ updatenightly: local/bin/pmbp.pl
 
 ## ------ Setup ------
 
-deps: git-submodules pmbp-install data local/texts.pl
+deps: git-submodules deps-docker
+
+deps-docker: pmbp-install data local/texts.pl
 
 git-submodules:
 	$(GIT) submodule update --init
