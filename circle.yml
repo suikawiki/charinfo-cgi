@@ -9,10 +9,10 @@ dependencies:
     - rm -fr modules/*/bin modules/*/.git modules/*/t modules/*/t_deps
     - docker info
     - mv config/Dockerfile ./
-    - docker build -t quay.io/wakaba/swchars .
+    - docker build -t quay.io/wakaba/swchars:$CIRCLE_BRANCH .
 test:
   override:
-    - docker run --name server -d -p 5511:8080 quay.io/wakaba/swchars /server; sleep 10
+    - docker run --name server -d -p 5511:8080 quay.io/wakaba/swchars:$CIRCLE_BRANCH /server; sleep 10
     - curl -f http://localhost:5511
     - curl -f http://localhost:5511/char/1234
     - curl -f http://localhost:5511/css
@@ -24,7 +24,7 @@ deployment:
     branch: master
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS quay.io
-      - docker push quay.io/wakaba/swchars
+      - docker push quay.io/wakaba/swchars:$CIRCLE_BRANCH
 
   nightly:
     branch: nightly
