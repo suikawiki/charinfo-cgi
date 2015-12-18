@@ -1,14 +1,25 @@
-FROM wakaba/docker-perl-app-base
+FROM quay.io/wakaba/docker-perl-app-base
+
+ADD .git/ /app/.git/
+ADD .gitmodules /app/.gitmodules
+ADD Makefile /app/
+ADD lib/ /app/lib/
+ADD fonts/ /app/fonts/
+ADD data/ /app/data/
+ADD config/ /app/config/
+ADD modules/ /app/modules/
+ADD server.psgi /app/server.psgi
+ADD css.css /app/css.css
 
 RUN (apt-get update || (sleep 3 && apt-get update)) && \
     apt-get -y install libidn11-dev bzip2 && \
     rm -rf /var/lib/apt/lists/*
 
-RUN mv /app /app.orig && \
-    git clone git://github.com/wakaba/charinfo-cgi /app && \
-    mv /app.orig/* /app/ && \
-    cd /app && make deps PMBP_OPTIONS=--execute-system-package-installer && \
+RUN cd /app && \
+    make deps-docker PMBP_OPTIONS=--execute-system-package-installer && \
     echo '#!/bin/bash' > /server && \
-    echo 'cd /app && ./plackup ./server.psgi -p 8080 -s Twiggy::Prefork --max-workers 3' >> /server && \
+    echo 'cd /app' >> /server && \
+    echo 'exec ./plackup -s Twiggy::Prefork --max-workers 3 -p 8080 bin/server.psgi' >> /server && \
     chmod u+x /server && \
-    rm -fr /app/deps /app.orig
+    rm -fr /app/.git /app/deps /app/t /app/t_deps && \
+    rm -rf /var/lib/apt/lists/*
