@@ -1442,15 +1442,19 @@ sub header ($;%) {
 
 sub footer ($) {
   pf q{
+    <footer class=site>
 
-<h2 id=about>About charinfo</h2>
+      <p class=links><a href=/char/0000>Characters</a>
+      <a href=/seq>Sequences</a>
+      <a href=/string>Strings</a>
+      <a href=/set>Sets</a>
+      <a href=/map>Maps</a>
 
-<p>This is Charinfo version <a
-href="https://github.com/wakaba/charinfo-cgi/commit/%s">%s</a>.
+      <p class=links><a href=/ rel=top>Chars.SuikaWiki.org</a>
 
-<p>Git repository: <!--<a
-href="http://suika.suikawiki.org/gate/git/wi/char/charinfo.git/tree">Suika</a>
-/ --><a href="https://github.com/wakaba/charinfo-cgi">GitHub</a>
+      <p id=about>This is <a href=https://github.com/wakaba/charinfo-cgi>Charinfo</a> version <a href="https://github.com/wakaba/charinfo-cgi/commit/%s">%s</a>.
+
+    </footer>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

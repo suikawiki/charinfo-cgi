@@ -1,9 +1,9 @@
-  .site {
-    position: absolute;
-    display: block;
-    top: 0;
-    right: 0;
-  }
+h1.site {
+  position: absolute;
+  display: block;
+  top: 0;
+  right: 0;
+}
   h1.site {
     background: transparent;
     margin: 0.5em 0;
@@ -39,6 +39,26 @@
   h3 {
     background-color: #a1d1ee;
   }
+
+footer.site {
+  margin-top: 1em;
+  padding: 1em;
+  background: #eee;
+  color: black;
+}
+
+footer.site > .links {
+  text-align: center;
+}
+
+#about {
+  font-size: 80%;
+}
+
+footer.site a[rel=top] {
+  color: inherit;
+  text-decoration: none;
+}
 
 table {
   width: 100%;
