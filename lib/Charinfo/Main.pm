@@ -1004,6 +1004,12 @@ sub top ($$) {
   __PACKAGE__->ads;
   p q{
     </div>
+
+    <section class=has-ads>
+      <h2>Data sources</h2>
+
+      <p>Many data on this site come from the <a href=https://github.com/manakai/data-chars>manakai/data-chars</a> data files maintained by <a href=https://manakai.github.io/>the manakai project</a>.
+    </section>
   };
   __PACKAGE__->footer;
 } # top
@@ -1451,6 +1457,7 @@ sub footer ($) {
       <a href=/map>Maps</a>
 
       <p class=links><a href=/ rel=top>Chars.SuikaWiki.org</a>
+      by <a href=https://suikawiki.org>SuikaWiki project</a>
 
       <p id=about>This is <a href=https://github.com/wakaba/charinfo-cgi>Charinfo</a> version <a href="https://github.com/wakaba/charinfo-cgi/commit/%s">%s</a>.
 
