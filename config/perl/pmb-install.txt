@@ -17,7 +17,7 @@ LWP::MediaTypes~6.02
 Types::Serialiser~1.0
 Net::LibIDN~0.12
 Module::Runtime~0.014
-Unicode::Normalize~1.24
+Unicode::Normalize~1.25
 Cookie::Baker~0.06
 HTML::Entities~3.69
 Parallel::Prefork~0.17
@@ -46,7 +46,7 @@ AnyEvent::Util
 Test::Builder~1.001014
 Digest::SHA~5.95
 Time::Local~1.2300
-CGI::Carp~4.22
+CGI::Carp~4.23
 Test::SharedFork~0.34
 Try::Tiny~0.24
 Term::ANSIColor~4.04
