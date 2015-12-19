@@ -6,6 +6,7 @@ no warnings 'utf8';
 use Encode;
 use URL::PercentEncode qw(percent_encode_c percent_decode_c
                           percent_encode_b percent_decode_b);
+use Charinfo::App;
 use Charinfo::Name;
 use Charinfo::Set;
 use Charinfo::Map;
@@ -1424,18 +1425,13 @@ sub header ($;%) {
 <h1 class=site><a href="/">Chars</a>.<a href="https://suikawiki.org/"><img src="https://wiki.suikawiki.org/images/sw.png" alt=SuikaWiki.org></a></h1>};
 } # header
 
-use Path::Tiny;
-my $rev_path = path (__FILE__)->parent->parent->parent->child ('rev');
-my $Commit = $rev_path->is_file ? $rev_path->slurp : `git rev-parse HEAD`;
-$Commit =~ s/[^0-9A-Za-z]+//g;
-
 sub footer ($) {
-  p qq{
+  pf q{
 
 <h2 id=about>About charinfo</h2>
 
 <p>This is Charinfo version <a
-href="https://github.com/wakaba/charinfo-cgi/commit/$Commit">$Commit</a>.
+href="https://github.com/wakaba/charinfo-cgi/commit/%s">%s</a>.
 
 <p>Git repository: <!--<a
 href="http://suika.suikawiki.org/gate/git/wi/char/charinfo.git/tree">Suika</a>
@@ -1451,7 +1447,9 @@ href="http://suika.suikawiki.org/gate/git/wi/char/charinfo.git/tree">Suika</a>
   ga('send', 'pageview');
 </script>
 
-};
+},
+    percent_encode_c $Charinfo::App::Commit,
+    htescape $Charinfo::App::Commit;
 } # footer
 
 sub ads ($) {
