@@ -827,6 +827,14 @@ if (0) {
     pf q{<tr><th><code>%s</code><td><data style="font-family: %s">%s</data>},
         htescape $font, htescape $font, htescape $string;
   }
+  pf q{<tr><th><code>font-style: italic</code><td><data style="font-style: italic">%s</data>},
+      htescape $string;
+  pf q{<tr><th><code>font-variant: small-caps</code><td><data style="font-variant: small-caps">%s</data>},
+      htescape $string;
+  for my $weight (qw(100 200 300 400 500 600 700 800 900)) {
+    pf q{<tr><th><code>font-weight: %s</code><td><data style="font-weight: %s">%s</data>},
+        $weight, $weight, htescape $string;
+  }
   p q{
     </table></div>
     </section>
@@ -1249,7 +1257,7 @@ sub seq_list ($) {
 
       <p>The list below contains Unicode named character sequences, as
       well as other known sequences that do not have any single code
-      point in Unicode.
+      point assigned in Unicode.
 
       <p><em>The list of known character sequences is contained in <a href="https://github.com/manakai/data-chars/blob/master/data/seqs.json"><code>seqs.json</code></a> data file (<a href="https://github.com/manakai/data-chars/blob/master/doc/seqs.txt">documentation</a>).</em>
 
