@@ -1272,8 +1272,9 @@ sub seq_list ($) {
       $code = $current_code;
       pf q{<h3>U+%02X<var>hh</var> <var>...</var></h3><ul>}, $code;
     }
-    pf q{<li><a href="/string?s=%s">%s</a>},
-        percent_encode_c $_, htescape $_;
+    pf q{<li><a href="/string?s=%s">%s</a> <code class=code-points>%s</code>},
+        percent_encode_c $_, htescape $_,
+        join ' ', map { sprintf 'U+%04X', ord $_ } split //, $_;
   }
   p q{
       </ul></div>
