@@ -1230,7 +1230,21 @@ sub map_list ($) {
 sub seq_list ($) {
   __PACKAGE__->header (title => 'Character sequences', class => 'seq-info');
   p q{<h1>Character sequences</h1>};
-  p q{<div class="seq-list has-ads">};
+  p q{
+    <form action=/string>
+      <label>String:
+        <input type=text name=s>
+      </label>
+      <button type=submit>Show</button>
+    </form>
+
+    <section>
+      <h2>List of sequences</h2>
+
+      <p><em>The list of known character sequences is contained in <a href="https://github.com/manakai/data-chars/blob/master/data/seqs.json"><code>seqs.json</code></a> data file (<a href="https://github.com/manakai/data-chars/blob/master/doc/seqs.txt">documentation</a>).</em>
+
+      <div class="seq-list has-ads">
+  };
   __PACKAGE__->ads;
   p q{<ul>};
   for (@{Charinfo::Seq->seqs}) {
@@ -1238,7 +1252,8 @@ sub seq_list ($) {
         percent_encode_c $_, htescape $_;
   }
   p q{
-    </ul></div>
+      </ul></div>
+    </section>
   };
   __PACKAGE__->footer;
 } # seq_list
