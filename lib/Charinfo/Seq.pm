@@ -9,9 +9,20 @@ my $SeqData = json_bytes2perl $RootPath->child ('local/seqs.json')->slurp;
 
 my $Seqs = [sort { $a cmp $b } map { join '', map { chr hex $_ } split / /, $_ } keys %$SeqData];
 
+my $CharToSeqs = {};
+for my $seq (@$Seqs) {
+  for (split //, $seq) {
+    push @{$CharToSeqs->{ord $_} ||= []}, $seq;
+  }
+}
+
 sub seqs ($) {
   return $Seqs;
 } # seqs
+
+sub seqs_by_char ($$) {
+  return $CharToSeqs->{$_[1]} || [];
+} # seqs_by_char
 
 1;
 

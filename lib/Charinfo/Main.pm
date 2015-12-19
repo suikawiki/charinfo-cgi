@@ -887,6 +887,23 @@ if (0) {
   p q{</table></div></section>};
 
   if (@char == 1) {
+    my $seqs = Charinfo::Seq->seqs_by_char (ord $char[0]);
+    if (@$seqs) {
+      p q{
+        <section class=seq-list>
+          <h2>Sequences</h2>
+          <ul>
+      };
+      for (@$seqs) {
+        pf q{<li><a href="/string?s=%s">%s</a>},
+            percent_encode_c $_, htescape $_;
+      }
+      p q{
+          </ul>
+        </section>
+      };
+    }
+
     my $sets = Charinfo::Set->get_sets_by_char (ord $char[0]);
     if (@$sets) {
       p q{
@@ -1407,7 +1424,9 @@ sub header ($;%) {
 <h1 class=site><a href="/">Chars</a>.<a href="https://suikawiki.org/"><img src="https://wiki.suikawiki.org/images/sw.png" alt=SuikaWiki.org></a></h1>};
 } # header
 
-my $Commit = `git rev-parse HEAD`;
+use Path::Tiny;
+my $rev_path = path (__FILE__)->parent->parent->parent->child ('rev');
+my $Commit = $rev_path->is_file ? $rev_path->slurp : `git rev-parse HEAD`;
 $Commit =~ s/[^0-9A-Za-z]+//g;
 
 sub footer ($) {
