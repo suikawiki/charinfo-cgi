@@ -11,6 +11,7 @@ ADD config/ /app/config/
 ADD modules/ /app/modules/
 ADD server.psgi /app/server.psgi
 ADD css.css /app/css.css
+ADD rev /app/rev
 
 RUN (apt-get update || (sleep 3 && apt-get update)) && \
     apt-get -y install libidn11-dev bzip2 && \

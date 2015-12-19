@@ -9,6 +9,7 @@ dependencies:
     - rm -fr modules/*/bin modules/*/.git modules/*/t modules/*/t_deps
     - docker info
     - mv config/Dockerfile ./
+    - git rev-parse HEAD > rev
     - docker build -t quay.io/wakaba/swchars .
 test:
   override:
