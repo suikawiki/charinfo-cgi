@@ -191,6 +191,14 @@ div.seq-list {
   font-family: sans-serif, "css-wf-NotoEmoji";
 }
 
+.seq-list .code-points {
+  display: block;
+  font-size: .7rem;
+  color: gray;
+  line-height: 1;
+  margin-bottom: .5rem;
+}
+
 #fonts section > div {
   -webkit-column-width: 15em;
   -moz-column-width: 15em;
