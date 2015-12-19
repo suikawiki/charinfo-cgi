@@ -1252,8 +1252,14 @@ sub seq_list ($) {
       <div class="seq-list has-ads">
   };
   __PACKAGE__->ads;
-  p q{<ul>};
+  my $code = -1;
   for (@{Charinfo::Seq->seqs}) {
+    my $current_code = int ((ord substr $_, 0, 1) / 0x100);
+    if ($code != $current_code) {
+      p q{</ul>} unless $code == -1;
+      $code = $current_code;
+      pf q{<h3>U+%02X<var>hh</var> <var>...</var></h3><ul>}, $code;
+    }
     pf q{<li><a href="/string?s=%s">%s</a>},
         percent_encode_c $_, htescape $_;
   }
