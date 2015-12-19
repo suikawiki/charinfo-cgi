@@ -887,6 +887,23 @@ if (0) {
   p q{</table></div></section>};
 
   if (@char == 1) {
+    my $seqs = Charinfo::Seq->seqs_by_char (ord $char[0]);
+    if (@$seqs) {
+      p q{
+        <section class=seq-list>
+          <h2>Sequences</h2>
+          <ul>
+      };
+      for (@$seqs) {
+        pf q{<li><a href="/string?s=%s">%s</a>},
+            percent_encode_c $_, htescape $_;
+      }
+      p q{
+          </ul>
+        </section>
+      };
+    }
+
     my $sets = Charinfo::Set->get_sets_by_char (ord $char[0]);
     if (@$sets) {
       p q{
