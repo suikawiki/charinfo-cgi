@@ -1263,15 +1263,10 @@ sub seq_list ($) {
     <section>
       <h2>List of sequences</h2>
 
-      <p>The list below contains Unicode named character sequences, as
-      well as other known sequences that do not have any single code
-      point assigned in Unicode.
-
       <p><em>The list of known character sequences is contained in <a href="https://github.com/manakai/data-chars/blob/master/data/seqs.json"><code>seqs.json</code></a> data file (<a href="https://github.com/manakai/data-chars/blob/master/doc/seqs.txt">documentation</a>).</em>
 
-      <div class="seq-list has-ads">
+      <div class="seq-list">
   };
-  __PACKAGE__->ads;
   my $code = -1;
   for (@{Charinfo::Seq->seqs}) {
     my $current_code = int ((ord substr $_, 0, 1) / 0x100);
