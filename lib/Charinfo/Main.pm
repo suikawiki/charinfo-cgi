@@ -234,7 +234,10 @@ if (@char == 1) {
 
   p q{</table>};
 
-  pf q{<p>[<a href="http://unicode.org/cldr/utility/character.jsp?a=%04X">Unicode properties</a>]},
+  pf q{<p>
+    [<a href="https://wiki.suikawiki.org/n/%s">Notes</a>]
+    [<a href="http://unicode.org/cldr/utility/character.jsp?a=%04X">Unicode properties</a>]},
+      (ord $char[0] > 0x10FFFF ? (sprintf 'U-%08X', ord $char[0]) : (sprintf 'U%%2B%04X', ord $char[0])),
       ord $char[0];
 
   __PACKAGE__->ads;
@@ -252,6 +255,10 @@ if (@char == 1) {
         join ', ', map { sprintf 'U+%04X', ord $_ } @char;
     __PACKAGE__->char_names ($names);
     p q{</table>};
+
+    pf q{<p>[<a href="https://wiki.suikawiki.org/n/%s">Notes</a>]},
+        percent_encode_c join '', @char;
+
     __PACKAGE__->ads;
     p q{</section>};
   }
@@ -904,8 +911,9 @@ if (0) {
           <ul>
       };
       for (@$seqs) {
-        pf q{<li><a href="/string?s=%s">%s</a>},
-            percent_encode_c $_, htescape $_;
+        pf q{<li><a href="/string?s=%s">%s</a> <code class=code-points>%s</code>},
+            percent_encode_c $_, htescape $_,
+            join ' ', map { sprintf 'U+%04X', ord $_ } split //, $_;
       }
       p q{
           </ul>
@@ -1071,7 +1079,7 @@ sub set ($$$) {
   }, htescape $expr;
 
   if ($is_set) {
-    pf q{<p>[<a href="https://wiki.suikawiki.org/n/%s">Note</a>] },
+    pf q{<p>[<a href="https://wiki.suikawiki.org/n/%s">Notes</a>] },
         percent_encode_c $def->{suikawiki_name};
     if (defined $def->{spec}) {
       if ($def->{spec} =~ /^RFC([0-9]+)$/) {
