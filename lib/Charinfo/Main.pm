@@ -1020,12 +1020,6 @@ sub top ($$) {
   __PACKAGE__->ads;
   p q{
     </div>
-
-    <section class=has-ads>
-      <h2>Data sources</h2>
-
-      <p>Many data on this site come from the <a href=https://github.com/manakai/data-chars>manakai/data-chars</a> data files maintained by <a href=https://manakai.github.io/>the manakai project</a>.
-    </section>
   };
   __PACKAGE__->footer;
 } # top
