@@ -12,10 +12,6 @@ Run:
   $ make deps
   $ ./plackup -s Twiggy::Prefork -p 12345 server.psgi
 
-..., or:
-
-  $ docker run -d -p 12345:8080 wakaba/charinfo-cgi /server
-
 ... then, access to the server by e.g.:
 
   $ curl http://localhost:12345/
@@ -23,9 +19,6 @@ Run:
 * Repository
 
 GitHub <https://github.com/wakaba/charinfo-cgi>.
-
-Docker Hub Registry
-<https://registry.hub.docker.com/u/wakaba/charinfo-cgi/>.
 
 * Author
 
