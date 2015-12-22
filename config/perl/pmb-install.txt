@@ -46,8 +46,8 @@ AnyEvent::Util
 Test::Builder~1.001014
 Digest::SHA~5.95
 Time::Local~1.2300
-CGI::Carp~4.24
-Test::SharedFork~0.34
+CGI::Carp~4.25
+Test::SharedFork~0.35
 Try::Tiny~0.24
 Term::ANSIColor~4.04
 AnyEvent~7.11
