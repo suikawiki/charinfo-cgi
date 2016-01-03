@@ -19,14 +19,14 @@ h1.site {
     display: block;
   }
 
-  h1, h2, h3 {
+  h1, h2 {
     padding: 0.3em;
     font-size: 100%;
     color: white;
     background-color: #5279e7;
   }
 
-  h1 {
+  body > h1 {
     margin: 0 0 0.5em 0;
     padding: 0.5em;
     font-size: 170%;
@@ -36,8 +36,14 @@ h1.site {
     background: -webkit-gradient(linear, left top, right top, from(#1841CE), to(#fff));
   }
 
-  h3 {
+  section section h1 {
+    color: black;
     background-color: #a1d1ee;
+  }
+
+  section section section h1 {
+    color: black;
+    background-color: #e1f1fe;
   }
 
 footer.site {
@@ -253,9 +259,13 @@ div.seq-list {
 }
 
 #variables ul {
-  -webkit-column-width: 12em;
-  -moz-column-width: 12em;
-  column-width: 12em;
+  -webkit-column-width: 15em;
+  -moz-column-width: 15em;
+  column-width: 15em;
+}
+
+#variables ul > li {
+  display: block;
 }
 
 dl {
@@ -320,4 +330,9 @@ button.copy {
 button.copy:not(:hover) {
   background: transparent;
   color: gray;
+}
+
+a[rel~=bookmark] {
+  color: inherit;
+  text-decoration: none;
 }

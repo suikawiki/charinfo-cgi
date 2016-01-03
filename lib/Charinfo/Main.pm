@@ -819,14 +819,14 @@ if (0) {
   p "</table>";
 
   pf q{<section id=fonts><h2>Fonts</h2>
-    <section id=writing-modes><h3>Writing modes</h3>
+    <section id=writing-modes><h1>Writing modes</h1>
       <div><table>
         <tr><th><code>dir=ltr</code><td><data dir=ltr>%s</data>
         <tr><th><code>dir=rtl</code><td><data dir=rtl>%s</data>
         <tr><th><code>'writing-mode: vertical-rl'</code><td><data style="-webkit-writing-mode:vertical-rl;writing-mode:vertical-rl">%s</data>
       </table></div>
     </section>
-    <section id=css-fonts><h3>CSS fonts</h3>
+    <section id=css-fonts><h1>CSS fonts</h1>
     <div><table>
   },
     htescape $string, htescape $string, htescape $string;
@@ -846,7 +846,7 @@ if (0) {
     </table></div>
     </section>
     <section id=web-fonts>
-    <h3>Web fonts</h3>
+    <h1>Web fonts</h1>
     <div><table>
   };
   for (@{Charinfo::Fonts->web_fonts}) {
@@ -870,7 +870,7 @@ if (0) {
     </table></div>
     </section>
     <section id=2ch-aa-fonts>
-    <h3>2ch-compatible AA fonts</h3>
+    <h1>2ch-compatible AA fonts</h1>
     <p><em>Note that your system might not have specified fonts.</em>
     <div><table>
   };
@@ -892,7 +892,7 @@ if (0) {
       </script>
     </section>
     <section id=other-fonts>
-    <h3>Other fonts</h3>
+    <h1>Other fonts</h1>
     <p><em>Note that your system might not have specified fonts.</em>
     <div><table>
   };
@@ -1198,15 +1198,25 @@ sub set_list ($) {
   __PACKAGE__->ads;
   p q{
       <section id=variables>
-        <h3>Variables</h3>
-        <ul>
+        <h1>Variables</h1>
   };
+  my $cat = '';
   for (sort { $a cmp $b } @{Charinfo::Set->get_set_list}) {
+    /^\$([^:]+)/;
+    unless ($cat eq $1) {
+      pf q{</ul></section>} unless $cat eq '';
+      $cat = $1;
+      pf q{<section id="sets-%s"><h1><a href="#sets-%s" rel=bookmark>%s</a></h1><ul>},
+          htescape $cat,
+          htescape $cat,
+          htescape $cat;
+    }
     pf q{<li><a href="/set/%s">%s</a>},
         percent_encode_c $_, htescape $_;
   }
   p q{
-        </ul>
+          </ul>
+        </section>
       </section>
     </section>
   };
@@ -1267,7 +1277,7 @@ sub seq_list ($) {
     if ($code != $current_code) {
       p q{</ul>} unless $code == -1;
       $code = $current_code;
-      pf q{<h3>U+%02X<var>hh</var> <var>...</var></h3><ul>}, $code;
+      pf q{<h1>U+%02X<var>hh</var> <var>...</var></h1><ul>}, $code;
     }
     pf q{<li><a href="/string?s=%s">%s</a> <code class=code-points>%s</code>},
         percent_encode_c $_, htescape $_,
@@ -1359,7 +1369,7 @@ sub map_page ($$$) {
     [seq_to_empty => 'Deleted character sequences'],
   ) {
     next unless keys %{$def->{$x->[0]}};
-    pf q{<section class=map-entries><h3>%s</h3>}, $x->[1];
+    pf q{<section class=map-entries><h1>%s</h1>}, $x->[1];
     print_map $def->{$x->[0]};
     p q{</section>};
   } # $x
@@ -1405,15 +1415,15 @@ sub map_compare ($$$$) {
       scalar keys %{$diff->{different}};
   p q{</dl>};
 
-  p q{<section class=map-entries id=only-1><h3>Only in #1</h3>};
+  p q{<section class=map-entries id=only-1><h1>Only in #1</h1>};
   print_map $diff->{only_in_1};
   p q{</section>};
 
-  p q{<section class=map-entries id=only-2><h3>Only in #2</h3>};
+  p q{<section class=map-entries id=only-2><h1>Only in #2</h1>};
   print_map $diff->{only_in_2};
   p q{</section>};
 
-  p q{<section class=map-entries id=diff><h3>Different</h3>};
+  p q{<section class=map-entries id=diff><h1>Different</h1>};
   if (keys %{$diff->{different}}) {
     p q{<table><thead><tr><th>From<th>To #1<th>To #2<tbody>};
     for (keys %{$diff->{different}}) {
@@ -1429,7 +1439,7 @@ sub map_compare ($$$$) {
   }
   p q{</section>};
 
-  p q{<section class=map-entries id=same><h3>Common</h3>};
+  p q{<section class=map-entries id=same><h1>Common</h1>};
   print_map $diff->{same};
   p q{</section>};
 
