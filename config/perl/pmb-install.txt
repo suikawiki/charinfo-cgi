@@ -11,11 +11,10 @@ Canary::Stability~2006
 POSIX::strftime::Compiler~0.41
 Path::Class~0.35
 common::sense~3.74
-URI::Escape~3.31
 Net::IDN::Punycode~1.101
 IO::Handle~1.28
-Types::Serialiser~1.0
 LWP::MediaTypes~6.02
+Types::Serialiser~1.0
 Net::LibIDN~0.12
 Module::Runtime~0.014
 Unicode::Normalize~1.25
@@ -25,6 +24,7 @@ Parallel::Prefork~0.17
 URI::UTF8::Punycode~1.00
 Socket~2.021
 Path::Tiny~0.076
+URI~1.71
 Plack~1.0039
 Exporter~5.72
 Class::Accessor::Lite~0.08
@@ -51,7 +51,7 @@ Test::SharedFork~0.35
 Try::Tiny~0.24
 Term::ANSIColor~4.04
 AnyEvent~7.11
-Exporter::Lite~0.07
+Exporter::Lite~0.08
 Server::Starter~0.32
 Test::Class~0.50
 Data::Dumper~2.154
