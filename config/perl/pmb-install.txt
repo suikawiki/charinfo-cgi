@@ -1,12 +1,12 @@
 Net::SSLeay~1.72
 JSON::XS~3.01
-HTTP::Status~6.11
 Encode~2.80
 IO::HTML~1.001
 Module::Build~0.4216
 List::MoreUtils~0.413
 Devel::StackTrace~2.00
 HTTP::Body~1.22
+HTTP::Message~6.11
 Canary::Stability~2006
 POSIX::strftime::Compiler~0.41
 Path::Class~0.35
@@ -50,7 +50,7 @@ CGI::Carp~4.25
 Test::SharedFork~0.35
 Try::Tiny~0.24
 Term::ANSIColor~4.04
-AnyEvent~7.11
+AnyEvent~7.12
 Exporter::Lite~0.08
 Server::Starter~0.32
 Test::Class~0.50
@@ -72,6 +72,6 @@ IDNA::Punycode~0.03
 MRO::Compat~0.12
 Mojo::Util
 Hash::MultiValue~0.16
-Apache::LogFormat::Compiler~0.32
+Apache::LogFormat::Compiler~0.33
 Time::HiRes~1.9728
 HTTP::Date~6.02
