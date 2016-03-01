@@ -305,6 +305,28 @@ code {
     
   }
 
+.toc {
+  margin: .3rem 0;
+  padding: 0;
+}
+
+.toc > li {
+  display: inline-block;
+  margin: .1rem .3em .1rem .1rem;
+  padding: .1rem;
+}
+
+.toc > li > a {
+  display: block;
+  text-decoration: none;
+  border-bottom: 1px dashed;
+  padding-bottom: .1rem;
+}
+
+.toc > li > a::before {
+  content: "\A7  ";
+}
+
   aside.ads {
     display: block;
     text-align: center;
