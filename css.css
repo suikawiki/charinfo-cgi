@@ -287,6 +287,11 @@ dd {
   padding-left: 0;
 }
 
+menu li a {
+  display: block;
+  padding: .5rem;
+}
+
 input {
   width: 70%;
 }

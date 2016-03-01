@@ -991,19 +991,21 @@ sub top ($$) {
       <title>%s - SuikaWiki</title>},
       htescape $locale->lang,
       htescape $locale->text ('chars');
-  p q{<link rel=canonical href="https://chars.suikawiki.org/">};
+  p q{<link rel=canonical href="https://chars.suikawiki.org/">
+      <link rel=alternate hreflang=x-default href="https://chars.suikawiki.org/">};
   for (@{$locale->avail_langs}) {
     pf q{<link rel=alternate href="https://%s.chars.suikawiki.org/" hreflang="%s">},
         htescape $_, htescape $_;
   }
   p q{<link rel=stylesheet href=/css>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <h1 class=site><a href="/">Chars</a>.<a href="https://suikawiki.org/"><img src="https://wiki.suikawiki.org/images/sw.png" alt=SuikaWiki.org></a></h1>};
 
   pf q{<h1>%s</h1>}, htescape $locale->text ('chars');
 
   pf q{
     <div class=has-ads>
-      <ul>
+      <menu>
         <li><a href="/char/0000">%s</a>
         <li><a href="/seq">Character sequences</a>
         <li><a href="/string">%s</a>
@@ -1012,7 +1014,7 @@ sub top ($$) {
           </form>
         <li><a href="/set">%s</a>
         <li><a href="/map">%s</a>
-      </ul>
+      </menu>
   },
       htescape $locale->text ('chars'),
       htescape $locale->text ('strings'),
@@ -1126,6 +1128,7 @@ sub set_compare ($$$) {
   p q{<!DOCTYPE html><html lang=en class=set-info>
       <title>Compare character sets "} . (htescape $expr1) . q{" and "} . (htescape $expr2) . q{"</title>};
   p q{<link rel=stylesheet href=/css>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
 
   p q{<h1>Character set &mdash; compare</h1>};
@@ -1457,6 +1460,7 @@ sub header ($;%) {
       htescape ($args{class} // ''),
       htescape ($args{title} // 'Charinfo');
   p q{<link rel=stylesheet href=/css>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <script>
   function copyElement (el) {
