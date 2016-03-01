@@ -306,7 +306,8 @@ code {
   }
 
   aside.ads {
-    display: none;
+    display: block;
+    text-align: center;
   }
 
   @media screen and (min-width: 600px) {

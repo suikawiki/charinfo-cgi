@@ -1489,7 +1489,8 @@ sub footer ($) {
       <a href=/map>Maps</a>
 
       <p class=links><a href=/ rel=top>Chars.SuikaWiki.org</a>
-      by <a href=https://suikawiki.org>SuikaWiki project</a>
+      / <a href=https://data.suikawiki.org>Data.SuikaWiki.org</a>
+      by&nbsp;<a href=https://suikawiki.org>SuikaWiki project</a>
 
       <p id=about>This is <a href=https://github.com/wakaba/charinfo-cgi>Charinfo</a> version <a href="https://github.com/wakaba/charinfo-cgi/commit/%s">%s</a>.
 
