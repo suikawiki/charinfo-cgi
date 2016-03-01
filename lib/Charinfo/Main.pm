@@ -191,12 +191,12 @@ sub main ($$$) {
   for (@$sets) {
     p qq{<input type=hidden name=set value="@{[htescape $_]}">};
   }
-  p qq{</form>};
+  p qq{</form><menu class=toc data-sections="body > section"></menu>};
 
 my @char = split //, $string;
 
 if (@char == 1) {
-  p q{<section id=char><h2>Character</h2><table>};
+  p q{<section id=char><h1>Character</h1><table>};
 
   pf q{<tr><th>Character
            <td><code class=target-char>%s</code>
@@ -247,7 +247,7 @@ if (@char == 1) {
 } else {
   my $names = Charinfo::Name->char_seq_to_names ($string);
   if (defined $names) {
-    p q{<section id=char><h2>Named character sequence</h2><table>};
+    p q{<section id=char><h1>Named character sequence</h1><table>};
     pf q{<tr><th>Characters
              <td><code class=target-char>%s</code>
                  <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>
@@ -266,7 +266,7 @@ if (@char == 1) {
   }
 }
 
-p q{<h2 id=chardata>Characters</h2>};
+p q{<section id=chardata><h1>Characters</h1>};
 
 pf q{<p>Length = <data>%d</data>}, 0+@char;
 
@@ -348,10 +348,10 @@ use Char::Prop::Unicode::Age;
     }
   }
 
-  p q{</table>};
+  p q{</table></section>};
 
   {
-    p q{<section id=encodings><h2>Encodings</h2>};
+    p q{<section id=encodings><h1>Encodings</h1>};
 
     p q{<table><tbody><tr class=category><th colspan=3>Unicode encodings};
 
@@ -411,7 +411,7 @@ if (@char == 1) {
   }
 
   {
-    p q{<section id=escapes><h2>Escapes</h2><table class=char-escapes>};
+    p q{<section id=escapes><h1>Escapes</h1><table class=char-escapes>};
 
     {
       p q{<tr><th>Input};
@@ -493,7 +493,7 @@ p q{<tbody><tr class=category><th colspan=3>Escapes};
     p q{</table></section>};
   }
 
-  p q{<h2 id=strdata>String</h2><table>};
+  p q{<section id=strdata><h1>String</h1><table>};
 
   {
     p q{<tr><th>Input};
@@ -818,9 +818,9 @@ if (0) {
     }
   }
 
-  p "</table>";
+  p q{</table></section>};
 
-  pf q{<section id=fonts><h2>Fonts</h2>
+  pf q{<section id=fonts><h1>Fonts</h1>
     <section id=writing-modes><h1>Writing modes</h1>
       <div><table>
         <tr><th><code>dir=ltr</code><td><data dir=ltr>%s</data>
@@ -909,7 +909,7 @@ if (0) {
     if (@$seqs) {
       p q{
         <section class=seq-list>
-          <h2>Sequences</h2>
+          <h1>Sequences</h1>
           <ul>
       };
       for (@$seqs) {
@@ -927,7 +927,7 @@ if (0) {
     if (@$sets) {
       p q{
         <section class=set-list>
-          <h2>Sets</h2>
+          <h1>Sets</h1>
           <p>The character belongs to following character sets:
           <ul>
       };
@@ -942,7 +942,7 @@ if (0) {
     if (@$maps) {
       p q{
         <section class=set-list>
-          <h2>Maps</h2>
+          <h1>Maps</h1>
           <p>The character belongs to following character mappings:
           <ul>
       };
@@ -1204,6 +1204,7 @@ sub set_list ($) {
   p q{
       <section id=variables>
         <h1>Variables</h1>
+        <menu class=toc data-sections="#variables > section"></menu>
   };
   my $cat = '';
   for (sort { $a cmp $b } @{Charinfo::Set->get_set_list}) {
@@ -1270,9 +1271,11 @@ sub seq_list ($) {
     </form>
 
     <section>
-      <h2>List of sequences</h2>
+      <h1>List of sequences</h1>
 
-      <p><em>The list of known character sequences is contained in <a href="https://github.com/manakai/data-chars/blob/master/data/seqs.json"><code>seqs.json</code></a> data file (<a href="https://github.com/manakai/data-chars/blob/master/doc/seqs.txt">documentation</a>).</em>
+      <p><em>The list of known character sequences is available in the <a href="https://github.com/manakai/data-chars/blob/master/data/seqs.json"><code>seqs.json</code></a> data file (<a href="https://github.com/manakai/data-chars/blob/master/doc/seqs.txt">documentation</a>).</em>
+
+      <menu class=toc data-sections=".seq-list > section"></menu>
 
       <div class="seq-list">
   };
@@ -1280,16 +1283,16 @@ sub seq_list ($) {
   for (@{Charinfo::Seq->seqs}) {
     my $current_code = int ((ord substr $_, 0, 1) / 0x100);
     if ($code != $current_code) {
-      p q{</ul>} unless $code == -1;
+      p q{</ul></section>} unless $code == -1;
       $code = $current_code;
-      pf q{<h1>U+%02X<var>hh</var> <var>...</var></h1><ul>}, $code;
+      pf q{<section id="U+%02Xhh"><h1>U+%02X<var>hh</var> <var>...</var></h1><ul>}, $code, $code;
     }
     pf q{<li><a href="/string?s=%s">%s</a> <code class=code-points>%s</code>},
         percent_encode_c $_, htescape $_,
         join ' ', map { sprintf 'U+%04X', ord $_ } split //, $_;
   }
   p q{
-      </ul></div>
+      </ul></section></div>
     </section>
   };
   __PACKAGE__->footer;
@@ -1363,7 +1366,9 @@ sub map_page ($$$) {
 
   p q{</dl>};
 
-  p q{<p><em>The map definition is contained in <a href="https://github.com/manakai/data-chars/blob/master/data/maps.json"><code>maps.json</code></a> data file.</em>};
+  p q{<p><em>The map definition is available in the <a href="https://github.com/manakai/data-chars/blob/master/data/maps.json"><code>maps.json</code></a> data file (<a href="https://github.com/manakai/data-chars/blob/master/doc/maps.txt">documentation</a>).</em>};
+
+  p q{<menu class=toc data-sections="body > section > section"></menu>};
 
   for my $x (
     [char_to_char => 'One-to-one mapping entries'],
@@ -1374,7 +1379,7 @@ sub map_page ($$$) {
     [seq_to_empty => 'Deleted character sequences'],
   ) {
     next unless keys %{$def->{$x->[0]}};
-    pf q{<section class=map-entries><h1>%s</h1>}, $x->[1];
+    pf q{<section class=map-entries id="%s"><h1>%s</h1>}, $x->[0], $x->[1];
     print_map $def->{$x->[0]};
     p q{</section>};
   } # $x
@@ -1480,6 +1485,21 @@ sub header ($;%) {
 
 sub footer ($) {
   pf q{
+    <script>
+      var toc = document.querySelector ('.toc');
+      if (toc)
+      Array.prototype.forEach.call (document.querySelectorAll (toc.getAttribute ('data-sections')), function (section) {
+        var header = section.querySelector ('h1');
+        if (!header) return;
+        var link = document.createElement ('a');
+        link.href = '#' + encodeURIComponent (section.id);
+        link.textContent = header.textContent;
+        var li = document.createElement ('li');
+        li.appendChild (link);
+        toc.appendChild (li);
+      });
+    </script>
+
     <footer class=site>
 
       <p class=links><a href=/char/0000>Characters</a>
@@ -1534,7 +1554,7 @@ Wakaba <wakaba@suikawiki.org>.
 
 =head1 LICENSE
 
-Copyright 2011-2015 Wakaba <wakaba@suikawiki.org>.
+Copyright 2011-2016 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
