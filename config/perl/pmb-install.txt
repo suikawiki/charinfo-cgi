@@ -38,13 +38,13 @@ Net::IDN::Nameprep~1.102
 HTTP::Headers::Fast~0.20
 Test::NoWarnings~1.04
 Stream::Buffered~0.03
-Test::TCP~2.14
+Test::TCP~2.15
 Test::Builder~1.001014
 AnyEvent::Util
 Twiggy::Prefork~0.08
 Digest::SHA~5.95
 Time::Local~1.2300
-CGI::Carp~4.27
+CGI::Carp~4.28
 Test::SharedFork~0.35
 Try::Tiny~0.24
 AnyEvent~7.12
