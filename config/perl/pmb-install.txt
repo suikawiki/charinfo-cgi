@@ -1,8 +1,8 @@
 Net::SSLeay~1.72
 JSON::XS~3.02
+HTTP::Status~6.11
 IO::HTML~1.001
 Encode~2.82
-HTTP::Headers~6.11
 List::MoreUtils~0.413
 Devel::StackTrace~2.01
 HTTP::Body~1.22
@@ -58,7 +58,7 @@ File::Temp~0.2304
 Signal::Mask~0.008
 Class::Inspector~1.28
 Unicode::Stringprep~1.105
-Scalar::Util~1.43
+Scalar::Util~1.44
 Test::Requires~0.10
 Scope::Guard~0.21
 IPC::Signal~1.00
