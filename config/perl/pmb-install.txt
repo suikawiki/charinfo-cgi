@@ -10,10 +10,9 @@ HTTP::Message~6.11
 POSIX::strftime::Compiler~0.41
 Path::Class~0.36
 common::sense~3.74
-URI::Escape~3.31
 IO::Handle~1.28
-LWP::MediaTypes~6.02
 Types::Serialiser~1.0
+LWP::MediaTypes~6.02
 Net::IDN::Punycode~1.101
 Net::LibIDN~0.12
 Unicode::Normalize~1.25
@@ -23,6 +22,7 @@ Parallel::Prefork~0.18
 URI::UTF8::Punycode~1.00
 Socket~2.021
 Path::Tiny~0.084
+URI~1.71
 Plack~1.0039
 Exporter~5.72
 Class::Accessor::Lite~0.08
