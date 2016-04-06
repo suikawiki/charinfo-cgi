@@ -26,7 +26,7 @@ my $OtherFontNames = [
     "MS PMincho",
     "MS PGothic",
     "Microsoft Yahei",
-    "微软雅黑"
+    "微软雅黑",
     "Meiryo",
     "Osaka",
     "Fira Sans",
