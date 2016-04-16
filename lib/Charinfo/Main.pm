@@ -67,6 +67,11 @@ sub ucodes_with_chars ($) {
   }
 } # ucode_with_char
 
+sub ucode_list ($) {
+  return sprintf q{<code class=code-points>%s</code>},
+        join ' ', map { sprintf 'U+%04X', ord $_ } split //, $_[0];
+} # ucode_list
+
 sub p (@) {
   $Output->(@_);
 } # p
@@ -227,9 +232,15 @@ if (@char == 1) {
   #pf q{<tr><th>Block<td>%s},
   #    Unicode::CharName::ublock (ord $char[0]) // '(unassigned)';
 
-  pf q{<tr><th>Previous<td>%s (%s)},
-      ucode (-1 + ord $char[0]), chr (-1 + ord $char[0]);
-  pf q{<tr><th>Next<td>%s (%s)},
+  my $area_u = int ((ord $char[0]) / 0x100);
+  my $area = sprintf '<a href="/set/%02X%%3F%%3F">U+%02X<var>??</var></a>', $area_u, $area_u;
+  pf q{<tr><th>Nearby<td>
+    %s /
+    Previous: %s (%s) /
+    Next: %s (%s)
+  },
+      $area,
+      ucode (-1 + ord $char[0]), chr (-1 + ord $char[0]),
       ucode (1 + ord $char[0]), chr (1 + ord $char[0]);
 
   p q{</table>};
@@ -1031,10 +1042,12 @@ sub top ($$) {
 sub set ($$$) {
   my (undef, $app, $expr) = @_;
   my $has_ads = not $expr =~ /\[/;
+  $has_ads = 1 if $expr =~ m{^\[\\u\{[0-9A-Fa-f]+\}-\\u\{[0-9A-Fa-f]+\}\]$};
 
   my $set = eval { Charinfo::Set->evaluate_expression ($expr) };
   unless (defined $set) {
     $app->http->set_status (400);
+    $has_ads = 0;
   }
 
   my $is_set = $expr =~ /\A\$[0-9A-Za-z_.:-]+\z/;
@@ -1102,20 +1115,28 @@ sub set ($$$) {
     $count += $range->[1] - $range->[0] + 1;
   }
   pf q{<section id=chars><h2>Characters (%d)</h2>}, $count;
-  p q{<p>};
+  p q{<ul class=seq-list>};
+  if (@$set == 1 and $set->[0]->[1] - $set->[0]->[0] > 256) {
+    $set = [[$set->[0]->[0], $set->[0]->[0] + 255],
+            [$set->[0]->[0] + 256, $set->[0]->[1]]];
+  }
   for my $range (@$set) {
     my $count = $range->[1] - $range->[0];
     if ($count <= 255) {
       for ($range->[0]..$range->[1]) {
-        pf ' <span>%s (<bdo>%s</bdo>)</span>', ucode $_, htescape chr $_;
+        pf '<li><a href="/char/%04X"><bdo>%s</bdo></a> <code class=code-points>%s</code>',
+            $_, htescape chr $_, ucode $_;
       }
     } else {
-      pf ' <span>%s (%s) .. %s (%s)</span>',
-          ucode $range->[0], htescape chr $range->[0],
-          ucode $range->[1], htescape chr $range->[1];
+      pf '<li><a href="/char/%04X"><bdo>%s</bdo></a> <code class=code-points>%s</code>
+          <li><a href="/set?expr=%s">...</a>
+          <li><a href="/char/%04X"><bdo>%s</bdo></a> <code class=code-points>%s</code>',
+              $range->[0], htescape chr $range->[0], ucode $range->[0],
+              (percent_encode_c sprintf q{[\u{%04X}-\u{%04X}]}, $range->[0], $range->[1]),
+              $range->[1], htescape chr $range->[1], ucode $range->[1];
     }
   }
-  p q{</section>};
+  p q{</ul></section>};
 
   __PACKAGE__->footer;
 } # set
@@ -1285,11 +1306,11 @@ sub seq_list ($) {
     if ($code != $current_code) {
       p q{</ul></section>} unless $code == -1;
       $code = $current_code;
-      pf q{<section id="U+%02Xhh"><h1>U+%02X<var>hh</var> <var>...</var></h1><ul>}, $code, $code;
+      pf q{<section id="U+%02Xhh"><h1><a href="/set/%02X%%3F%%3F">U+%02X<var>??</var></a> <var>...</var></h1><ul>}, $code, $code, $code;
     }
-    pf q{<li><a href="/string?s=%s">%s</a> <code class=code-points>%s</code>},
+    pf q{<li><a href="/string?s=%s">%s</a> %s},
         percent_encode_c $_, htescape $_,
-        join ' ', map { sprintf 'U+%04X', ord $_ } split //, $_;
+        ucode_list $_;
   }
   p q{
       </ul></section></div>
