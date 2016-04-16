@@ -137,6 +137,21 @@ sub {
           Charinfo::Main->set ($app, $path->[1]);
           $http->close_response_body;
           return;
+        } elsif (@$path == 2 and
+                 $path->[1] =~ /\A(?:[0-9A-Fa-f]+\?*|\?+)\z/) {
+          # /set/{range}
+          my $start = $path->[1];
+          $start =~ s/\?/0/g;
+          my $end = $path->[1];
+          $end =~ s/\?/F/g;
+          $http->set_response_header
+              ('Content-Type' => 'text/html; charset=utf-8');
+          local $Charinfo::Main::Output = sub {
+            $http->send_response_body_as_text (join '', @_);
+          }; # Output
+          Charinfo::Main->set ($app, sprintf q{[\u{%s}-\u{%s}]}, $start, $end);
+          $http->close_response_body;
+          return;
         } elsif (@$path == 2 and $path->[1] eq 'perlrevars') {
           # /set/perlrevars
           my $result = '';

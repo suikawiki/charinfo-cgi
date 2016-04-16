@@ -173,7 +173,8 @@ div.seq-list {
   margin: 0 0.5rem;
 }
 
-.seq-list ul {
+.seq-list ul,
+ul.seq-list {
   padding: 0;
 }
 
@@ -195,6 +196,9 @@ div.seq-list {
 .seq-list li > a {
   display: block;
   font-family: sans-serif, "css-wf-NotoEmoji";
+  color: inherit;
+  background: transparent;
+  text-decoration: none;
 }
 
 .seq-list .code-points {
