@@ -1,8 +1,8 @@
 Net::SSLeay~1.74
 JSON::XS~3.02
 HTTP::Status~6.11
-IO::HTML~1.001
 Encode~2.84
+IO::HTML~1.001
 List::MoreUtils~0.415
 Devel::StackTrace~2.01
 HTTP::Body~1.22
@@ -19,12 +19,11 @@ Unicode::Normalize~1.25
 Cookie::Baker~0.06
 HTML::Entities~3.69
 Parallel::Prefork~0.18
-URI::UTF8::Punycode~1.00
 Socket~2.021
+URI::UTF8::Punycode~1.00
 Path::Tiny~0.090
 URI~1.71
 Plack~1.0039
-Exporter~5.72
 Class::Accessor::Lite~0.08
 Carp~1.38
 Proc::Wait3~0.05
@@ -39,7 +38,7 @@ HTTP::Headers::Fast~0.20
 Test::NoWarnings~1.04
 Stream::Buffered~0.03
 Test::TCP~2.16
-Test::Builder~1.302015
+Test::Builder~1.302019
 AnyEvent::Util
 Twiggy::Prefork~0.08
 Digest::SHA~5.95
@@ -64,8 +63,8 @@ Scope::Guard~0.21
 IPC::Signal~1.00
 Encode::Locale~1.05
 File::ShareDir~1.102
-IDNA::Punycode~0.03
 Class::Data::Inheritable~0.08
+IDNA::Punycode~0.03
 Mojo::Util
 Hash::MultiValue~0.16
 Apache::LogFormat::Compiler~0.33
