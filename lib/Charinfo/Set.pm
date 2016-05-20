@@ -250,6 +250,18 @@ sub serialize_set_for_perl ($$) {
   return $result;
 } # serialize_set_for_perl
 
+sub serialize_set_for_perl_p ($$) {
+  my @result;
+  for my $range (@{$_[1]}) {
+    if ($range->[0] == $range->[1]) {
+      push @result, sprintf '%04X', $range->[0];
+    } else {
+      push @result, sprintf "%04X\t%04X", $range->[0], $range->[1];
+    }
+  }
+  return join "\x0A", @result;
+} # serialize_set_for_perl_p
+
 1;
 
 =head1 LICENSE
