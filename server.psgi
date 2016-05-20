@@ -156,15 +156,21 @@ sub {
           # /set/perlrevars
           my $result = '';
           for (@{$app->text_param_list ('item')}) {
-            if (s/\A\$([A-Za-z_][A-Za-z_0-9]+)=//) {
-              my $name = $1;
+            if (s/\A(\$|)([A-Za-z_][A-Za-z_0-9]+)=//) {
+              my $type = $1;
+              my $name = $2;
               my $set = eval { Charinfo::Set->evaluate_expression ($_) };
               unless (defined $set) {
                 return $app->throw_error
                     (400, reason_phrase => "Bad expression |$_|");
               }
-              my $value = Charinfo::Set->serialize_set_for_perl ($set);
-              $result .= "\$$name = qr{$value};\n";
+              if ($type eq '$') {
+                my $value = Charinfo::Set->serialize_set_for_perl ($set);
+                $result .= "\$$name = qr{$value};\n";
+              } else {
+                my $value = Charinfo::Set->serialize_set_for_perl_p ($set);
+                $result .= "sub $name () { q{$value} }\n";
+              }
             } else {
               return $app->throw_error
                   (400, reason_phrase => "Bad item |$_|");
