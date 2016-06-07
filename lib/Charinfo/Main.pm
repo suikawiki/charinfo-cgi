@@ -72,6 +72,24 @@ sub ucode_list ($) {
         join ' ', map { sprintf 'U+%04X', ord $_ } split //, $_[0];
 } # ucode_list
 
+sub ucode_range ($%) {
+  my ($range, %args) = @_;
+  my $count = $range->[1] - $range->[0];
+  if ($count <= $args{max}) {
+    return join '', map {
+      sprintf q{%s<a href="/char/%04X"><bdo>%s</bdo></a> <code class=code-points>%s</code>%s},
+          $args{prefix}, $_, htescape chr $_, ucode $_, $args{suffix};
+    } $range->[0]..$range->[1];
+  } else {
+    return sprintf q{%s<a href="/char/%04X"><bdo>%s</bdo></a> <code class=code-points>%s</code>%s
+          %s<a href="/set?expr=%s">...</a>%s
+          %s<a href="/char/%04X"><bdo>%s</bdo></a> <code class=code-points>%s</code>%s},
+        $args{prefix}, $range->[0], htescape chr $range->[0], ucode $range->[0], $args{suffix},
+        $args{prefix}, (percent_encode_c sprintf q{[\u{%04X}-\u{%04X}]}, $range->[0], $range->[1]), $args{suffix},
+        $args{prefix}, $range->[1], htescape chr $range->[1], ucode $range->[1], $args{suffix};
+  }
+} # ucode_range
+
 sub p (@) {
   $Output->(@_);
 } # p
@@ -1058,7 +1076,7 @@ sub set ($$$) {
   p q{<h1>Character set</h1>};
 
   if (not defined $set) {
-    pf q{<p>Expression error: %s}, $@;
+    pf q{<p>Expression error: %s}, htescape $@;
     __PACKAGE__->footer;
     return;
   }
@@ -1090,8 +1108,16 @@ sub set ($$$) {
     </form>
   }, htescape $expr;
 
+  pf q{
+    <form action=/set/compare method=get>
+      <input type=hidden name=expr value="%s">
+      <p><label>Compare with: <input type=search name=expr required></label>
+      <button type=submit>Show</button>
+    </form>
+  }, htescape $expr;
+
   pf q{<p><a href="/set?expr=-%s">Complemetary</a></p>},
-      htescape $normalized;
+      htescape percent_encode_c $normalized;
 
   if ($is_set) {
     pf q{<p>[<a href="https://wiki.suikawiki.org/n/%s">Notes</a>] },
@@ -1125,20 +1151,7 @@ sub set ($$$) {
             [$set->[0]->[0] + 256, $set->[0]->[1]]];
   }
   for my $range (@$set) {
-    my $count = $range->[1] - $range->[0];
-    if ($count <= 255) {
-      for ($range->[0]..$range->[1]) {
-        pf '<li><a href="/char/%04X"><bdo>%s</bdo></a> <code class=code-points>%s</code>',
-            $_, htescape chr $_, ucode $_;
-      }
-    } else {
-      pf '<li><a href="/char/%04X"><bdo>%s</bdo></a> <code class=code-points>%s</code>
-          <li><a href="/set?expr=%s">...</a>
-          <li><a href="/char/%04X"><bdo>%s</bdo></a> <code class=code-points>%s</code>',
-              $range->[0], htescape chr $range->[0], ucode $range->[0],
-              (percent_encode_c sprintf q{[\u{%04X}-\u{%04X}]}, $range->[0], $range->[1]),
-              $range->[1], htescape chr $range->[1], ucode $range->[1];
-    }
+    p ucode_range $range, max => 255, prefix => '<li>', suffix => '';
   }
   p q{</ul></section>};
 
@@ -1160,12 +1173,12 @@ sub set_compare ($$$) {
 
   my $set1 = eval { Charinfo::Set->evaluate_expression ($expr1) };
   if (not defined $set1) {
-    pf q{<p>Expression error (expr1): %s}, $@;
+    pf q{<p>Expression error (expr1): %s}, htescape $@;
     return;
   }
   my $set2 = eval { Charinfo::Set->evaluate_expression ($expr2) };
   if (not defined $set2) {
-    pf q{<p>Expression error (expr2): %s}, $@;
+    pf q{<p>Expression error (expr2): %s}, htescape $@;
     return;
   }
 
@@ -1203,6 +1216,84 @@ sub set_compare ($$$) {
   p q{</section>};
   __PACKAGE__->footer;
 } # set_compare
+
+sub set_compare_multiple ($$) {
+  my $exprs = $_[1];
+
+  p q{<!DOCTYPE html><html lang=en class=set-info>
+      <title>Compare character sets</title>};
+  p q{<link rel=stylesheet href=/css>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<h1 class=site><a href="/">Chars</a>.<a href="//suikawiki.org/"><img src="//suika.suikawiki.org/~wakaba/-temp/2004/sw" alt=SuikaWiki.org></a></h1>};
+
+  p q{<h1>Character sets</h1>};
+
+  my @set;
+  for my $expr (@$exprs) {
+    push @set, scalar eval { Charinfo::Set->evaluate_expression ($expr) };
+    if (not defined $set[-1]) {
+      pf q{<p>Expression error (<code>%s</code>): %s},
+          htescape $expr, htescape $@;
+      return;
+    }
+  }
+
+  p q{<section><h1>Sets</h1><dl>};
+  for my $i (0..$#$exprs) {
+    pf q{<dt>Set #%d<dd><a href="/set?expr=%s">%s</a>},
+        $i, percent_encode_c $exprs->[$i], htescape $exprs->[$i];
+  }
+  p q{</dl></section>};
+
+  p q{<section class=set-comparison><h1>Comparison</h1><table><thead><tr><th>};
+
+  my $boundaries = {0 => 0b10, 0x10FFFF => 0b01};
+  for my $set (@set) {
+    for my $range (@$set) {
+      $boundaries->{$range->[0] - 1} |= 0b01;
+      $boundaries->{$range->[0]} |= 0b10;
+      $boundaries->{$range->[1]} |= 0b01;
+      $boundaries->{$range->[1] + 1} |= 0b10;
+    }
+  }
+  delete $boundaries->{0 - 1};
+  delete $boundaries->{0x10FFFF + 1};
+  my $boundary_list = [sort { $a <=> $b } keys %$boundaries];
+  my @range;
+  while (@$boundary_list) {
+    my $b1 = shift @$boundary_list;
+    if ($boundaries->{$b1} & 0b01) {
+      push @range, [$b1, $b1];
+    } else {
+      my $b2 = shift @$boundary_list // die;
+      push @range, [$b1, $b2];
+    }
+  }
+
+  for (0..$#$exprs) {
+    pf q{<th>#%d}, $_;
+  }
+  p q{<tbody>};
+
+  for my $range (@range) {
+    pf q{<tr><th>%s}, ucode_range $range, max => 5,
+        prefix => ' <span class=code-item>', suffix => '</span>';
+    for (0..$#$exprs) {
+      my $st = $set[$_];
+      if (@$st and
+          ($st->[0]->[0] <= $range->[0] and $range->[1] <= $st->[0]->[1])) {
+        p q{<td class=in-set>&#x2714;};
+      } else {
+        p q{<td class=not-in-set>-};
+      }
+      shift @$st if @$st and $st->[0]->[1] <= $range->[0];
+    }
+  }
+
+  p q{</table></section>};
+
+  __PACKAGE__->footer;
+} # set_compare_multiple
 
 sub set_list ($) {
   __PACKAGE__->header (title => 'Character sets', class => 'set-info');
@@ -1249,6 +1340,12 @@ sub set_list ($) {
           </ul>
         </section>
       </section>
+
+      <p><em>The set definitions are taken from the <a
+      href="https://github.com/manakai/data-chars/blob/master/data/sets.json"><code>sets.json</code></a>
+      data file.  (<a
+      href="https://github.com/manakai/data-chars/blob/master/doc/sets.txt">documentation</a>)</em>
+
     </section>
   };
   __PACKAGE__->footer;
