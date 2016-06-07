@@ -169,6 +169,34 @@ td.not-in-set {
   line-height: 2.0;
 }
 
+.set-comparison thead th,
+.set-comparison td {
+  text-align: center;
+}
+
+.set-comparison th, .set-comparison td {
+  padding: .3rem;
+}
+
+.set-comparison .code-item {
+  display: inline-block;
+}
+
+.set-comparison .code-item .code-points {
+  font-size: 90%;
+}
+
+.set-comparison .code-item > a {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.set-comparison .code-item > a:only-child {
+  font-size: 200%;
+}
+
 div.seq-list {
   margin: 0 0.5rem;
 }

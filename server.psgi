@@ -116,14 +116,19 @@ sub {
           }
         } elsif ($path->[1] eq 'compare' and not defined $path->[2]) {
           # /set/compare
-          $s = $app->text_param ('expr1') // '';
-          my $s2 = $app->text_param ('expr2') // '';
           $http->set_response_header
               ('Content-Type' => 'text/html; charset=utf-8');
           local $Charinfo::Main::Output = sub {
             $http->send_response_body_as_text (join '', @_);
           }; # Output
-          Charinfo::Main->set_compare ($s, $s2);
+          my $exprs = $app->text_param_list ('expr');
+          if (@$exprs) {
+            Charinfo::Main->set_compare_multiple ($exprs);
+          } else {
+            $s = $app->text_param ('expr1') // '';
+            my $s2 = $app->text_param ('expr2') // '';
+            Charinfo::Main->set_compare ($s, $s2);
+          }
           $http->close_response_body;
           return;
         } elsif ($path->[1] =~ /\A\$[0-9A-Za-z_.:-]+\z/ and
