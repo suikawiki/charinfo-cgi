@@ -1074,8 +1074,9 @@ sub set ($$$) {
   $orig =~ s{(\$[0-9A-Za-z0-9:_.-]+)}{sprintf '<a href="/set/%s">%s</a>', percent_encode_c $1, $1}ge;
   pf q{<dt>Original expression<dd><code>%s</code> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>}, $orig;
 
+  my $normalized = Charinfo::Set->serialize_set ($set);
   pf q{<dt>Normalized<dd><code>%s</code> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>},
-      htescape +Charinfo::Set->serialize_set ($set);
+      htescape $normalized;
   pf q{<dt>Perl<dd><code>%s</code> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>},
       htescape +Charinfo::Set->serialize_set_for_perl ($set);
 
@@ -1088,6 +1089,9 @@ sub set ($$$) {
       <button type=submit>Show</button>
     </form>
   }, htescape $expr;
+
+  pf q{<p><a href="/set?expr=-%s">Complemetary</a></p>},
+      htescape $normalized;
 
   if ($is_set) {
     pf q{<p>[<a href="https://wiki.suikawiki.org/n/%s">Notes</a>] },
