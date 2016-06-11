@@ -1,8 +1,8 @@
 Net::SSLeay~1.74
 JSON::XS~3.02
-HTTP::Status~6.11
 Encode~2.84
 IO::HTML~1.001
+HTTP::Headers~6.11
 Test::Deep~1.120
 List::MoreUtils~0.415
 Devel::StackTrace~2.01
