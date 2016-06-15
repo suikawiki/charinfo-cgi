@@ -2,11 +2,11 @@ Net::SSLeay~1.74
 JSON::XS~3.02
 Encode~2.84
 IO::HTML~1.001
-HTTP::Headers~6.11
 Test::Deep~1.120
 List::MoreUtils~0.415
 Devel::StackTrace~2.01
 HTTP::Body~1.22
+HTTP::Message~6.11
 Canary::Stability~2011
 POSIX::strftime::Compiler~0.41
 Path::Class~0.36
@@ -46,7 +46,7 @@ AnyEvent::Util
 Test::Builder~1.302026
 Digest::SHA~5.95
 Time::Local~1.2300
-CGI::Carp~4.30
+CGI::Carp~4.31
 Test::SharedFork~0.35
 Try::Tiny~0.24
 Term::ANSIColor~4.05
