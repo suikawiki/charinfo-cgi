@@ -43,7 +43,7 @@ Stream::Buffered~0.03
 Test::TCP~2.16
 Twiggy::Prefork~0.08
 AnyEvent::Util
-Test::Builder~1.302030
+Test::Builder~1.302031
 Digest::SHA~5.95
 Time::Local~1.2300
 CGI::Carp~4.31
@@ -71,5 +71,5 @@ IDNA::Punycode~0.03
 Mojo::Util
 Hash::MultiValue~0.16
 Apache::LogFormat::Compiler~0.33
-Time::HiRes~1.9733
+Time::HiRes~1.9736
 HTTP::Date~6.02
