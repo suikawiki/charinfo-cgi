@@ -1,8 +1,8 @@
 Net::SSLeay~1.74
 JSON::XS~3.02
-HTTP::Status~6.11
 Encode~2.84
 IO::HTML~1.001
+HTTP::Headers~6.11
 Test::Deep~1.120
 List::MoreUtils~0.415
 Devel::StackTrace~2.01
@@ -71,5 +71,5 @@ IDNA::Punycode~0.03
 Mojo::Util
 Hash::MultiValue~0.16
 Apache::LogFormat::Compiler~0.33
-Time::HiRes~1.9736
+Time::HiRes~1.9737
 HTTP::Date~6.02
