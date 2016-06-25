@@ -66,6 +66,15 @@ footer.site a[rel=top] {
   text-decoration: none;
 }
 
+.suggest {
+  margin: 2rem 3rem;
+  font-size: 200%;
+}
+
+.suggest a {
+  text-decoration: none;
+}
+
 table {
   width: 100%;
 }
@@ -368,7 +377,7 @@ code {
     section#char, section#form, .has-ads {
       position: relative;
       padding-right: 300px;
-      min-height: 250px;
+      min-height: 320px;
     }
 
     aside.ads {
@@ -396,4 +405,9 @@ button.copy:not(:hover) {
 a[rel~=bookmark] {
   color: inherit;
   text-decoration: none;
+}
+
+a:hover {
+  color: black;
+  background: yellow;
 }

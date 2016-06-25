@@ -216,7 +216,16 @@ sub main ($$$) {
   }
   p qq{</form><menu class=toc data-sections="body > section"></menu>};
 
-my @char = split //, $string;
+  my @char = split //, $string;
+  my $print_ads = 0;
+
+  if ($string =~ m{\A\\u([0-9A-Fa-f]{4})\z}) {
+    pf q{<div class=suggest>
+      &#x2192; <a href="/string?s=%s&amp;escape=u">Unescape <code>\u</code>:
+      <code>U+%04X</code> (<bdi>%s</bdi>)</a>
+    </div>},
+        percent_encode_c $string, hex $1, chr hex $1;
+  }
 
 if (@char == 1) {
   p q{<section id=char><h1>Character</h1><table>};
@@ -292,6 +301,8 @@ if (@char == 1) {
 
     __PACKAGE__->ads;
     p q{</section>};
+  } elsif ($string =~ m{\A\\u[0-9A-Fa-f]{4}\z}) {
+    $print_ads = 1;
   }
 }
 
@@ -380,7 +391,12 @@ use Char::Prop::Unicode::Age;
   p q{</table></section>};
 
   {
-    p q{<section id=encodings><h1>Encodings</h1>};
+    if ($print_ads) {
+      p q{<section id=encodings class=has-ads><h1>Encodings</h1>};
+      __PACKAGE__->ads;
+    } else {
+      p q{<section id=encodings><h1>Encodings</h1>};
+    }
 
     p q{<table><tbody><tr class=category><th colspan=3>Unicode encodings};
 
