@@ -178,6 +178,35 @@ td.not-in-set {
   line-height: 2.0;
 }
 
+#chars-table {
+  margin: 1rem 2rem;
+  width: auto;
+}
+
+#chars-table tbody tr:hover {
+  cursor: pointer;
+}
+
+#chars-table th,
+#chars-table td {
+  padding: .5rem .2rem;
+}
+
+#chars-table th,
+#chars-table td:first-child,
+#chars-table td:nth-child(2) {
+  text-align: center;
+}
+
+#chars-table th {
+  color: black;
+  background-color: #e1f1fe;
+}
+
+#chars-table .char {
+  font-size: 150%;
+}
+
 .set-comparison thead th,
 .set-comparison td {
   text-align: center;
@@ -310,6 +339,20 @@ ul.seq-list {
   word-wrap: break-word;
 }
 
+.char-top section ul {
+  -webkit-column-width: 5em;
+  column-width: 5em;
+  margin: 1em;
+  padding: 0;
+}
+
+.char-top section ul > li {
+  display: block;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+
 dl {
   margin: 1em;
   line-height: 1.5;
@@ -345,6 +388,12 @@ code {
   .charname {
     
   }
+
+code.char-range var {
+  font-style: normal;
+  font-size: 70%;
+  letter-spacing: .2em;
+}
 
 .toc {
   margin: .3rem 0;

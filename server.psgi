@@ -91,6 +91,17 @@ sub {
         } else {
           $s = Charinfo::Name->char_name_to_seq ($path->[1]); # or undef
         }
+      } elsif (@$path == 1 and $path->[0] eq 'char') {
+        # /char
+
+        $http->set_response_header
+            ('Content-Type' => 'text/html; charset=utf-8');
+        local $Charinfo::Main::Output = sub {
+          $http->send_response_body_as_text (join '', @_);
+        }; # Output
+        Charinfo::Main->char_top ($app);
+        $http->close_response_body;
+        return;
       } elsif ($path->[0] eq 'set') {
         if (not defined $path->[1]) {
           # /set
