@@ -292,7 +292,7 @@ if (@char == 1) {
   #    Unicode::CharName::ublock (ord $char[0]) // '(unassigned)';
 
   my $area_u = int ((ord $char[0]) / 0x100);
-  my $area = sprintf '<a href="/set/%02X%%3F%%3F">U+%02X<var>??</var></a>', $area_u, $area_u;
+  my $area = sprintf '<a href="/set/%02X%%3F%%3F"><code class=char-range>U+%02X<var>??</var></code></a>', $area_u, $area_u;
   pf q{<tr><th>Nearby<td>
     %s /
     Previous: %s (%s) /
@@ -337,11 +337,12 @@ if (@char == 1) {
   }
 }
 
-p q{<section id=chardata><h1>Characters</h1>};
+  p q{<section id=chardata><h1>Characters</h1>};
 
-pf q{<p>Length = <data>%d</data>}, 0+@char;
+  pf q{<p>Length = <a href="https://data.suikawiki.org/number/%d">%d</a>},
+      0+@char, 0+@char;
 
-p q{<table class=char-info>};
+  p q{<table class=char-info>};
 
 {
   p q{<tr><th>Character};
@@ -1082,7 +1083,7 @@ sub top ($$) {
   pf q{
     <div class=has-ads>
       <menu>
-        <li><a href="/char/0000">%s</a>
+        <li><a href="/char">%s</a>
         <li><a href="/seq">Character sequences</a>
         <li><a href="/string">%s</a>
           <form action=/string method=get>
@@ -1200,7 +1201,20 @@ sub set ($$$) {
   for my $range (@$set) {
     p ucode_range $range, max => 255, prefix => '<li>', suffix => '';
   }
-  p q{</ul></section>};
+  p q{</ul>};
+
+  if (@$set == 1 and $set->[1] - $set->[0] < 256) {
+    p q{<table id=chars-table><thead><tr><th>Code point<th>Character<th>Name<tbody>};
+    for my $cp ($set->[0]->[0]..$set->[0]->[1]) {
+      my $names = Charinfo::Name->char_code_to_names ($cp);
+      pf q{<tr onclick=" querySelector('a').click () "><td><a href=/char/%04X onclick=" event.stopPropagation () ">U+%04X</a><td><code class=char>%s</code><td><code class=charname>%s</code>},
+          $cp, $cp, htescape (chr $cp),
+          htescape ($names->{name} // $names->{label});
+    }
+    p q{</table>};
+  }
+
+  p q{</section>};
 
   __PACKAGE__->footer;
 } # set
@@ -1342,6 +1356,25 @@ sub set_compare_multiple ($$) {
   __PACKAGE__->footer;
 } # set_compare_multiple
 
+sub char_top ($) {
+  __PACKAGE__->header (title => 'Characters', class => 'char-top');
+  p q{<h1>Characters</h1>
+
+  <menu class=toc data-sections="body > section"></menu>};
+
+  for my $plane (0..0x10) {
+    pf q{<section id="plane-%d"><h1>Plane %d</h1><ul>}, $plane, $plane;
+
+    for my $row (0x00..0xFF) {
+      pf q{<li><a href="/set/%02X%%3F%%3F"><code class=char-range>U+%02X<var>??</var></code></a>},
+          $plane * 0x100 + $row, $plane * 0x100 + $row;
+    }
+
+    p q{</ul></section>};
+  }
+  __PACKAGE__->footer;
+} # set_list
+
 sub set_list ($) {
   __PACKAGE__->header (title => 'Character sets', class => 'set-info');
   p q{<h1>Character sets</h1>};
@@ -1454,7 +1487,7 @@ sub seq_list ($) {
     if ($code != $current_code) {
       p q{</ul></section>} unless $code == -1;
       $code = $current_code;
-      pf q{<section id="U+%02Xhh"><h1><a href="/set/%02X%%3F%%3F">U+%02X<var>??</var></a> <var>...</var></h1><ul>}, $code, $code, $code;
+      pf q{<section id="U+%02Xhh"><h1><a href="/set/%02X%%3F%%3F"><code class=char-range>U+%02X<var>??</var></code></a> <var>...</var></h1><ul>}, $code, $code, $code;
     }
     pf q{<li><a href="/string?s=%s">%s</a> %s},
         percent_encode_c $_, htescape $_,
@@ -1674,7 +1707,7 @@ sub footer ($) {
 
     <footer class=site>
 
-      <p class=links><a href=/char/0000>Characters</a>
+      <p class=links><a href=/char>Characters</a>
       <a href=/seq>Sequences</a>
       <a href=/string>Strings</a>
       <a href=/set>Sets</a>
