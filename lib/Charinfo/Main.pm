@@ -196,13 +196,19 @@ sub main ($$$) {
   my (undef, $string, $app) = @_;
   $color_indexes = {};
 
-  __PACKAGE__->header (title => '"'.$string.'" - Charinfo');
+  my $sets = $app->text_param_list ('set');
+  @$sets = @$sets[0..4] if @$sets > 5;
+
+  my $canon;
+  if (not @$sets and 1 == length $string) {
+    $canon = sprintf '/char/%04X', ord $string;
+  }
+
+  __PACKAGE__->header
+      (title => '"'.$string.'" - Charinfo', canonical => $canon);
   p qq{
 
 <h1>Charinfo &mdash; "@{[htescape $string]}"</h1>};
-
-  my $sets = $app->text_param_list ('set');
-  @$sets = @$sets[0..4] if @$sets > 5;
 
   p qq{
 <form action=/string>
@@ -1602,6 +1608,9 @@ sub header ($;%) {
        <title>%s</title>},
       htescape ($args{class} // ''),
       htescape ($args{title} // 'Charinfo');
+  if (defined $args{canonical}) {
+    pf q{<link rel=canonical href="%s">}, htescape $args{canonical};
+  }
   p q{<link rel=stylesheet href=/css>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
