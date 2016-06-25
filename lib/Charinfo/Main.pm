@@ -199,16 +199,44 @@ sub main ($$$) {
   my $sets = $app->text_param_list ('set');
   @$sets = @$sets[0..4] if @$sets > 5;
 
+  my @char = split //, $string;
+  my $names = 1 == length $string
+      ? Charinfo::Name->char_code_to_names (ord $char[0])
+      : Charinfo::Name->char_seq_to_names ($string);
+
   my $canon;
   if (not @$sets and 1 == length $string) {
     $canon = sprintf '/char/%04X', ord $string;
   }
 
-  __PACKAGE__->header
-      (title => '"'.$string.'" - Charinfo', canonical => $canon);
-  p qq{
+  my $title;
+  my $heading;
+  if (defined $names and defined ($names->{name} // $names->{label})) {
+    if (1 == length $string) {
+      $title = sprintf 'U+%04X %s (%s) - Charinfo',
+          ord $string, $names->{name} // $names->{label}, $string;
+      $heading = sprintf '<code>U+%04X</code> <code class=charname>%s</code> (<code>%s</code>)',
+          ord $string, htescape ($names->{name} // $names->{label}),
+          htescape $string;
+    } else {
+      $title = sprintf '%s (%s) - Charinfo',
+          $names->{name} // $names->{label}, $string;
+      $heading = sprintf '<code class=charname>%s</code> (<code>%s</code>)',
+          htescape ($names->{name} // $names->{label}),
+          htescape $string;
+    }
+  } else {
+    if ($string eq '') {
+      $title = 'The empty string - Charinfo';
+      $heading = 'The empty string';
+    } else {
+      $title = sprintf '"%s" - Charinfo', $string;
+      $heading = sprintf '"<bdi>%s</bdi>"', htescape $string;
+    }
+  }
 
-<h1>Charinfo &mdash; "@{[htescape $string]}"</h1>};
+  __PACKAGE__->header (title => $title, canonical => $canon);
+  pf q{<h1>Charinfo &mdash; %s</h1>}, $heading;
 
   p qq{
 <form action=/string>
@@ -222,7 +250,6 @@ sub main ($$$) {
   }
   p qq{</form><menu class=toc data-sections="body > section"></menu>};
 
-  my @char = split //, $string;
   my $print_ads = 0;
 
   if ($string =~ m{\A\\u([0-9A-Fa-f]{4})\z}) {
@@ -258,7 +285,6 @@ if (@char == 1) {
       (ord $char[0]) >> 24, ((ord $char[0]) >> 16) & 0xFF,
       ((ord $char[0]) >> 8) & 0xFF, (ord $char[0]) & 0xFF;
 
-  my $names = Charinfo::Name->char_code_to_names (ord $char[0]);
   __PACKAGE__->char_names ($names);
 
   #use Unicode::CharName;
@@ -289,7 +315,6 @@ if (@char == 1) {
   __PACKAGE__->ads;
   p q{</section>};
 } else {
-  my $names = Charinfo::Name->char_seq_to_names ($string);
   if (defined $names) {
     p q{<section id=char><h1>Named character sequence</h1><table>};
     pf q{<tr><th>Characters
