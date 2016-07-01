@@ -1,16 +1,17 @@
 Net::SSLeay~1.74
 JSON::XS~3.02
-HTTP::Status~6.11
 Encode~2.84
 IO::HTML~1.001
 Test::Deep~1.120
 List::MoreUtils~0.415
 Devel::StackTrace~2.01
 HTTP::Body~1.22
+HTTP::Message~6.11
 Canary::Stability~2011
 POSIX::strftime::Compiler~0.41
 Path::Class~0.36
 common::sense~3.74
+URI::Escape~3.31
 Net::IDN::Punycode~1.101
 Types::Serialiser~1.0
 LWP::MediaTypes~6.02
@@ -24,7 +25,6 @@ Parallel::Prefork~0.18
 Socket~2.021
 URI::UTF8::Punycode~1.00
 Path::Tiny~0.094
-URI~1.71
 Plack~1.0039
 Class::Accessor::Lite~0.08
 Carp~1.38
