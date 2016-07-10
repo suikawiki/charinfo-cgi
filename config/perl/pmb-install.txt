@@ -1,8 +1,8 @@
 Net::SSLeay~1.74
 JSON::XS~3.02
+HTTP::Status~6.11
 Encode~2.84
 IO::HTML~1.001
-HTTP::Headers~6.11
 List::MoreUtils~0.416
 Test::Deep~1.120
 Devel::StackTrace~2.01
@@ -42,7 +42,7 @@ HTTP::Headers::Fast~0.20
 Test::NoWarnings~1.04
 Stream::Buffered~0.03
 Test::TCP~2.16
-Test::Builder~1.302037
+Test::Builder~1.302040
 AnyEvent::Util
 Twiggy::Prefork~0.08
 Digest::SHA~5.95
