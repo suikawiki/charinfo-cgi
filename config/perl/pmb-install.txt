@@ -1,17 +1,18 @@
 Net::SSLeay~1.74
 JSON::XS~3.02
-HTTP::Status~6.11
 Encode~2.84
 IO::HTML~1.001
+HTTP::Headers~6.11
 List::MoreUtils~0.416
 Test::Deep~1.120
 Devel::StackTrace~2.01
 HTTP::Body~1.22
 Canary::Stability~2011
-POSIX::strftime::Compiler~0.41
+POSIX::strftime::Compiler~0.42
 Path::Class~0.36
 common::sense~3.74
 XSLoader~0.22
+URI::Escape~3.31
 Net::IDN::Punycode~1.101
 IO::Handle~1.28
 Types::Serialiser~1.0
@@ -25,7 +26,6 @@ Sub::Uplevel~0.25
 Socket~2.021
 URI::UTF8::Punycode~1.00
 Path::Tiny~0.096
-URI~1.71
 Plack~1.0039
 Class::Accessor::Lite~0.08
 Carp~1.38
@@ -54,7 +54,7 @@ AnyEvent~7.12
 Term::ANSIColor~4.05
 Server::Starter~0.32
 Exporter::Lite~0.08
-Data::Dumper~2.160
+Data::Dumper~2.161
 Twiggy~0.1025
 AnyEvent::HTTP~2.22
 File::Temp~0.2304
