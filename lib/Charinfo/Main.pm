@@ -898,6 +898,22 @@ if (0) {
   p q{</table></section>};
 
   pf q{<section id=fonts><h1>Fonts</h1>
+    <section id=langs><h1>Languages</h1>
+      <div><table>
+        <tr><th><code>lang=en</code><td><data lang=en>%s</data>
+        <tr><th><code>lang=ja</code><td><data lang=ja>%s</data>
+        <tr><th><code>lang=zh</code><td><data lang=zh>%s</data>
+        <tr><th><code>lang=zh-cn</code><td><data lang=zh-cn>%s</data>
+        <tr><th><code>lang=zh-tw</code><td><data lang=zh-tw>%s</data>
+        <tr><th><code>lang=zh-hk</code><td><data lang=zh-hk>%s</data>
+        <tr><th><code>lang=zh-mo</code><td><data lang=zh-mo>%s</data>
+        <tr><th><code>lang=zh-sg</code><td><data lang=zh-sg>%s</data>
+        <tr><th><code>lang=zh-hans-cn</code><td><data lang=zh-hans-cn>%s</data>
+        <tr><th><code>lang=zh-hant-tw</code><td><data lang=zh-hant-tw>%s</data>
+        <tr><th><code>lang=ko</code><td><data lang=ko>%s</data>
+        <tr><th><code>lang=vi</code><td><data lang=vi>%s</data>
+      </table></div>
+    </section>
     <section id=writing-modes><h1>Writing modes</h1>
       <div><table>
         <tr><th><code>dir=ltr</code><td><data dir=ltr>%s</data>
@@ -907,8 +923,7 @@ if (0) {
     </section>
     <section id=css-fonts><h1>CSS fonts</h1>
     <div><table>
-  },
-    htescape $string, htescape $string, htescape $string;
+  }, (htescape $string) x 15;
   for my $font (@{Charinfo::Fonts->css_font_keywords}) {
     pf q{<tr><th><code>%s</code><td><data style="font-family: %s">%s</data>},
         htescape $font, htescape $font, htescape $string;
