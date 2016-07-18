@@ -13,6 +13,7 @@ use Charinfo::Map;
 use Charinfo::Seq;
 use Charinfo::Number;
 use Charinfo::Fonts;
+use Charinfo::Keys;
 
 sub htescape ($) {
   my $s = shift;
@@ -1106,6 +1107,7 @@ sub top ($$) {
           </form>
         <li><a href="/set">%s</a>
         <li><a href="/map">%s</a>
+        <li><a href="/keys">Key to character mappings</a>
       </menu>
   },
       htescape $locale->text ('chars'),
@@ -1504,7 +1506,7 @@ sub seq_list ($) {
       $code = $current_code;
       pf q{<section id="U+%02Xhh"><h1><a href="/set/%02X%%3F%%3F"><code class=char-range>U+%02X<var>??</var></code></a> <var>...</var></h1><ul>}, $code, $code, $code;
     }
-    pf q{<li><a href="/string?s=%s">%s</a> %s},
+    pf q{<li><a href="/string?s=%s"><bdo>%s</bdo></a> %s},
         percent_encode_c $_, htescape $_,
         ucode_list $_;
   }
@@ -1514,6 +1516,96 @@ sub seq_list ($) {
   };
   __PACKAGE__->footer;
 } # seq_list
+
+sub key_set_list ($$) {
+  __PACKAGE__->header (title => 'Key to character mappings', class => 'key-set-info');
+  p q{<h1>Key to character mappings</h1><section class=has-ads>};
+  __PACKAGE__->ads;
+  p q{
+      <p><em>The list of known character sequences is available in the <a href="https://github.com/manakai/data-chars/blob/master/data/keys.json"><code>keys.json</code></a> data file (<a href="https://github.com/manakai/data-chars/blob/master/doc/keys.txt">documentation</a>).</em>
+
+      <ul>
+  };
+  for (@{Charinfo::Keys->key_set_names}) {
+    pf q{<li><a href="/keys/%s">%s</a>},
+        percent_encode_c $_, htescape $_;
+  }
+  p q{
+      </ul>
+    </section>
+  };
+  __PACKAGE__->footer;
+} # key_set_list
+
+sub key_set ($$$) {
+  my $app = $_[1];
+  my $set_name = $_[2];
+  my $set = Charinfo::Keys->key_set ($set_name);
+  unless (defined $set) {
+    $app->http->set_status (404);
+    __PACKAGE__->header (title => 'Key to character mapping "'.$set_name.'"');
+    p q{<h1>Key to character mapping</h1>};
+    pf q{<p>Key set <code>%s</code> not found.},
+        htescape $set_name;
+    __PACKAGE__->footer;
+    return;
+  }
+
+  __PACKAGE__->header (title => 'Key to character mapping "'.$set_name.'"', class => 'key-set');
+  pf q{<h1>Key to character mapping "%s"</h1>}, htescape $set_name;
+  p q{
+    <menu class=toc data-sections=".key-set > section"></menu>
+    <section class=has-ads>
+      <h1>Key set</h1>
+  };
+  __PACKAGE__->ads;
+  pf q{
+    <dl>
+    <dt>Identifier<dd><code>%s</code>
+    <dt>Name<dd>%s
+    </dl>
+    <p>
+  }, htescape $set_name, htescape $set->{label};
+  pf q{[<a href="https://wiki.suikawiki.org/n/%s">Notes</a>]},
+      $set->{sw} // $set->{name};
+  if (defined $set->{url}) {
+    pf q{ [<a href="%s">Source</a>]}, htescape $set->{url};
+  }
+  p q{</section>};
+
+  if (keys %{$set->{key_to_char} or {}}) {
+    p q{<section id=key_to_char><h1>To a character</h1>
+      <main>
+        <ul>
+    };
+    for my $key (sort { $a cmp $b } keys %{$set->{key_to_char}}) {
+      pf q{<li><code>%s</code>
+             <span class=char-item><a href="/char/%04X"><bdo>%s</bdo></a> <span class=code-points>%s</span></span>},
+          htescape $key,
+          hex $set->{key_to_char}->{$key},
+          chr hex $set->{key_to_char}->{$key},
+          ucode hex $set->{key_to_char}->{$key};
+    }
+    p q{</ul></main></section>};
+  }
+
+  if (keys %{$set->{key_to_seq} or {}}) {
+    p q{<section id=key_to_seq><h1>To characters</h1>
+      <main>
+        <ul>
+    };
+    for my $key (sort { $a cmp $b } keys %{$set->{key_to_seq}}) {
+      my $s = join '', map { chr hex $_ } split / /, $set->{key_to_seq}->{$key};
+      pf q{<li><code>%s</code>
+             <span class=char-item><a href="/string?s=%s"><bdo>%s</bdo></a> <span class=code-points>%s</span></span>},
+          htescape $key,
+          $s, $s, ucode_list $s;
+    }
+    p q{</ul></main></section>};
+  }
+
+  __PACKAGE__->footer;
+} # key_set
 
 sub print_map ($) {
   my $map = $_[0];
@@ -1727,6 +1819,7 @@ sub footer ($) {
       <a href=/string>Strings</a>
       <a href=/set>Sets</a>
       <a href=/map>Maps</a>
+      <a href=/key>Keys</a>
 
       <p class=links><a href=/ rel=top>Chars.SuikaWiki.org</a>
       / <a href=https://data.suikawiki.org>Data.SuikaWiki.org</a>

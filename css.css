@@ -244,6 +244,7 @@ ul.seq-list {
   padding: 0;
 }
 
+.char-item,
 .seq-list li {
   display: inline-block;
   margin: 0 1em 0 0;
@@ -259,6 +260,7 @@ ul.seq-list {
   src: url(/fonts/NotoEmoji-Regular.ttf);
 }
 
+.char-item > a,
 .seq-list li > a {
   display: block;
   font-family: sans-serif, "css-wf-NotoEmoji";
@@ -267,12 +269,42 @@ ul.seq-list {
   text-decoration: none;
 }
 
+.char-item .code-points,
 .seq-list .code-points {
   display: block;
   font-size: .7rem;
   color: gray;
   line-height: 1;
   margin-bottom: .5rem;
+}
+
+#key_to_char main,
+#key_to_seq main {
+  -webkit-column-width: 10em;
+  -moz-column-width: 10em;
+  column-width: 10em;
+}
+
+#key_to_char main > ul,
+#key_to_seq main > ul {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#key_to_char main > ul > li,
+#key_to_seq main > ul > li {
+  display: block;
+  margin: 1em;
+  -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+  column-break-inside: avoid;
+}
+
+#key_to_char main > ul > li > code,
+#key_to_seq main > ul > li > code {
+  display: block;
+  font-weight: bolder;
 }
 
 #fonts section > div {
