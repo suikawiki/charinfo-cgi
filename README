@@ -10,11 +10,11 @@ Run:
   $ git clone https://github.com/wakaba/charinfo-cgi charinfo
   $ cd charinfo
   $ make deps
-  $ ./plackup -s Twiggy::Prefork -p 12345 server.psgi
+  $ ./local-server
 
 ... then, access to the server by e.g.:
 
-  $ curl http://localhost:12345/
+  $ curl http://localhost:6023/
 
 * Repository
 
@@ -26,7 +26,7 @@ Wakaba <wakaba@suikawiki.org>.
 
 * License
 
-Copyright 2011-2015 Wakaba <wakaba@suikawiki.org>.
+Copyright 2011-2016 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
