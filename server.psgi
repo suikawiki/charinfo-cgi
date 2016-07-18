@@ -244,6 +244,27 @@ sub {
         $http->close_response_body;
         return;
 
+      } elsif (@$path == 1 and $path->[0] eq 'keys') {
+        # /keys
+        $http->set_response_header
+            ('Content-Type' => 'text/html; charset=utf-8');
+        local $Charinfo::Main::Output = sub {
+          $http->send_response_body_as_text (join '', @_);
+        }; # Output
+        Charinfo::Main->key_set_list ($app);
+        $http->close_response_body;
+        return;
+      } elsif (@$path == 2 and $path->[0] eq 'keys') {
+        # /keys/{key_set}
+        $http->set_response_header
+            ('Content-Type' => 'text/html; charset=utf-8');
+        local $Charinfo::Main::Output = sub {
+          $http->send_response_body_as_text (join '', @_);
+        }; # Output
+        Charinfo::Main->key_set ($app, $path->[1]);
+        $http->close_response_body;
+        return;
+
       } elsif ($path->[0] eq 'css' and not defined $path->[1]) {
         # /css
         $http->set_response_header
