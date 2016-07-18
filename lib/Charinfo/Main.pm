@@ -1819,7 +1819,7 @@ sub footer ($) {
       <a href=/string>Strings</a>
       <a href=/set>Sets</a>
       <a href=/map>Maps</a>
-      <a href=/key>Keys</a>
+      <a href=/keys>Keys</a>
 
       <p class=links><a href=/ rel=top>Chars.SuikaWiki.org</a>
       / <a href=https://data.suikawiki.org>Data.SuikaWiki.org</a>
