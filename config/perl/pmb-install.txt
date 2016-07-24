@@ -1,12 +1,12 @@
 Net::SSLeay~1.74
 JSON::XS~3.02
-HTTP::Status~6.11
 Encode~2.84
 IO::HTML~1.001
 List::MoreUtils~0.416
 Devel::StackTrace~2.01
 HTTP::Body~1.22
 Canary::Stability~2011
+HTTP::Message~6.11
 POSIX::strftime::Compiler~0.42
 Path::Class~0.36
 common::sense~3.74
@@ -39,7 +39,7 @@ HTTP::Headers::Fast~0.20
 Test::NoWarnings~1.04
 Stream::Buffered~0.03
 Test::TCP~2.16
-Test::Builder~1.302045
+Test::Builder~1.302047
 AnyEvent::Util
 Twiggy::Prefork~0.08
 Digest::SHA~5.95
