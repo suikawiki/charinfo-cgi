@@ -2,11 +2,11 @@ Net::SSLeay~1.74
 JSON::XS~3.02
 Encode~2.84
 IO::HTML~1.001
+HTTP::Headers~6.11
 List::MoreUtils~0.416
 Devel::StackTrace~2.01
 HTTP::Body~1.22
 Canary::Stability~2011
-HTTP::Message~6.11
 POSIX::strftime::Compiler~0.42
 Path::Class~0.36
 common::sense~3.74
