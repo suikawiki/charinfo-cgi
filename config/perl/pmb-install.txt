@@ -13,7 +13,7 @@ Data::Dumper~2.161
 Devel::StackTrace~2.01
 Devel::StackTrace::AsHTML~0.15
 Digest::SHA~5.96
-Encode~2.84
+Encode~2.85
 Encode::Locale~1.05
 Exporter::Lite~0.08
 Exporter::Tiny~0.042
