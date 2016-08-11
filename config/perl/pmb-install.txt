@@ -55,7 +55,7 @@ Scalar::Util~1.45
 Scope::Guard~0.21
 Server::Starter~0.32
 Signal::Mask~0.008
-Socket~2.023
+Socket~2.024
 Stream::Buffered~0.03
 Term::ANSIColor~4.05
 Test::Builder~1.302049
