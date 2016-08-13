@@ -262,11 +262,23 @@ sub serialize_set_for_perl_p ($$) {
   return join "\x0A", @result;
 } # serialize_set_for_perl_p
 
+sub serialize_set_for_text ($$) {
+  my @result;
+  for my $range (@{$_[1]}) {
+    if ($range->[0] == $range->[1]) {
+      push @result, sprintf '%04X', $range->[0];
+    } else {
+      push @result, map { sprintf "%04X", $_ } $range->[0]..$range->[1];
+    }
+  }
+  return join "\x0A", @result;
+} # serialize_set_for_text
+
 1;
 
 =head1 LICENSE
 
-Copyright 2013-2015 Wakaba <wakaba@suikawiki.org>.
+Copyright 2013-2016 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
