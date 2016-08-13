@@ -168,6 +168,19 @@ sub {
           Charinfo::Main->set ($app, sprintf q{[\u{%s}-\u{%s}]}, $start, $end);
           $http->close_response_body;
           return;
+        } elsif (@$path == 2 and $path->[1] eq 'textlist') {
+          # /set/textlist
+          my $set = eval { Charinfo::Set->evaluate_expression ($app->text_param ('item') // '') };
+          unless (defined $set) {
+            return $app->throw_error
+                (400, reason_phrase => "Bad expression |$_|");
+          }
+          $http->set_response_header
+              ('Content-Type' => 'text/plain; charset=utf-8');
+          $http->send_response_body_as_text
+              (Charinfo::Set->serialize_set_for_text ($set));
+          $http->close_response_body;
+          return;
         } elsif (@$path == 2 and $path->[1] eq 'perlrevars') {
           # /set/perlrevars
           my $result = '';
