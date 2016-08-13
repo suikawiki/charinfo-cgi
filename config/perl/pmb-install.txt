@@ -44,7 +44,7 @@ Mojo::Util
 Net::IDN::Nameprep~1.102
 Net::IDN::Punycode~1.101
 Net::LibIDN~0.12
-Net::SSLeay~1.77
+Net::SSLeay~1.78
 POSIX::strftime::Compiler~0.42
 Parallel::Prefork~0.18
 Path::Class~0.36
@@ -58,7 +58,7 @@ Signal::Mask~0.008
 Socket~2.024
 Stream::Buffered~0.03
 Term::ANSIColor~4.05
-Test::Builder~1.302049
+Test::Builder~1.302052
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
@@ -69,7 +69,7 @@ Try::Tiny~0.24
 Twiggy~0.1025
 Twiggy::Prefork~0.08
 Types::Serialiser~1.0
-URI::Escape~3.31
+URI~1.71
 URI::UTF8::Punycode~1.00
 Unicode::Normalize~1.25
 Unicode::Stringprep~1.105
