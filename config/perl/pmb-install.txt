@@ -28,8 +28,8 @@ HTML::Entities~3.69
 HTML::Tagset~3.20
 HTTP::Body~1.22
 HTTP::Date~6.02
-HTTP::Headers~6.11
 HTTP::Headers::Fast~0.20
+HTTP::Status~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::HTML~1.001
@@ -47,7 +47,7 @@ Net::LibIDN~0.12
 Net::SSLeay~1.78
 POSIX::strftime::Compiler~0.42
 Parallel::Prefork~0.18
-Path::Class~0.36
+Path::Class~0.37
 Path::Tiny~0.096
 Plack~1.0039
 Proc::Wait3~0.05
@@ -64,7 +64,7 @@ Test::Requires~0.10
 Test::SharedFork~0.35
 Test::TCP~2.16
 Time::HiRes~1.9739
-Time::Local~1.2300
+Time::Local~1.24
 Try::Tiny~0.24
 Twiggy~0.1025
 Twiggy::Prefork~0.08
