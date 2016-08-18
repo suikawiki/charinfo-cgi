@@ -62,7 +62,7 @@ Test::Builder~1.302052
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
-Test::TCP~2.16
+Test::TCP~2.17
 Time::HiRes~1.9739
 Time::Local~1.24
 Try::Tiny~0.27
