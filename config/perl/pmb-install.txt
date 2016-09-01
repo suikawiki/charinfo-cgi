@@ -73,5 +73,5 @@ URI~1.71
 URI::UTF8::Punycode~1.00
 Unicode::Normalize~1.25
 Unicode::Stringprep~1.105
-XSLoader~0.22
+XSLoader~0.24
 common::sense~3.74
