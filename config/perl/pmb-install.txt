@@ -18,7 +18,7 @@ Encode::Locale~1.05
 Exporter::Lite~0.08
 Exporter::Tiny~0.042
 ExtUtils::Config~0.008
-ExtUtils::Helpers~0.022
+ExtUtils::Helpers~0.025
 ExtUtils::InstallPaths~0.011
 File::ShareDir~1.102
 File::ShareDir::Install~0.11
