@@ -2,7 +2,7 @@ AnyEvent~7.12
 AnyEvent::HTTP~2.23
 AnyEvent::Util
 Apache::LogFormat::Compiler~0.33
-CGI::Carp~4.32
+CGI::Carp~4.33
 Canary::Stability~2011
 Carp~1.38
 Class::Accessor::Lite~0.08
