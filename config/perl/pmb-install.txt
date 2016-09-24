@@ -29,7 +29,7 @@ HTML::Tagset~3.20
 HTTP::Body~1.22
 HTTP::Date~6.02
 HTTP::Headers::Fast~0.20
-HTTP::Status~6.11
+HTTP::Message~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::HTML~1.001
