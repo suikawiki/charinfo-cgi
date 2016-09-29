@@ -29,8 +29,8 @@ HTML::Tagset~3.20
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.17
 HTTP::Headers::Fast~0.20
+HTTP::Message~6.11
 HTTP::MultiPartParser~0.01
-HTTP::Status~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::HTML~1.001
@@ -51,9 +51,9 @@ POSIX::strftime::Compiler~0.42
 Parallel::Prefork~0.18
 Path::Class~0.37
 Path::Tiny~0.096
-Plack~1.0041
+Plack~1.0042
 Proc::Wait3~0.05
-Scalar::Util~1.45
+Scalar::Util~1.46
 Scope::Guard~0.21
 Server::Starter~0.32
 Signal::Mask~0.008
