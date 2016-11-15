@@ -1,6 +1,5 @@
 AnyEvent~7.13
 AnyEvent::HTTP~2.23
-AnyEvent::Util
 Apache::LogFormat::Compiler~0.33
 CGI::Carp~4.35
 Canary::Stability~2012
@@ -32,6 +31,7 @@ HTTP::Entity::Parser~0.18
 HTTP::Headers::Fast~0.20
 HTTP::Message~6.11
 HTTP::MultiPartParser~0.01
+HTTP::Request~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::HTML~1.001
@@ -61,8 +61,8 @@ Signal::Mask~0.008
 Socket~2.024
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
+Test::Builder~1.302062
 Test::Deep~1.124
-Test::More~1.302062
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
