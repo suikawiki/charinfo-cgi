@@ -1,5 +1,6 @@
 AnyEvent~7.13
 AnyEvent::HTTP~2.23
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.33
 CGI::Carp~4.35
 Canary::Stability~2012
@@ -8,7 +9,7 @@ Class::Accessor::Lite~0.08
 Class::Data::Inheritable~0.08
 Class::Inspector~1.28
 Cookie::Baker~0.07
-Cpanel::JSON::XS~3.0223
+Cpanel::JSON::XS~3.0224
 Data::Dumper~2.161
 Devel::StackTrace~2.01
 Devel::StackTrace::AsHTML~0.15
@@ -30,7 +31,7 @@ HTTP::Date~6.02
 HTTP::Entity::Parser~0.18
 HTTP::Headers::Fast~0.20
 HTTP::MultiPartParser~0.01
-HTTP::Response~6.11
+HTTP::Request~6.11
 HTTP::Status~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
