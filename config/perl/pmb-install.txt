@@ -13,7 +13,7 @@ Data::Dumper~2.161
 Devel::StackTrace~2.01
 Devel::StackTrace::AsHTML~0.15
 Digest::SHA~5.96
-Encode~2.87
+Encode~2.88
 Encode::Locale~1.05
 Exporter::Lite~0.08
 Exporter::Tiny~0.042
@@ -29,9 +29,8 @@ HTML::Tagset~3.20
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.18
 HTTP::Headers::Fast~0.20
-HTTP::Message~6.11
 HTTP::MultiPartParser~0.01
-HTTP::Response~6.11
+HTTP::Status~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::HTML~1.001
@@ -61,8 +60,8 @@ Signal::Mask~0.008
 Socket~2.024
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
+Test::Builder~1.302067
 Test::Deep~1.124
-Test::More~1.302067
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
