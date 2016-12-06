@@ -30,7 +30,7 @@ HTTP::Date~6.02
 HTTP::Entity::Parser~0.18
 HTTP::Headers::Fast~0.20
 HTTP::MultiPartParser~0.01
-HTTP::Response~6.11
+HTTP::Request~6.11
 HTTP::Status~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
