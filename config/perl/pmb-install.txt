@@ -1,6 +1,5 @@
 AnyEvent~7.13
 AnyEvent::HTTP~2.23
-AnyEvent::Socket
 Apache::LogFormat::Compiler~0.33
 CGI::Carp~4.35
 Canary::Stability~2012
@@ -48,7 +47,7 @@ Mojo::Util
 Net::IDN::Nameprep~1.102
 Net::IDN::Punycode~1.102
 Net::LibIDN~0.12
-Net::SSLeay~1.78
+Net::SSLeay~1.79
 POSIX::strftime::Compiler~0.42
 Parallel::Prefork~0.18
 Path::Class~0.37
