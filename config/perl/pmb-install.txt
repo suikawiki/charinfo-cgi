@@ -1,5 +1,6 @@
 AnyEvent~7.13
 AnyEvent::HTTP~2.23
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.33
 CGI::Carp~4.35
 Canary::Stability~2012
@@ -69,7 +70,7 @@ Test::SharedFork~0.35
 Test::TCP~2.17
 Time::HiRes~1.9741
 Time::Local~1.25
-Try::Tiny~0.27
+Try::Tiny~0.28
 Twiggy~0.1025
 Twiggy::Prefork~0.08
 Types::Serialiser~1.0
