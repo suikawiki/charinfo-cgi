@@ -1,6 +1,5 @@
 AnyEvent~7.13
 AnyEvent::HTTP~2.23
-AnyEvent::Util
 Apache::LogFormat::Compiler~0.33
 CGI::Carp~4.35
 Canary::Stability~2012
@@ -17,7 +16,7 @@ Digest::SHA~5.96
 Encode~2.88
 Encode::Locale~1.05
 Exporter::Lite~0.08
-Exporter::Tiny~0.042
+Exporter::Tiny~0.044
 ExtUtils::Config~0.008
 ExtUtils::Helpers~0.026
 ExtUtils::InstallPaths~0.011
@@ -31,7 +30,7 @@ HTTP::Date~6.02
 HTTP::Entity::Parser~0.18
 HTTP::Headers::Fast~0.20
 HTTP::MultiPartParser~0.01
-HTTP::Response~6.11
+HTTP::Request~6.11
 HTTP::Status~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
@@ -62,8 +61,8 @@ Signal::Mask~0.008
 Socket~2.024
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
+Test::Builder~1.302075
 Test::Deep~1.126
-Test::More~1.302075
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
