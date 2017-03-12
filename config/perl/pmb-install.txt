@@ -8,7 +8,7 @@ Class::Accessor::Lite~0.08
 Class::Data::Inheritable~0.08
 Class::Inspector~1.31
 Cookie::Baker~0.07
-Cpanel::JSON::XS~3.0229
+Cpanel::JSON::XS~3.0230
 Data::Dumper~2.161
 Devel::StackTrace~2.02
 Devel::StackTrace::AsHTML~0.15
@@ -30,7 +30,6 @@ HTTP::Date~6.02
 HTTP::Entity::Parser~0.19
 HTTP::Headers::Fast~0.21
 HTTP::MultiPartParser~0.01
-HTTP::Response~6.11
 HTTP::Status~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
@@ -45,7 +44,7 @@ MIME::Base64~3.15
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~1.102
+Net::IDN::Punycode::PP~1.101
 Net::LibIDN~0.12
 Net::SSLeay~1.80
 POSIX::strftime::Compiler~0.42
@@ -61,8 +60,8 @@ Signal::Mask~0.008
 Socket~2.024
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302078
 Test::Deep~1.126
+Test::More~1.302078
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
