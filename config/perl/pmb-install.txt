@@ -29,9 +29,8 @@ HTML::Tagset~3.20
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.19
 HTTP::Headers::Fast~0.21
-HTTP::Message~6.11
 HTTP::MultiPartParser~0.01
-HTTP::Response~6.11
+HTTP::Status~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::HTML~1.001
@@ -47,7 +46,7 @@ Mojo::Util
 Net::IDN::Nameprep~1.102
 Net::IDN::Punycode~1.102
 Net::LibIDN~0.12
-Net::SSLeay~1.80
+Net::SSLeay~1.81
 POSIX::strftime::Compiler~0.42
 Parallel::Prefork~0.18
 Path::Class~0.37
@@ -61,8 +60,8 @@ Signal::Mask~0.008
 Socket~2.024
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302078
 Test::Deep~1.126
+Test::More~1.302078
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
