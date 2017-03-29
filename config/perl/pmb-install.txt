@@ -8,7 +8,7 @@ Class::Accessor::Lite~0.08
 Class::Data::Inheritable~0.08
 Class::Inspector~1.31
 Cookie::Baker~0.07
-Cpanel::JSON::XS~3.0230
+Cpanel::JSON::XS~3.0231
 Data::Dumper~2.161
 Devel::StackTrace~2.02
 Devel::StackTrace::AsHTML~0.15
@@ -29,8 +29,8 @@ HTML::Tagset~3.20
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.19
 HTTP::Headers::Fast~0.21
+HTTP::Message~6.11
 HTTP::MultiPartParser~0.01
-HTTP::Status~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::HTML~1.001
@@ -39,12 +39,12 @@ IPC::Signal~1.00
 JSON::MaybeXS~1.003009
 JSON::XS~3.03
 LWP::MediaTypes~6.02
-List::MoreUtils~0.416
+List::MoreUtils~0.418
 MIME::Base64~3.15
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~1.102
+Net::IDN::Punycode::PP~1.101
 Net::LibIDN~0.12
 Net::SSLeay~1.81
 POSIX::strftime::Compiler~0.42
@@ -72,10 +72,9 @@ Try::Tiny~0.28
 Twiggy~0.1025
 Twiggy::Prefork~0.08
 Types::Serialiser~1.0
-URI~1.71
+URI::Escape~3.31
 URI::UTF8::Punycode~1.00
 Unicode::Normalize~1.25
 Unicode::Stringprep~1.105
 WWW::Form::UrlEncoded~0.24
-XSLoader~0.24
 common::sense~3.74
