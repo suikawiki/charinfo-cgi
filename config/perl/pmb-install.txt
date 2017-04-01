@@ -30,6 +30,7 @@ HTTP::Date~6.02
 HTTP::Entity::Parser~0.19
 HTTP::Headers::Fast~0.21
 HTTP::MultiPartParser~0.01
+HTTP::Request~6.11
 HTTP::Status~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
@@ -60,8 +61,8 @@ Signal::Mask~0.008
 Socket~2.024
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
+Test::Builder~1.302078
 Test::Deep~1.126
-Test::More~1.302078
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
