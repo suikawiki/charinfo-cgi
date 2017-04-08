@@ -1,8 +1,8 @@
 AnyEvent~7.13
 AnyEvent::HTTP~2.23
-AnyEvent::Util
+AnyEvent::Socket
 Apache::LogFormat::Compiler~0.35
-CGI::Carp~4.35
+CGI::Carp~4.36
 Canary::Stability~2012
 Carp~1.38
 Class::Accessor::Lite~0.08
@@ -41,7 +41,7 @@ IPC::Signal~1.00
 JSON::MaybeXS~1.003009
 JSON::XS~3.03
 LWP::MediaTypes~6.02
-List::MoreUtils~0.418
+List::MoreUtils~0.419
 MIME::Base64~3.15
 Module::Build::Tiny~0.039
 Mojo::Util
@@ -62,8 +62,8 @@ Signal::Mask~0.008
 Socket~2.024
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302078
 Test::Deep~1.126
+Test::More~1.302078
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
