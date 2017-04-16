@@ -29,8 +29,8 @@ HTML::Tagset~3.20
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.19
 HTTP::Headers::Fast~0.21
+HTTP::Message~6.11
 HTTP::MultiPartParser~0.02
-HTTP::Status~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::HTML~1.001
@@ -60,13 +60,13 @@ Signal::Mask~0.008
 Socket~2.024
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
+Test::Builder~1.302083
 Test::Deep~1.126
-Test::More~1.302083
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
 Test::TCP~2.17
-Time::HiRes~1.9741
+Time::HiRes~1.9742
 Time::Local~1.25
 Try::Tiny~0.28
 Twiggy~0.1025
