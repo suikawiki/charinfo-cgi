@@ -29,9 +29,9 @@ HTML::Tagset~3.20
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.19
 HTTP::Headers::Fast~0.21
-HTTP::Message~6.11
 HTTP::MultiPartParser~0.02
-HTTP::Response~6.11
+HTTP::Request~6.11
+HTTP::Status~6.11
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::HTML~1.001
@@ -52,7 +52,7 @@ POSIX::strftime::Compiler~0.42
 Parallel::Prefork~0.18
 Path::Class~0.37
 Path::Tiny~0.104
-Plack~1.0043
+Plack~1.0044
 Proc::Wait3~0.05
 Scalar::Util~1.47
 Scope::Guard~0.21
@@ -61,8 +61,8 @@ Signal::Mask~0.008
 Socket~2.024
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302083
 Test::Deep~1.126
+Test::More~1.302083
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
