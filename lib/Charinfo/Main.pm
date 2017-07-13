@@ -306,10 +306,11 @@ if (@char == 1) {
   p q{</table>};
 
   pf q{<p>
-    [<a href="https://wiki.suikawiki.org/n/%s">Notes</a>]
+    [<a href="https://wiki.suikawiki.org/n/%s"%s>Notes</a>]
     [<a href="http://unicode.org/cldr/utility/character.jsp?a=%04X">Unicode</a>]
     [<a href="http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint=%04X&amp;useutf8=true">Unihan</a>]},
       (ord $char[0] > 0x10FFFF ? (sprintf 'U-%08X', ord $char[0]) : (sprintf 'U%%2B%04X', ord $char[0])),
+      (ord $char[0] > 0x10FFFF ? 'rel=nofollow' : ''),
       ord $char[0],
       ord $char[0];
 
