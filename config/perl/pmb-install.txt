@@ -1,6 +1,5 @@
 AnyEvent~7.14
 AnyEvent::HTTP~2.23
-AnyEvent::Util
 Apache::LogFormat::Compiler~0.35
 CGI::Carp~4.36
 Canary::Stability~2012
@@ -13,7 +12,7 @@ Cpanel::JSON::XS~3.0239
 Data::Dumper~2.161
 Devel::StackTrace~2.02
 Devel::StackTrace::AsHTML~0.15
-Digest::SHA~5.96
+Digest::SHA~5.97
 Encode~2.92
 Encode::Locale~1.05
 Exporter::Lite~0.08
@@ -32,7 +31,6 @@ HTTP::Entity::Parser~0.20
 HTTP::Headers::Fast~0.21
 HTTP::Message~6.13
 HTTP::MultiPartParser~0.02
-HTTP::Response~6.13
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::HTML~1.001
@@ -41,7 +39,8 @@ IPC::Signal~1.00
 JSON::MaybeXS~1.003009
 JSON::XS~3.04
 LWP::MediaTypes~6.02
-List::MoreUtils~0.423
+List::MoreUtils~0.425
+List::MoreUtils::XS~0.423
 MIME::Base64~3.15
 Module::Build::Tiny~0.039
 Mojo::Util
