@@ -1,5 +1,6 @@
 AnyEvent~7.14
 AnyEvent::HTTP~2.23
+AnyEvent::Socket
 Apache::LogFormat::Compiler~0.35
 CGI::Carp~4.36
 Canary::Stability~2012
@@ -31,6 +32,7 @@ HTTP::Entity::Parser~0.20
 HTTP::Headers::Fast~0.21
 HTTP::Message~6.13
 HTTP::MultiPartParser~0.02
+HTTP::Request~6.13
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::HTML~1.001
