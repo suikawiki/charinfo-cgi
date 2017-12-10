@@ -10,7 +10,7 @@ Run:
   $ git clone https://github.com/wakaba/charinfo-cgi charinfo
   $ cd charinfo
   $ make deps
-  $ ./lserver
+  $ ./local-server
 
 ... then, access to the server by e.g.:
 
