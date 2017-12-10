@@ -10,7 +10,7 @@ Run:
   $ git clone https://github.com/wakaba/charinfo-cgi charinfo
   $ cd charinfo
   $ make deps
-  $ ./local-server
+  $ ./lserver
 
 ... then, access to the server by e.g.:
 
@@ -26,7 +26,7 @@ Wakaba <wakaba@suikawiki.org>.
 
 * License
 
-Copyright 2011-2016 Wakaba <wakaba@suikawiki.org>.
+Copyright 2011-2017 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

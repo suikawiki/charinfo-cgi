@@ -1,18 +1,14 @@
 [submodule "modules/charclass"]
 	path = modules/charclass
-	url = https://github.com/wakaba/perl-charclass.git
+	url = https://github.com/wakaba/perl-charclass
 	track = master
 [submodule "modules/wanage"]
 	path = modules/wanage
 	url = https://github.com/wakaba/wanage
 	track = master
-[submodule "modules/perl-web-utils"]
-	path = modules/perl-web-utils
-	url = https://github.com/wakaba/perl-web-utils.git
-	track = master
 [submodule "modules/perl-ooutils"]
 	path = modules/perl-ooutils
-	url = https://github.com/wakaba/perl-ooutils.git
+	url = https://github.com/wakaba/perl-ooutils
 	track = master
 [submodule "modules/web-url"]
 	path = modules/web-url
@@ -34,15 +30,23 @@
 	path = modules/promised-command
 	url = https://github.com/wakaba/perl-promised-command
 	track = master
-[submodule "t_deps/modules/promised-plackup"]
-	path = t_deps/modules/promised-plackup
-	url = https://github.com/wakaba/perl-promised-plackup
-	track = master
-[submodule "t_deps/modules/web-ua"]
-	path = t_deps/modules/web-ua
-	url = https://github.com/wakaba/perl-web-useragent-functions
-	track = master
 [submodule "t_deps/modules/test-x1"]
 	path = t_deps/modules/test-x1
 	url = https://github.com/wakaba/perl-test-x1
+	track = master
+[submodule "modules/streams"]
+	path = modules/streams
+	url = https://github.com/manakai/perl-streams
+	track = master
+[submodule "modules/sarze"]
+	path = modules/sarze
+	url = https://github.com/wakaba/sarze
+	track = master
+[submodule "modules/web-resource"]
+	path = modules/web-resource
+	url = https://github.com/manakai/perl-web-resource
+	track = transport
+[submodule "modules/web-datetime"]
+	path = modules/web-datetime
+	url = git://github.com/manakai/perl-web-datetime
 	track = master

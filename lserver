@@ -1,0 +1,4 @@
+#!/bin/bash
+basedir=$(cd `dirname $0` && pwd)
+
+exec $basedir/perl $basedir/bin/server.pl 6023
