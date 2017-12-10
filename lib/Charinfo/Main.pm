@@ -4,8 +4,7 @@ use strict;
 use warnings;
 no warnings 'utf8';
 use Encode;
-use URL::PercentEncode qw(percent_encode_c percent_decode_c
-                          percent_encode_b percent_decode_b);
+use Web::URL::Encoding;
 use Charinfo::App;
 use Charinfo::Name;
 use Charinfo::Set;
@@ -472,7 +471,7 @@ if (@char == 1) {
         },
             $prefix,
             percent_encode_c $encoding,
-            percent_encode_b (join '', map { pack 'C', $_ } @$_),
+            oauth1_percent_encode_b (join '', map { pack 'C', $_ } @$_),
             (join ' ', map { sprintf '0x%02X', $_ } @$_),
             (join '', map { sprintf '\x%02X', $_ } @$_);
         $prefix = '<tr>';
@@ -521,7 +520,7 @@ p q{<tbody><tr class=category><th colspan=3>Escapes};
 {
   p q{<tr><th>en-UTF-8 percent-encode};
   or_p_error {
-    p_ascii_string percent_encode_b encode 'utf-8', $string;
+    p_ascii_string oauth1_percent_encode_b encode 'utf-8', $string;
   };
 }
 

@@ -8,7 +8,9 @@ use Test::X1;
 use AnyEvent;
 use Promise;
 use Promised::Plackup;
-use Web::UserAgent::Functions qw(http_get);
+use Web::URL;
+use Web::Transport::BasicClient;
+use Sarze;
 
 our @EXPORT;
 push @EXPORT, grep { not /^\$/ } @Test::More::EXPORT;
@@ -25,63 +27,63 @@ sub import ($;@) {
   }
 } # import
 
-my $HTTPServer;
 
-my $root_path = path (__FILE__)->parent->parent->parent->absolute;
+{
+  use Socket;
+  sub _can_listen ($) {
+    my $port = $_[0] or return 0;
+    my $proto = getprotobyname ('tcp');
+    socket (my $server, PF_INET, SOCK_STREAM, $proto) or die "socket: $!";
+    setsockopt ($server, SOL_SOCKET, SO_REUSEADDR, pack ("l", 1))
+        or die "setsockopt: $!";
+    bind ($server, sockaddr_in($port, INADDR_ANY)) or return 0;
+    listen ($server, SOMAXCONN) or return 0;
+    close ($server);
+    return 1;
+  } # _can_listen
 
-push @EXPORT, qw(web_server);
-sub web_server (;$) {
-  my $web_host = $_[0];
-  my $cv = AE::cv;
-  $HTTPServer = Promised::Plackup->new;
-  $HTTPServer->plackup ($root_path->child ('plackup'));
-  $HTTPServer->set_option ('--host' => $web_host) if defined $web_host;
-  $HTTPServer->set_option ('--app' => $root_path->child ('server.psgi'));
-  $HTTPServer->set_option ('--server' => 'Twiggy::Prefork');
-  $HTTPServer->start->then (sub {
-    $cv->send ({host => $HTTPServer->get_host});
-  });
-  return $cv;
-} # web_server
+  sub find_port () {
+    my $used = {};
+    for (1..10000) {
+      my $port = int rand (5000 - 1024); # ephemeral ports
+      next if $used->{$port};
+      return $port if _can_listen $port;
+      $used->{$port}++;
+    }
+    die "Listenable port not found";
+  } # find_port
+}
 
-push @EXPORT, qw(stop_servers);
-sub stop_servers () {
-  my $cv = AE::cv;
-  $cv->begin;
-  for ($HTTPServer) {
-    next unless defined $_;
-    $cv->begin;
-    $_->stop->then (sub { $cv->end });
-  }
-  $cv->end;
-  $cv->recv;
-} # stop_servers
+my $RootPath = path (__FILE__)->parent->parent->parent->absolute;
+my $Client;
 
-push @EXPORT, qw(GET);
-sub GET ($$;%) {
-  my ($c, $path, %args) = @_;
-  my $host = $c->received_data->{host};
-  return Promise->new (sub {
-    my ($ok, $ng) = @_;
-    http_get
-        url => qq<http://$host$path>,
-        basic_auth => $args{basic_auth},
-        header_fields => $args{header_fields},
-        params => $args{params},
-        timeout => 30,
-        anyevent => 1,
-        max_redirect => 0,
-        cb => sub {
-          $ok->($_[1]);
-        };
-  });
-} # GET
+push @EXPORT, 'RUN';
+sub RUN () {
+  my $url = Web::URL->parse_string ("http://0.0.0.0:" . find_port);
+  $Client = Web::Transport::BasicClient->new_from_url ($url);
+  my $server;
+  Sarze->start
+      (max_worker_count => 1,
+       hostports => [[$url->host->to_ascii, $url->port]],
+       psgi_file_name => $RootPath->child ('server.psgi'))->then (sub {
+    warn sprintf "Server: <%s>\n", $url->stringify;
+    $server = $_[0];
+  })->to_cv->recv;
+  run_tests;
+  $Client->close->then (sub {
+    undef $Client;
+    return $server->stop;
+  })->to_cv->recv;
+} # RUN
+
+push @EXPORT, qw(CLIENT);
+sub CLIENT () { $Client }
 
 1;
 
 =head1 LICENSE
 
-Copyright 2015 Wakaba <wakaba@suikawiki.org>.
+Copyright 2015-2017 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

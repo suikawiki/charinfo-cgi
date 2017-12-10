@@ -3,7 +3,7 @@ use strict;
 use warnings;
 no warnings 'utf8';
 use Path::Class;
-use URL::PercentEncode qw(percent_encode_c);
+use Web::URL::Encoding;
 use Wanage::HTTP;
 use Warabe::App;
 use Charinfo::Locale;
@@ -322,7 +322,7 @@ Wakaba <wakaba@suikawiki.org>.
 
 =head1 LICENSE
 
-Copyright 2012-2016 Wakaba <wakaba@suikawiki.org>.
+Copyright 2012-2017 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

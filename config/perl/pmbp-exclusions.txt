@@ -10,3 +10,11 @@
 - "../../t_deps/modules/test-x1" tests
 - "../../t_deps/modules/promised-plackup" tests
 - "../../t_deps/modules/web-ua" tests cli testws lwp anyeventsocks oauth wsse curl
+
+- "../../modules/streams" build tests
+- "../../modules/web-resource" build tests
+- "../../modules/promise.2" build tests
+- "../../modules/web-url.2" build tests
+- "../../modules/web-encodings.2" build tests
+- "../../modules/web-datetime" build tests
+- "../../modules/web-datetime.2" build tests
