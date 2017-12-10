@@ -1,47 +1,48 @@
 [submodule "modules/charclass"]
 	path = modules/charclass
-	url = git://github.com/wakaba/perl-charclass.git
+	url = https://github.com/wakaba/perl-charclass.git
 	track = master
 [submodule "modules/wanage"]
 	path = modules/wanage
-	url = git://github.com/wakaba/wanage
+	url = https://github.com/wakaba/wanage
 	track = master
 [submodule "modules/perl-web-utils"]
 	path = modules/perl-web-utils
-	url = git://github.com/wakaba/perl-web-utils.git
+	url = https://github.com/wakaba/perl-web-utils.git
 	track = master
 [submodule "modules/perl-ooutils"]
 	path = modules/perl-ooutils
-	url = git://github.com/wakaba/perl-ooutils.git
+	url = https://github.com/wakaba/perl-ooutils.git
 	track = master
 [submodule "modules/web-url"]
 	path = modules/web-url
-	url = git://github.com/manakai/perl-web-url
+	url = https://github.com/manakai/perl-web-url
 	track = master
 [submodule "modules/web-encodings"]
 	path = modules/web-encodings
-	url = git://github.com/manakai/perl-web-encodings
+	url = https://github.com/manakai/perl-web-encodings
 	track = master
 [submodule "modules/json-functions-xs"]
 	path = modules/json-functions-xs
-	url = git://github.com/wakaba/perl-json-functions-xs
+	url = https://github.com/wakaba/perl-json-functions-xs
 	track = master
 [submodule "modules/promise"]
 	path = modules/promise
-	url = git://github.com/wakaba/perl-promise
+	url = https://github.com/wakaba/perl-promise
 	track = master
 [submodule "modules/promised-command"]
 	path = modules/promised-command
-	url = git://github.com/wakaba/perl-promised-command
+	url = https://github.com/wakaba/perl-promised-command
 	track = master
 [submodule "t_deps/modules/promised-plackup"]
 	path = t_deps/modules/promised-plackup
-	url = git://github.com/wakaba/perl-promised-plackup
+	url = https://github.com/wakaba/perl-promised-plackup
 	track = master
 [submodule "t_deps/modules/web-ua"]
 	path = t_deps/modules/web-ua
-	url = git://github.com/wakaba/perl-web-useragent-functions
+	url = https://github.com/wakaba/perl-web-useragent-functions
 	track = master
 [submodule "t_deps/modules/test-x1"]
 	path = t_deps/modules/test-x1
-	url = git://github.com/wakaba/perl-test-x1
+	url = https://github.com/wakaba/perl-test-x1
+	track = master
