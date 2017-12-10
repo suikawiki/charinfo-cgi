@@ -1,0 +1,4 @@
+#!/bin/bash
+basedir=$(cd `dirname $0` && pwd)
+
+exec $basedir/plackup -s Twiggy::Prefork -p 6023 $basedir/server.psgi
