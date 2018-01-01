@@ -54,7 +54,7 @@ POSIX::strftime::Compiler~0.42
 Parallel::Prefork~0.18
 Path::Class~0.37
 Path::Tiny~0.104
-Plack~1.0044
+Plack~1.0045
 Proc::FastSpawn~1.2
 Proc::Wait3~0.05
 Scalar::Util~1.49
@@ -64,8 +64,8 @@ Signal::Mask~0.008
 Socket~2.024
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302120
 Test::Deep~1.127
+Test::More~1.302120
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
