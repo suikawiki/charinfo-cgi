@@ -7,7 +7,7 @@ Carp~1.38
 Class::Accessor::Lite~0.08
 Class::Data::Inheritable~0.08
 Class::Inspector~1.32
-Cookie::Baker~0.08
+Cookie::Baker~0.09
 Cpanel::JSON::XS~4.02
 Cwd~3.74
 Data::Dumper~2.161
@@ -28,7 +28,7 @@ Filesys::Notify::Simple~0.12
 HTML::Entities~3.69
 HTML::Tagset~3.20
 HTTP::Date~6.02
-HTTP::Entity::Parser~0.20
+HTTP::Entity::Parser~0.21
 HTTP::Headers::Fast~0.21
 HTTP::MultiPartParser~0.02
 HTTP::Status~6.14
@@ -64,8 +64,8 @@ Signal::Mask~0.008
 Socket~2.027
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302125
 Test::Deep~1.127
+Test::More~1.302125
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
