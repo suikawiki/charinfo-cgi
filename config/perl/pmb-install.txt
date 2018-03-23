@@ -1,6 +1,5 @@
 AnyEvent~7.14
 AnyEvent::Fork~1.31
-AnyEvent::Socket
 Apache::LogFormat::Compiler~0.35
 CGI::Carp~4.38
 Canary::Stability~2012
@@ -48,7 +47,7 @@ MIME::Base64~3.15
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~1.102
+Net::IDN::Punycode::PP~1.101
 Net::LibIDN~0.12
 Net::SSLeay~1.85
 POSIX::strftime::Compiler~0.42
@@ -65,8 +64,8 @@ Signal::Mask~0.008
 Socket~2.027
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
+Test::Builder~1.302133
 Test::Deep~1.127
-Test::More~1.302133
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
