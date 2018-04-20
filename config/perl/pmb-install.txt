@@ -1,5 +1,6 @@
 AnyEvent~7.14
 AnyEvent::Fork~1.31
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.35
 CGI::Carp~4.38
 Canary::Stability~2012
@@ -22,7 +23,7 @@ ExtUtils::Config~0.008
 ExtUtils::Helpers~0.026
 ExtUtils::InstallPaths~0.011
 File::ShareDir~1.104
-File::ShareDir::Install~0.11
+File::ShareDir::Install~0.12
 File::Temp~0.2304
 Filesys::Notify::Simple~0.13
 HTML::Entities~3.69
@@ -36,7 +37,7 @@ Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.2
 IO::HTML~1.001
-IO::Handle~1.28
+IO::Handle~1.39
 IPC::Signal~1.00
 JSON::MaybeXS~1.004000
 JSON::XS~3.04
