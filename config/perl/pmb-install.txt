@@ -1,6 +1,5 @@
 AnyEvent~7.14
 AnyEvent::Fork~1.31
-AnyEvent::Util
 Apache::LogFormat::Compiler~0.35
 CGI::Carp~4.38
 Canary::Stability~2012
@@ -14,7 +13,7 @@ Cwd~3.74
 Data::Dumper~2.161
 Devel::StackTrace~2.03
 Devel::StackTrace::AsHTML~0.15
-Digest::SHA~6.01
+Digest::SHA~6.02
 Encode~2.97
 Encode::Locale~1.05
 Exporter::Lite~0.08
@@ -65,8 +64,8 @@ Signal::Mask~0.008
 Socket~2.027
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302136
 Test::Deep~1.128
+Test::More~1.302136
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
