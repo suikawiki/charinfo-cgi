@@ -298,6 +298,9 @@ sub {
           $http->close_response_body;
           return;
         }
+      } elsif (@$path == 1 and $path->[0] eq 'robots.txt') {
+        # /robots.txt
+        return $app->send_plain_text ('');
       }
       $app->throw_error (404) unless defined $s;
       
