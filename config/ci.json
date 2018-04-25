@@ -1,0 +1,21 @@
+{
+  "circleci": {
+    "docker-build": "quay.io/wakaba/swchars",
+    "build": [
+      "git submodule update --init",
+      "rm -fr modules/*/bin modules/*/.git modules/*/t modules/*/t_deps",
+      "mv config/Dockerfile ./",
+      "git rev-parse HEAD > rev"
+    ],
+    "tests": [
+      "docker run --name server -d -p 5511:8080 quay.io/wakaba/swchars /server; sleep 10",
+      "curl -f http://localhost:5511",
+      "curl -f http://localhost:5511/char/1234",
+      "curl -f http://localhost:5511/css",
+      "curl -f http://localhost:5511/fonts/mona.ttf",
+      "docker logs server"
+    ],
+    "merger": true,
+    "gaa": true
+  }
+}
