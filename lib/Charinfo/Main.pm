@@ -4,6 +4,7 @@ use strict;
 use warnings;
 no warnings 'utf8';
 use Encode;
+use Web::Encoding;
 use Web::URL::Encoding;
 use Charinfo::App;
 use Charinfo::Name;
@@ -454,36 +455,42 @@ use Char::Prop::Unicode::Age;
   p_bytes encode 'utf-32le', $string;
 }
 
-if (@char == 1) {
-  p q{<tbody><tr class=category><th colspan=3>Web encodings};
+  {
+    p q{<tbody><tr class=category><th colspan=3>Web encodings};
 
-  use Charinfo::Encoding;
-  my @not_encodable;
-  for my $encoding (@$Charinfo::Encoding::EncodingNames) {
-    my $encoded = Charinfo::Encoding->from_unicode (ord $char[0] => $encoding);
-    if ($encoded and @$encoded) {
-      p qq{<tr><th rowspan="@{[scalar @$encoded]}"><a href="https://encoding.spec.whatwg.org/#$encoding">$encoding</a>};
-      my $prefix = '';
-      for (@$encoded) {
-        pf q{%s<td colspan=2>
-               <a href="data:text/plain;charset=%s,%s">%s</a> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>
-               <span hidden>%s</span> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy \x<var>HH</var></button>
-        },
-            $prefix,
-            percent_encode_c $encoding,
-            oauth1_percent_encode_b (join '', map { pack 'C', $_ } @$_),
-            (join ' ', map { sprintf '0x%02X', $_ } @$_),
-            (join '', map { sprintf '\x%02X', $_ } @$_);
-        $prefix = '<tr>';
+    use Charinfo::Encoding;
+    my @not_encodable;
+    for my $encoding (@{+encoding_names}) {
+      next if $encoding eq 'replacement';
+      my $encoded_bytes = encode_web_charset $encoding, $string;
+      my $roundtriped = decode_web_charset $encoding, $encoded_bytes;
+      if ($roundtriped eq $string) {
+        my $encoded = [[map { ord $_ } split //, $encoded_bytes]];
+        if ($encoding eq 'iso-2022-jp' and @char == 1) {
+          $encoded = Charinfo::Encoding::iso2022jp ord $char[0];
+        }
+        p qq{<tr><th rowspan="@{[scalar @$encoded]}"><a href="https://encoding.spec.whatwg.org/#$encoding">$encoding</a>};
+        my $prefix = '';
+        for (@$encoded) {
+          pf q{%s<td colspan=2>
+                 <a href="data:text/plain;charset=%s,%s">%s</a> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy</button>
+                 <span hidden>%s</span> <button type=button class=copy onclick=" copyElement (previousElementSibling) ">Copy \x<var>HH</var></button>
+          },
+              $prefix,
+              percent_encode_c $encoding,
+              oauth1_percent_encode_b (join '', map { pack 'C', $_ } @$_),
+              (join ' ', map { sprintf '0x%02X', $_ } @$_),
+              (join '', map { sprintf '\x%02X', $_ } @$_);
+          $prefix = '<tr>';
+        }
+      } else {
+        push @not_encodable, $encoding;
       }
-    } else {
-      push @not_encodable, $encoding;
     }
-  }
-  if (@not_encodable) {
-    p '<tr><td colspan=3><strong>Not encodable in</strong>: ' . join ' ', @not_encodable;
-  }
-}
+    if (@not_encodable) {
+      p '<tr><td colspan=3><strong>Not encodable in</strong>: ' . join ' ', @not_encodable;
+    }
+  } # Web Encodings
 
     p q{</table></section>};
   }
