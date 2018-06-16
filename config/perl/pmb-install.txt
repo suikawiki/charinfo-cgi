@@ -1,6 +1,6 @@
 AnyEvent~7.14
 AnyEvent::Fork~1.31
-AnyEvent::Util
+AnyEvent::Socket
 Apache::LogFormat::Compiler~0.35
 CGI::Carp~4.38
 Canary::Stability~2012
@@ -22,7 +22,7 @@ Exporter::Tiny~1.000000
 ExtUtils::Config~0.008
 ExtUtils::Helpers~0.026
 ExtUtils::InstallPaths~0.012
-File::ShareDir~1.108
+File::ShareDir~1.110
 File::ShareDir::Install~0.13
 File::Temp~0.2304
 Filesys::Notify::Simple~0.13
@@ -65,8 +65,8 @@ Signal::Mask~0.008
 Socket~2.027
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302136
 Test::Deep~1.128
+Test::More~1.302136
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
