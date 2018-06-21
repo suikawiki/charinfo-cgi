@@ -9,7 +9,7 @@ Class::Accessor::Lite~0.08
 Class::Data::Inheritable~0.08
 Class::Inspector~1.32
 Cookie::Baker~0.09
-Cpanel::JSON::XS~4.02
+Cpanel::JSON::XS~4.03
 Cwd~3.74
 Data::Dumper~2.161
 Devel::StackTrace~2.03
@@ -22,7 +22,7 @@ Exporter::Tiny~1.000000
 ExtUtils::Config~0.008
 ExtUtils::Helpers~0.026
 ExtUtils::InstallPaths~0.012
-File::ShareDir~1.112
+File::ShareDir~1.114
 File::ShareDir::Install~0.13
 File::Temp~0.2304
 Filesys::Notify::Simple~0.13
@@ -31,8 +31,8 @@ HTML::Tagset~3.20
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.21
 HTTP::Headers::Fast~0.21
-HTTP::Message~6.18
 HTTP::MultiPartParser~0.02
+HTTP::Status~6.18
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.2
@@ -48,7 +48,7 @@ MIME::Base64~3.15
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~1.102
+Net::IDN::Punycode::PP~1.101
 Net::LibIDN~0.12
 Net::SSLeay~1.85
 POSIX::strftime::Compiler~0.42
@@ -65,8 +65,8 @@ Signal::Mask~0.008
 Socket~2.027
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302136
 Test::Deep~1.128
+Test::More~1.302136
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
