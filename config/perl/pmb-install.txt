@@ -1,5 +1,6 @@
 AnyEvent~7.14
 AnyEvent::Fork~1.31
+AnyEvent::Handle
 Apache::LogFormat::Compiler~0.35
 CGI::Carp~4.40
 Canary::Stability~2012
@@ -30,8 +31,8 @@ HTML::Tagset~3.20
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.21
 HTTP::Headers::Fast~0.21
-HTTP::Message~6.18
 HTTP::MultiPartParser~0.02
+HTTP::Status~6.18
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.2
