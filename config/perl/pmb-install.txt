@@ -1,6 +1,6 @@
 AnyEvent~7.14
 AnyEvent::Fork~1.31
-AnyEvent::Handle
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.35
 CGI::Carp~4.40
 Canary::Stability~2012
@@ -40,7 +40,7 @@ IO::HTML~1.001
 IO::Handle~1.39
 IPC::Signal~1.00
 JSON::MaybeXS~1.004000
-JSON::XS~3.04
+JSON::XS~4.0
 LWP::MediaTypes~6.02
 List::MoreUtils~0.428
 List::MoreUtils::XS~0.428
@@ -48,7 +48,7 @@ MIME::Base64~3.15
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode::PP~2.500
+Net::IDN::Punycode~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.85
 POSIX::strftime::Compiler~0.42
