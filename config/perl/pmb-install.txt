@@ -1,5 +1,6 @@
 AnyEvent~7.15
 AnyEvent::Fork~1.31
+AnyEvent::Socket
 Apache::LogFormat::Compiler~0.35
 CGI::Carp~4.44
 Canary::Stability~2013
@@ -7,7 +8,7 @@ Carp~1.50
 Class::Accessor::Lite~0.08
 Class::Data::Inheritable~0.08
 Class::Inspector~1.34
-Cookie::Baker~0.10
+Cookie::Baker~0.11
 Cpanel::JSON::XS~4.11
 Cwd~3.75
 Data::Dumper~2.173
@@ -30,8 +31,8 @@ HTML::Tagset~3.20
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.21
 HTTP::Headers::Fast~0.22
-HTTP::Message~6.18
 HTTP::MultiPartParser~0.02
+HTTP::Status~6.18
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.2
@@ -64,8 +65,8 @@ Signal::Mask~0.008
 Socket~2.029
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302164
 Test::Deep~1.128
+Test::More~1.302164
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
@@ -80,5 +81,5 @@ URI~1.76
 URI::UTF8::Punycode~1.05
 Unicode::Normalize~1.26
 Unicode::Stringprep~1.105
-WWW::Form::UrlEncoded~0.25
+WWW::Form::UrlEncoded~0.26
 common::sense~3.74
