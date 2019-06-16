@@ -30,8 +30,8 @@ HTML::Tagset~3.20
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.21
 HTTP::Headers::Fast~0.22
+HTTP::Message~6.18
 HTTP::MultiPartParser~0.02
-HTTP::Status~6.18
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.2
