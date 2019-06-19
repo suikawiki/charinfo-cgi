@@ -45,8 +45,8 @@
 [submodule "modules/web-resource"]
 	path = modules/web-resource
 	url = https://github.com/manakai/perl-web-resource
-	track = transport
+	track = master
 [submodule "modules/web-datetime"]
 	path = modules/web-datetime
-	url = git://github.com/manakai/perl-web-datetime
+	url = https://github.com/manakai/perl-web-datetime
 	track = master
