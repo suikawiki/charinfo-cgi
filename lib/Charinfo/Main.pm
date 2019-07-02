@@ -339,7 +339,7 @@ if (@char == 1) {
   }
 }
 
-  my $sets_by_chars = [map { Charinfo::Set->get_sets_by_char (ord $_) } @char];
+  my $sets_by_chars = [map { Charinfo::Set->get_sets_by_char (ord $_) } @char[0..($#char > 10 ? 10 : $#char)]];
   p q{<section id=chardata><h1>Characters</h1>};
 
   pf q{<p>Code point length = <a href="https://data.suikawiki.org/number/%d">%d</a>},
@@ -359,7 +359,7 @@ if (@char == 1) {
   for my $prop (qw(Age Script Bidi_Class Canonical_Combining_Class)) { # Block
     p qq{<tr><th><a href="https://wiki.suikawiki.org/n/$prop"><code>$prop</code></a>};
     my $m = qr{^\$unicode:$prop:};
-    for (0..($#char >= 10 ? 10 : $#char)) {
+    for (0..$#$sets_by_chars) {
       p q{<td>};
       for my $set (grep { /$m/ } @{$sets_by_chars->[$_]}) {
         my $value = $set;
