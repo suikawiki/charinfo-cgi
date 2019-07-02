@@ -359,7 +359,7 @@ if (@char == 1) {
   for my $prop (qw(Age Script Bidi_Class Canonical_Combining_Class)) { # Block
     p qq{<tr><th><a href="https://wiki.suikawiki.org/n/$prop"><code>$prop</code></a>};
     my $m = qr{^\$unicode:$prop:};
-    for (0..$#char) {
+    for (0..($#char >= 10 ? 10 : $#char)) {
       p q{<td>};
       for my $set (grep { /$m/ } @{$sets_by_chars->[$_]}) {
         my $value = $set;
