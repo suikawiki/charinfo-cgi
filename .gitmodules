@@ -1,7 +1,3 @@
-[submodule "modules/charclass"]
-	path = modules/charclass
-	url = https://github.com/wakaba/perl-charclass
-	track = master
 [submodule "modules/wanage"]
 	path = modules/wanage
 	url = https://github.com/wakaba/wanage
