@@ -339,45 +339,43 @@ if (@char == 1) {
   }
 }
 
+  my $sets_by_chars = [map { Charinfo::Set->get_sets_by_char (ord $_) } @char];
   p q{<section id=chardata><h1>Characters</h1>};
 
-  pf q{<p>Length = <a href="https://data.suikawiki.org/number/%d">%d</a>},
+  pf q{<p>Code point length = <a href="https://data.suikawiki.org/number/%d">%d</a>},
       0+@char, 0+@char;
 
-  p q{<table class=char-info>};
+  p q{<table class=char-info><tbody>};
+  {
+    p q{<tr><th>Character};
+    p q{<td>}, htescape $_ for @char;
+  }
+  {
+    p q{<tr><th>Code point};
+    pf q{<td>%s}, ucode ord $_ for @char;
+  }
 
-{
-  p q{<tr><th>Character};
-  p q{<td>}, htescape $_ for @char;
-}
-
-{
-  p q{<tr><th>Code point};
-  pf q{<td>%s}, ucode ord $_ for @char;
-}
+  p q{<tbody>};
+  for my $prop (qw(Age Script Bidi_Class Canonical_Combining_Class)) { # Block
+    p qq{<tr><th><a href="https://wiki.suikawiki.org/n/$prop"><code>$prop</code></a>};
+    my $m = qr{^\$unicode:$prop:};
+    for (0..$#char) {
+      p q{<td>};
+      for my $set (grep { /$m/ } @{$sets_by_chars->[$_]}) {
+        my $value = $set;
+        $value =~ s/$m//;
+        pf qq{<a href="/set/%s"><code>%s</code></a> },
+            (percent_encode_c $set),
+            (htescape $value);
+      }
+    }
+  }
 
 use Unicode::UCD 'charinfo';
 my @charinfo = map { charinfo ord $_ or {} } @char;
 {
   p q{<tr><th>bidi (Unicode::UCD)};
   p q{<td>}, htescape $_->{bidi} for @charinfo;
-}
-
-use Char::Prop::Unicode::BidiClass;
-{
-  p q{<tr><th>Bidi_Class (DerivedBidiClass.txt)};
-  p q{<td>}, htescape (unicode_bidi_class_c $_) for @char;
-}
-use Char::Prop::Unicode::5_1_0::BidiClass;
-{
-  p q{<tr><th>Bidi_Class (DerivedBidiClass-5.1.0.txt)};
-  p q{<td>}, htescape (unicode_5_1_0_bidi_class_c $_) for @char;
-}
-
-use Char::Prop::Unicode::Age;
-{
-  p q{<tr><th>Age (DerivedAge.txt)};
-  p q{<td>}, htescape (unicode_age_c $_) for @char;
 }
 
 {
@@ -1023,15 +1021,14 @@ if (0) {
       };
     }
 
-    my $sets = Charinfo::Set->get_sets_by_char (ord $char[0]);
-    if (@$sets) {
+    if (@{$sets_by_chars->[0]}) {
       p q{
         <section class=set-list>
           <h1>Sets</h1>
           <p>The character belongs to following character sets:
           <ul>
       };
-      for (sort { $a cmp $b } @$sets) {
+      for (sort { $a cmp $b } @{$sets_by_chars->[0]}) {
         pf q{<li><a href="/set/%s">%s</a>},
             percent_encode_c $_, htescape $_;
       }

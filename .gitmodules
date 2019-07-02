@@ -1,7 +1,3 @@
-[submodule "modules/charclass"]
-	path = modules/charclass
-	url = https://github.com/wakaba/perl-charclass
-	track = master
 [submodule "modules/wanage"]
 	path = modules/wanage
 	url = https://github.com/wakaba/wanage
@@ -45,8 +41,8 @@
 [submodule "modules/web-resource"]
 	path = modules/web-resource
 	url = https://github.com/manakai/perl-web-resource
-	track = transport
+	track = master
 [submodule "modules/web-datetime"]
 	path = modules/web-datetime
-	url = git://github.com/manakai/perl-web-datetime
+	url = https://github.com/manakai/perl-web-datetime
 	track = master
