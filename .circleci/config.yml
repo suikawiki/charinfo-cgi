@@ -100,6 +100,42 @@
                }
             }
          ]
+      },
+      "gaa4" : {
+         "environment" : {
+            "CIRCLE_ARTIFACTS" : "/tmp/circle-artifacts"
+         },
+         "machine" : {
+            "enabled" : true
+         },
+         "steps" : [
+            "checkout",
+            {
+               "run" : {
+                  "command" : "git config --global user.email \u0022temp@circleci.test\u0022;git config --global user.name \u0022CircleCI\u0022"
+               }
+            },
+            {
+               "run" : {
+                  "command" : "make deps"
+               }
+            },
+            {
+               "run" : {
+                  "command" : "make updatenightly"
+               }
+            },
+            {
+               "deploy" : {
+                  "command" : "git commit -m auto"
+               }
+            },
+            {
+               "deploy" : {
+                  "command" : "git push origin \u002B`git rev-parse HEAD`:refs/heads/nightly"
+               }
+            }
+         ]
       }
    },
    "version" : 2,
@@ -107,6 +143,25 @@
       "build" : {
          "jobs" : [
             "build"
+         ]
+      },
+      "gaa4" : {
+         "jobs" : [
+            "gaa4"
+         ],
+         "triggers" : [
+            {
+               "schedule" : {
+                  "cron" : "51 22 * * *",
+                  "filters" : {
+                     "branches" : {
+                        "only" : [
+                           "staging"
+                        ]
+                     }
+                  }
+               }
+            }
          ]
       },
       "version" : 2
