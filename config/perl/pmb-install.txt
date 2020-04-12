@@ -1,5 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.31
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.46
 Canary::Stability~2013
@@ -30,8 +31,8 @@ HTML::Tagset~3.20
 HTTP::Date~6.05
 HTTP::Entity::Parser~0.22
 HTTP::Headers::Fast~0.22
-HTTP::Message~6.22
 HTTP::MultiPartParser~0.02
+HTTP::Status~6.22
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.2
@@ -58,15 +59,15 @@ Path::Tiny~0.112
 Plack~1.0047
 Proc::FastSpawn~1.2
 Proc::Wait3~0.05
-Scalar::Util~1.54
+Scalar::Util~1.55
 Scope::Guard~0.21
 Server::Starter~0.35
 Signal::Mask~0.008
 Socket~2.029
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
+Test::Builder~1.302174
 Test::Deep~1.130
-Test::More~1.302174
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
