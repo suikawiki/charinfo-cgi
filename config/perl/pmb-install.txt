@@ -1,5 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.31
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.46
 Canary::Stability~2013
@@ -17,7 +18,7 @@ Digest::SHA~6.02
 Encode~3.05
 Encode::Locale~1.05
 Exporter::Lite~0.08
-Exporter::Tiny~1.002001
+Exporter::Tiny~1.002002
 ExtUtils::Config~0.008
 ExtUtils::Helpers~0.026
 ExtUtils::InstallPaths~0.012
