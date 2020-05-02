@@ -1,7 +1,8 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.31
+AnyEvent::Handle
 Apache::LogFormat::Compiler~0.36
-CGI::Carp~4.46
+CGI::Carp~4.47
 Canary::Stability~2013
 Carp~1.50
 Class::Accessor::Lite~0.08
@@ -14,7 +15,7 @@ Data::Dumper~2.173
 Devel::StackTrace~2.04
 Devel::StackTrace::AsHTML~0.15
 Digest::SHA~6.02
-Encode~3.05
+Encode~3.06
 Encode::Locale~1.05
 Exporter::Lite~0.08
 Exporter::Tiny~1.002002
@@ -38,7 +39,7 @@ IO::FDPass~1.2
 IO::HTML~1.001
 IO::Handle~1.42
 IPC::Signal~1.00
-JSON::MaybeXS~1.004000
+JSON::MaybeXS~1.004001
 JSON::XS~4.02
 LWP::MediaTypes~6.04
 List::MoreUtils~0.428
@@ -48,7 +49,7 @@ Math::BigInt~1.999818
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~2.500
+Net::IDN::Punycode::PP~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.88
 POSIX::strftime::Compiler~0.42
@@ -65,8 +66,8 @@ Signal::Mask~0.008
 Socket~2.029
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
+Test::Builder~1.302175
 Test::Deep~1.130
-Test::More~1.302175
 Test::NoWarnings~1.04
 Test::Requires~0.10
 Test::SharedFork~0.35
