@@ -1,5 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.31
+AnyEvent::Socket
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.47
 Canary::Stability~2013
@@ -7,6 +8,7 @@ Carp~1.50
 Class::Accessor::Lite~0.08
 Class::Data::Inheritable~0.08
 Class::Inspector~1.36
+Clone~0.45
 Cookie::Baker~0.11
 Cpanel::JSON::XS~4.19
 Cwd~3.75
@@ -31,7 +33,7 @@ HTTP::Date~6.05
 HTTP::Entity::Parser~0.22
 HTTP::Headers::Fast~0.22
 HTTP::MultiPartParser~0.02
-HTTP::Status~6.22
+HTTP::Status~6.24
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.2
@@ -48,7 +50,7 @@ Math::BigInt~1.999818
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~2.500
+Net::IDN::Punycode::PP~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.88
 POSIX::strftime::Compiler~0.42
