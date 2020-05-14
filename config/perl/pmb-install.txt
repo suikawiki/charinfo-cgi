@@ -1,5 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.31
+AnyEvent::Handle
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.47
 Canary::Stability~2013
@@ -69,7 +70,7 @@ Term::ANSIColor~5.01
 Test::Deep~1.130
 Test::More~1.302175
 Test::NoWarnings~1.04
-Test::Requires~0.10
+Test::Requires~0.11
 Test::SharedFork~0.35
 Test::TCP~2.22
 Time::HiRes~1.9760
