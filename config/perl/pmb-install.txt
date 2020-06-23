@@ -66,8 +66,8 @@ Signal::Mask~0.008
 Socket~2.029
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
+Test::Builder~1.302175
 Test::Deep~1.130
-Test::More~1.302175
 Test::NoWarnings~1.04
 Test::Requires~0.11
 Test::SharedFork~0.35
