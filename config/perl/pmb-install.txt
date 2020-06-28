@@ -7,7 +7,6 @@ Carp~1.50
 Class::Accessor::Lite~0.08
 Class::Data::Inheritable~0.08
 Class::Inspector~1.36
-Clone~0.45
 Cookie::Baker~0.11
 Cpanel::JSON::XS~4.19
 Cwd~3.75
@@ -31,8 +30,8 @@ HTML::Tagset~3.20
 HTTP::Date~6.05
 HTTP::Entity::Parser~0.22
 HTTP::Headers::Fast~0.22
+HTTP::Message~6.25
 HTTP::MultiPartParser~0.02
-HTTP::Status~6.24
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.2
@@ -66,8 +65,8 @@ Signal::Mask~0.008
 Socket~2.029
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
-Test::Builder~1.302175
 Test::Deep~1.130
+Test::More~1.302175
 Test::NoWarnings~1.04
 Test::Requires~0.11
 Test::SharedFork~0.35
