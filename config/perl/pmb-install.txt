@@ -28,7 +28,7 @@ Filesys::Notify::Simple~0.14
 HTML::Entities~3.69
 HTML::Tagset~3.20
 HTTP::Date~6.05
-HTTP::Entity::Parser~0.22
+HTTP::Entity::Parser~0.23
 HTTP::Headers::Fast~0.22
 HTTP::Message~6.25
 HTTP::MultiPartParser~0.02
@@ -65,8 +65,8 @@ Signal::Mask~0.008
 Socket~2.030
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
+Test::Builder~1.302175
 Test::Deep~1.130
-Test::More~1.302175
 Test::NoWarnings~1.04
 Test::Requires~0.11
 Test::SharedFork~0.35
