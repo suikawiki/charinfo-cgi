@@ -1,6 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.31
-AnyEvent::Socket
+AnyEvent::Handle
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.50
 Canary::Stability~2013
@@ -15,7 +15,7 @@ Data::Dumper~2.173
 Devel::StackTrace~2.04
 Devel::StackTrace::AsHTML~0.15
 Digest::SHA~6.02
-Encode~3.06
+Encode~3.07
 Encode::Locale~1.05
 Exporter::Lite~0.08
 Exporter::Tiny~1.002002
@@ -49,10 +49,10 @@ Math::BigInt~1.999818
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~2.500
+Net::IDN::Punycode::PP~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.88
-POSIX::strftime::Compiler~0.42
+POSIX::strftime::Compiler~0.43
 Parallel::Prefork~0.18
 Path::Class~0.37
 Path::Tiny~0.114
@@ -79,7 +79,7 @@ Try::Tiny~0.30
 Twiggy~0.1025
 Twiggy::Prefork~0.08
 Types::Serialiser~1.0
-URI::Escape~3.31
+URI~1.76
 URI::UTF8::Punycode~1.05
 Unicode::Normalize~1.26
 Unicode::Stringprep~1.105
