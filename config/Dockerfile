@@ -16,7 +16,7 @@ ADD css.css /app/css.css
 ADD rev /app/rev
 
 RUN (apt-get update || (sleep 3 && apt-get update)) && \
-    apt-get -y install libidn11-dev bzip2 && \
+    apt-get -y install libidn11-dev bzip2 make && \
     rm -rf /var/lib/apt/lists/*
 
 RUN cd /app && \
