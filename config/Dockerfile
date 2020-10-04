@@ -1,4 +1,6 @@
-FROM quay.io/wakaba/docker-perl-app-base
+#XXX
+#FROM quay.io/wakaba/docker-perl-app-base
+FROM debian:stretch
 
 ADD .git/ /app/.git/
 ADD .gitmodules /app/.gitmodules
