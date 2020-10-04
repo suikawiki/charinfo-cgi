@@ -1,4 +1,6 @@
-FROM quay.io/wakaba/docker-perl-app-base
+#XXX
+#FROM quay.io/wakaba/docker-perl-app-base
+FROM debian:stretch
 
 ADD .git/ /app/.git/
 ADD .gitmodules /app/.gitmodules
@@ -14,11 +16,11 @@ ADD css.css /app/css.css
 ADD rev /app/rev
 
 RUN (apt-get update || (sleep 3 && apt-get update)) && \
-    apt-get -y install libidn11-dev bzip2 && \
+    apt-get -y install libidn11-dev bzip2 make wget curl gcc build-essential libssl-dev && \
     rm -rf /var/lib/apt/lists/*
 
 RUN cd /app && \
-    make deps-docker PMBP_OPTIONS=--execute-system-package-installer && \
+    make deps-docker PMBP_OPTIONS="--execute-system-package-installer" && \
     echo '#!/bin/bash' > /server && \
     echo 'cd /app' >> /server && \
     echo 'exec ./plackup -s Twiggy::Prefork --max-workers 2 -p 8080 server.psgi' >> /server && \
