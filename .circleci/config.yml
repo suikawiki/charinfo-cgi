@@ -76,11 +76,6 @@
             },
             {
                "store_artifacts" : {
-                  "path" : "/app/local/pmbp/logs"
-               }
-            },
-            {
-               "store_artifacts" : {
                   "path" : "/tmp/circle-artifacts/build"
                }
             },
