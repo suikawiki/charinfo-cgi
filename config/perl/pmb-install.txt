@@ -1,6 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.31
-AnyEvent::Handle
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.53
 Canary::Stability~2013
@@ -60,7 +60,7 @@ Path::Tiny~0.118
 Plack~1.0048
 Proc::FastSpawn~1.2
 Proc::Wait3~0.05
-Scalar::Util~1.56
+Scalar::Util~1.57
 Scope::Guard~0.21
 Server::Starter~0.35
 Signal::Mask~0.008
