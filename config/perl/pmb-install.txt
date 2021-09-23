@@ -50,7 +50,7 @@ Math::BigInt~1.999824
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~2.500
+Net::IDN::Punycode::PP~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.90
 POSIX::strftime::Compiler~0.44
