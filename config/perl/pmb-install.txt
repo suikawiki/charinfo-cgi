@@ -1,6 +1,5 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.31
-AnyEvent::Util
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.53
 Canary::Stability~2013
@@ -32,8 +31,8 @@ HTTP::Date~6.05
 HTTP::Entity::Parser~0.25
 HTTP::Headers~6.33
 HTTP::Headers::Fast~0.22
-HTTP::Message~6.33
 HTTP::MultiPartParser~0.02
+HTTP::Status~6.33
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.3
@@ -46,7 +45,7 @@ LWP::MediaTypes~6.04
 List::MoreUtils~0.430
 List::MoreUtils::XS~0.430
 MIME::Base64~3.16
-Math::BigInt~1.999826
+Math::BigInt~1.999827
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
@@ -67,8 +66,8 @@ Signal::Mask~0.008
 Socket~2.032
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
-Test::Builder~1.302188
 Test::Deep~1.130
+Test::More~1.302188
 Test::NoWarnings~1.06
 Test::Requires~0.11
 Test::SharedFork~0.35
