@@ -55,7 +55,7 @@ Net::SSLeay~1.90
 POSIX::strftime::Compiler~0.44
 Parallel::Prefork~0.18
 Path::Class~0.37
-Path::Tiny~0.118
+Path::Tiny~0.120
 Plack~1.0048
 Proc::FastSpawn~1.2
 Proc::Wait3~0.05
@@ -66,8 +66,8 @@ Signal::Mask~0.008
 Socket~2.032
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
-Test::Builder~1.302188
 Test::Deep~1.130
+Test::More~1.302188
 Test::NoWarnings~1.06
 Test::Requires~0.11
 Test::SharedFork~0.35
