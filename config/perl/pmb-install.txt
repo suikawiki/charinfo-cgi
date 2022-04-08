@@ -14,7 +14,7 @@ Data::Dumper~2.183
 Devel::StackTrace~2.04
 Devel::StackTrace::AsHTML~0.15
 Digest::SHA~6.02
-Encode~3.16
+Encode~3.17
 Encode::Locale~1.05
 Exporter::Lite~0.09
 Exporter::Tiny~1.002002
@@ -49,7 +49,7 @@ Math::BigInt~1.999829
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode::PP~2.500
+Net::IDN::Punycode~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.92
 POSIX::strftime::Compiler~0.44
