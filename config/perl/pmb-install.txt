@@ -1,5 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
+AnyEvent::Socket
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.54
 Canary::Stability~2013
