@@ -49,7 +49,7 @@ Math::BigInt~1.999835
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~2.500
+Net::IDN::Punycode::PP~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.92
 POSIX::strftime::Compiler~0.44
@@ -66,8 +66,8 @@ Signal::Mask~0.008
 Socket~2.033
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
-Test::Builder~1.302190
 Test::Deep~1.130
+Test::More~1.302190
 Test::NoWarnings~1.06
 Test::Requires~0.11
 Test::SharedFork~0.35
