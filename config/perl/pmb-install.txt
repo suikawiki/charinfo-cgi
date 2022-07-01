@@ -22,7 +22,7 @@ ExtUtils::Config~0.008
 ExtUtils::Helpers~0.026
 ExtUtils::InstallPaths~0.012
 File::ShareDir~1.118
-File::ShareDir::Install~0.13
+File::ShareDir::Install~0.14
 File::Temp~0.2311
 Filesys::Notify::Simple~0.14
 HTML::Entities~3.78
@@ -49,7 +49,7 @@ Math::BigInt~1.999836
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~2.500
+Net::IDN::Punycode::PP~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.92
 POSIX::strftime::Compiler~0.44
@@ -63,7 +63,7 @@ Scalar::Util~1.62
 Scope::Guard~0.21
 Server::Starter~0.35
 Signal::Mask~0.008
-Socket~2.034
+Socket~2.035
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
 Test::Builder~1.302190
