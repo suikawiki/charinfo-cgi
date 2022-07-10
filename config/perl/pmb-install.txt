@@ -68,7 +68,7 @@ Socket~2.035
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
 Test::Deep~1.130
-Test::More~1.302190
+Test::More~1.302191
 Test::NoWarnings~1.06
 Test::Requires~0.11
 Test::SharedFork~0.35
