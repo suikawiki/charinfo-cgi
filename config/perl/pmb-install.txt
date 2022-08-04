@@ -1,6 +1,5 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
-AnyEvent::Util
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.54
 Canary::Stability~2013
@@ -15,7 +14,7 @@ Data::Dumper~2.183
 Devel::StackTrace~2.04
 Devel::StackTrace::AsHTML~0.15
 Digest::SHA~6.02
-Encode~3.18
+Encode~3.19
 Encode::Locale~1.05
 Exporter::Lite~0.09
 Exporter::Tiny~1.002002
@@ -32,8 +31,8 @@ HTTP::Date~6.05
 HTTP::Entity::Parser~0.25
 HTTP::Headers~6.37
 HTTP::Headers::Fast~0.22
+HTTP::Message~6.37
 HTTP::MultiPartParser~0.02
-HTTP::Status~6.37
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.3
