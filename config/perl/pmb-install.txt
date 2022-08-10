@@ -1,5 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
+AnyEvent::Handle
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.54
 Canary::Stability~2013
@@ -8,7 +9,7 @@ Class::Accessor::Lite~0.08
 Class::Data::Inheritable~0.09
 Class::Inspector~1.36
 Cookie::Baker~0.11
-Cpanel::JSON::XS~4.30
+Cpanel::JSON::XS~4.31
 Cwd~3.75
 Data::Dumper~2.183
 Devel::StackTrace~2.04
@@ -66,8 +67,8 @@ Signal::Mask~0.008
 Socket~2.035
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
-Test::Builder~1.302191
 Test::Deep~1.130
+Test::More~1.302191
 Test::NoWarnings~1.06
 Test::Requires~0.11
 Test::SharedFork~0.35
