@@ -1,6 +1,5 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
-AnyEvent::Socket
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.54
 Canary::Stability~2013
@@ -32,8 +31,8 @@ HTTP::Date~6.05
 HTTP::Entity::Parser~0.25
 HTTP::Headers~6.37
 HTTP::Headers::Fast~0.22
-HTTP::Message~6.37
 HTTP::MultiPartParser~0.02
+HTTP::Status~6.37
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.3
@@ -57,7 +56,7 @@ POSIX::strftime::Compiler~0.44
 Parallel::Prefork~0.18
 Path::Class~0.37
 Path::Tiny~0.122
-Plack~1.0048
+Plack~1.0049
 Proc::FastSpawn~1.2
 Proc::Wait3~0.05
 Scalar::Util~1.63
