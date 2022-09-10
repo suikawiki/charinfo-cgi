@@ -20,10 +20,10 @@ RUN (apt-get update || (sleep 3 && apt-get update)) && \
     rm -rf /var/lib/apt/lists/*
 
 RUN cd /app && \
-    make deps-docker PMBP_OPTIONS="--execute-system-package-installer" && \
+    make deps-docker PMBP_OPTIONS="--execute-system-package-installer --dump-info-file-before-die" && \
     echo '#!/bin/bash' > /server && \
     echo 'cd /app' >> /server && \
-    echo 'exec ./plackup -s Twiggy::Prefork --max-workers 2 -p 8080 server.psgi' >> /server && \
+    echo 'exec ./plackup -s Twiggy::Prefork --max-workers 2 -p ${PORT:-8080} server.psgi' >> /server && \
     chmod u+x /server && \
     rm -fr /app/.git /app/deps /app/t /app/t_deps && \
     rm -rf /var/lib/apt/lists/*
