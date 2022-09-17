@@ -32,15 +32,15 @@ HTTP::Date~6.05
 HTTP::Entity::Parser~0.25
 HTTP::Headers~6.37
 HTTP::Headers::Fast~0.22
-HTTP::Message~6.37
 HTTP::MultiPartParser~0.02
+HTTP::Status~6.37
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.3
 IO::HTML~1.004
 IO::Handle~1.48
 IPC::Signal~1.00
-JSON::MaybeXS~1.004003
+JSON::MaybeXS~1.004004
 JSON::XS~4.03
 LWP::MediaTypes~6.04
 List::MoreUtils~0.430
@@ -50,7 +50,7 @@ Math::BigInt~1.999837
 Module::Build::Tiny~0.039
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~2.500
+Net::IDN::Punycode::PP~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.92
 POSIX::strftime::Compiler~0.44
@@ -67,8 +67,8 @@ Signal::Mask~0.008
 Socket~2.036
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
-Test::Builder~1.302191
 Test::Deep~1.130
+Test::More~1.302191
 Test::NoWarnings~1.06
 Test::Requires~0.11
 Test::SharedFork~0.35
@@ -81,7 +81,6 @@ Twiggy~0.1026
 Twiggy::Prefork~0.08
 Types::Serialiser~1.01
 URI~5.12
-URI::URL~5.12
 URI::UTF8::Punycode~1.05
 Unicode::Normalize~1.26
 Unicode::Stringprep~1.105
