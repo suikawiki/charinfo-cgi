@@ -1,6 +1,5 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
-AnyEvent::Util
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.54
 Canary::Stability~2013
@@ -57,7 +56,7 @@ Net::SSLeay~1.92
 POSIX::strftime::Compiler~0.44
 Parallel::Prefork~0.18
 Path::Class~0.37
-Path::Tiny~0.142
+Path::Tiny~0.144
 Plack~1.0050
 Proc::FastSpawn~1.2
 Proc::Wait3~0.05
