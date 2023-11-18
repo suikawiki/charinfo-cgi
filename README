@@ -16,9 +16,10 @@ Run:
 
   $ curl http://localhost:6023/
 
-* Repository
+* History
 
-GitHub <https://github.com/wakaba/charinfo-cgi>.
+The Git repository was at <https://github.com/wakaba/charinfo-cgi>
+until 18 November 2023.
 
 * Author
 
@@ -26,7 +27,7 @@ Wakaba <wakaba@suikawiki.org>.
 
 * License
 
-Copyright 2011-2017 Wakaba <wakaba@suikawiki.org>.
+Copyright 2011-2023 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
