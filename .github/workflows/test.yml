@@ -1,0 +1,166 @@
+{
+   "jobs" : {
+      "deploy_github_nightly" : {
+         "if" : "${{ github.ref == 'refs/heads/nightly' }}",
+         "needs" : [
+            "test"
+         ],
+         "runs-on" : "ubuntu-latest",
+         "steps" : [
+            {
+               "uses" : "actions/checkout@v2",
+               "with" : {
+                  "fetch-depth" : 0,
+                  "ref" : "master",
+                  "ssh-key" : "${{ secrets.GH_GIT_KEY }}"
+               }
+            },
+            {
+               "run" : "git config --global user.name \u0022GitHub Actions\u0022"
+            },
+            {
+               "run" : "git config --global user.email \u0022temp@github.test\u0022"
+            },
+            {
+               "run" : "git fetch --unshallow origin master || git fetch origin master"
+            },
+            {
+               "run" : "git checkout master || git checkout -b master origin/master"
+            },
+            {
+               "run" : "git merge -m \u0022auto-merge $GITHUB_REF ($GITHUB_SHA) into master\u0022 $GITHUB_SHA"
+            },
+            {
+               "run" : "git push origin master"
+            },
+            {
+               "env" : {
+                  "BWALLER_URL" : "${{ secrets.BWALLER_URL }}"
+               },
+               "run" : "curl -sSf $BWALLER_URL | BWALL_GROUP=merger.${GITHUB_REF/refs\u005C/heads\u005C//} BWALL_NAME=${GITHUB_REPOSITORY} bash"
+            }
+         ]
+      },
+      "deploy_github_staging" : {
+         "if" : "${{ github.ref == 'refs/heads/staging' }}",
+         "needs" : [
+            "test"
+         ],
+         "runs-on" : "ubuntu-latest",
+         "steps" : [
+            {
+               "uses" : "actions/checkout@v2",
+               "with" : {
+                  "fetch-depth" : 0,
+                  "ref" : "master",
+                  "ssh-key" : "${{ secrets.GH_GIT_KEY }}"
+               }
+            },
+            {
+               "run" : "git config --global user.name \u0022GitHub Actions\u0022"
+            },
+            {
+               "run" : "git config --global user.email \u0022temp@github.test\u0022"
+            },
+            {
+               "run" : "git fetch --unshallow origin master || git fetch origin master"
+            },
+            {
+               "run" : "git checkout master || git checkout -b master origin/master"
+            },
+            {
+               "run" : "git merge -m \u0022auto-merge $GITHUB_REF ($GITHUB_SHA) into master\u0022 $GITHUB_SHA"
+            },
+            {
+               "run" : "git push origin master"
+            },
+            {
+               "env" : {
+                  "BWALLER_URL" : "${{ secrets.BWALLER_URL }}"
+               },
+               "run" : "curl -sSf $BWALLER_URL | BWALL_GROUP=merger.${GITHUB_REF/refs\u005C/heads\u005C//} BWALL_NAME=${GITHUB_REPOSITORY} bash"
+            }
+         ]
+      },
+      "test" : {
+         "env" : {
+            "CIRCLE_ARTIFACTS" : "/tmp/circle-artifacts/test"
+         },
+         "runs-on" : "ubuntu-latest",
+         "steps" : [
+            {
+               "uses" : "actions/checkout@v2",
+               "with" : {
+                  "ssh-key" : "${{ secrets.GH_GIT_KEY }}"
+               }
+            },
+            {
+               "run" : "mkdir -p $CIRCLE_ARTIFACTS"
+            },
+            {
+               "run" : "git submodule update --init"
+            },
+            {
+               "run" : "rm -fr modules/*/bin modules/*/.git modules/*/t modules/*/t_deps"
+            },
+            {
+               "run" : "mv config/Dockerfile ./"
+            },
+            {
+               "run" : "git rev-parse HEAD > rev"
+            },
+            {
+               "run" : "docker build -t quay\u005C.io\u005C/wakaba\u005C/swchars \u005C."
+            },
+            {
+               "run" : "docker run --name server -d -p 5511:8080 quay.io/wakaba/swchars /server; sleep 10"
+            },
+            {
+               "run" : "curl -f http://localhost:5511"
+            },
+            {
+               "run" : "curl -f http://localhost:5511/char/1234"
+            },
+            {
+               "run" : "curl -f http://localhost:5511/css"
+            },
+            {
+               "run" : "curl -f http://localhost:5511/fonts/mona.ttf > $CIRCLE_ARTIFACTS/mona.ttf"
+            },
+            {
+               "run" : "docker logs server"
+            },
+            {
+               "env" : {
+                  "DOCKER_PASS" : "${{ secrets.DOCKER_PASS }}",
+                  "DOCKER_USER" : "${{ secrets.DOCKER_USER }}"
+               },
+               "if" : "${{ github.ref == 'refs/heads/master' }}",
+               "run" : "docker login -u $DOCKER_USER -p $DOCKER_PASS quay\u005C.io"
+            },
+            {
+               "if" : "${{ github.ref == 'refs/heads/master' }}",
+               "run" : "docker push quay\u005C.io\u005C/wakaba\u005C/swchars"
+            },
+            {
+               "env" : {
+                  "BWALLER_URL" : "${{ secrets.BWALLER_URL }}"
+               },
+               "if" : "${{ github.ref == 'refs/heads/master' }}",
+               "run" : "curl -sSf $BWALLER_URL | BWALL_GROUP=docker BWALL_NAME=quay.io/wakaba/swchars bash"
+            },
+            {
+               "uses" : "actions/upload-artifact@v3",
+               "with" : {
+                  "path" : "/tmp/circle-artifacts/test"
+               }
+            }
+         ]
+      }
+   },
+   "name" : "test",
+   "on" : {
+      "push" : {
+      }
+   }
+}
