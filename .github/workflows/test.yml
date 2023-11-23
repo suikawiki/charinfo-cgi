@@ -150,6 +150,7 @@
                "run" : "curl -sSf $BWALLER_URL | BWALL_GROUP=docker BWALL_NAME=quay.io/wakaba/swchars bash"
             },
             {
+               "if" : "${{ always () }}",
                "uses" : "actions/upload-artifact@v3",
                "with" : {
                   "path" : "/tmp/circle-artifacts/test"
