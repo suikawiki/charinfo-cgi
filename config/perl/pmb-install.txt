@@ -32,8 +32,8 @@ HTTP::Date~6.06
 HTTP::Entity::Parser~0.25
 HTTP::Headers~6.45
 HTTP::Headers::Fast~0.22
-HTTP::Message~6.45
 HTTP::MultiPartParser~0.02
+HTTP::Status~6.45
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.3
@@ -50,7 +50,7 @@ Math::BigInt~2.002001
 Module::Build::Tiny~0.047
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode::PP~2.500
+Net::IDN::Punycode~2.500
 Net::LibIDN~0.12
 Net::SSLeay
 POSIX::strftime::Compiler~0.45
