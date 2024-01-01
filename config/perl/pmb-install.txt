@@ -32,8 +32,8 @@ HTTP::Date~6.06
 HTTP::Entity::Parser~0.25
 HTTP::Headers~6.45
 HTTP::Headers::Fast~0.22
+HTTP::Message~6.45
 HTTP::MultiPartParser~0.02
-HTTP::Status~6.45
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.3
