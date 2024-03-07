@@ -1,7 +1,7 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
 Apache::LogFormat::Compiler~0.36
-CGI::Carp~4.62
+CGI::Carp~4.63
 Canary::Stability~2013
 Carp~1.50
 Class::Accessor::Lite~0.08
@@ -32,8 +32,8 @@ HTTP::Date~6.06
 HTTP::Entity::Parser~0.25
 HTTP::Headers~6.45
 HTTP::Headers::Fast~0.22
+HTTP::Message~6.45
 HTTP::MultiPartParser~0.02
-HTTP::Status~6.45
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.3
