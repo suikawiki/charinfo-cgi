@@ -1,5 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.63
 Canary::Stability~2013
@@ -27,13 +28,13 @@ File::ShareDir::Install~0.14
 File::Temp~0.2311
 Filesys::Notify::Simple~0.14
 HTML::Entities~3.81
-HTML::Tagset~3.20
+HTML::Tagset~3.22
 HTTP::Date~6.06
 HTTP::Entity::Parser~0.25
 HTTP::Headers~6.45
 HTTP::Headers::Fast~0.22
+HTTP::Message~6.45
 HTTP::MultiPartParser~0.02
-HTTP::Status~6.45
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.3
@@ -81,7 +82,7 @@ Twiggy~0.1026
 Twiggy::Prefork~0.08
 Types::Serialiser~1.01
 URI~5.27
-URI::URL~5.27
+URI::Escape~5.27
 URI::UTF8::Punycode~1.05
 Unicode::Normalize~1.26
 Unicode::Stringprep~1.105
