@@ -1,6 +1,5 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
-AnyEvent::Util
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.64
 CPAN::Meta::Requirements::Range~2.143
@@ -12,7 +11,7 @@ Class::Data::Inheritable~0.09
 Class::Inspector~1.36
 Clone~0.46
 Cookie::Baker~0.12
-Cpanel::JSON::XS~4.37
+Cpanel::JSON::XS~4.38
 Cwd~3.75
 Data::Dumper~2.183
 Devel::StackTrace~2.05
