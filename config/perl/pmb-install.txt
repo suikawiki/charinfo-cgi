@@ -1,5 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
+AnyEvent::Handle
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.65
 CPAN::Meta::Requirements::Range~2.143
