@@ -1,5 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
+AnyEvent::Socket
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.66
 CPAN::Meta::Requirements::Range~2.143
@@ -53,7 +54,7 @@ Math::BigInt~2.003003
 Module::Build::Tiny~0.048
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~2.500
+Net::IDN::Punycode::PP~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.94
 POSIX::strftime::Compiler~0.46
