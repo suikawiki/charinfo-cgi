@@ -1,5 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.66
 CPAN::Meta::Requirements::Range~2.143
@@ -35,8 +36,8 @@ HTTP::Date~6.06
 HTTP::Entity::Parser~0.25
 HTTP::Headers~6.46
 HTTP::Headers::Fast~0.22
-HTTP::Message~6.46
 HTTP::MultiPartParser~0.02
+HTTP::Status~6.46
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.3
