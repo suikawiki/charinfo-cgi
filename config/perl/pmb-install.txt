@@ -1,5 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
+AnyEvent::Socket
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.66
 CPAN::Requirements::Dynamic~0.001
@@ -42,7 +43,7 @@ IO::FDPass~1.3
 IO::HTML~1.004
 IO::Handle~1.55
 IPC::Signal~1.00
-JSON::MaybeXS~1.004005
+JSON::MaybeXS~1.004006
 JSON::XS~4.03
 LWP::MediaTypes~6.04
 List::MoreUtils~0.430
@@ -62,7 +63,7 @@ Path::Tiny~0.146
 Plack~1.0051
 Proc::FastSpawn~1.2
 Proc::Wait3~0.05
-Scalar::Util~1.63
+Scalar::Util~1.64
 Scope::Guard~0.21
 Server::Starter~0.35
 Signal::Mask~0.008
