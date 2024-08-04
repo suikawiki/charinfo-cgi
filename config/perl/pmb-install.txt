@@ -1,6 +1,6 @@
 AnyEvent~7.17
 AnyEvent::Fork~1.32
-AnyEvent::Socket
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.66
 CPAN::Requirements::Dynamic~0.001
@@ -43,7 +43,7 @@ IO::FDPass~1.3
 IO::HTML~1.004
 IO::Handle~1.55
 IPC::Signal~1.00
-JSON::MaybeXS~1.004006
+JSON::MaybeXS~1.004007
 JSON::XS~4.03
 LWP::MediaTypes~6.04
 List::MoreUtils~0.430
