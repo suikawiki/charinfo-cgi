@@ -34,15 +34,15 @@ HTTP::Date~6.06
 HTTP::Entity::Parser~0.25
 HTTP::Headers~6.46
 HTTP::Headers::Fast~0.22
-HTTP::Message~6.46
 HTTP::MultiPartParser~0.02
+HTTP::Status~6.46
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.3
 IO::HTML~1.004
 IO::Handle~1.55
 IPC::Signal~1.00
-JSON::MaybeXS~1.004007
+JSON::MaybeXS~1.004008
 JSON::XS~4.03
 LWP::MediaTypes~6.04
 List::MoreUtils~0.430
