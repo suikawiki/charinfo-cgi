@@ -21,7 +21,7 @@ Exporter::Lite~0.09
 Exporter::Tiny~1.006002
 ExtUtils::Config~0.010
 ExtUtils::Helpers~0.028
-ExtUtils::InstallPaths~0.013
+ExtUtils::InstallPaths~0.014
 File::ShareDir~1.118
 File::ShareDir::Install~0.14
 File::Temp~0.2311
@@ -32,8 +32,8 @@ HTTP::Date~6.06
 HTTP::Entity::Parser~0.25
 HTTP::Headers~6.46
 HTTP::Headers::Fast~0.22
-HTTP::Message~6.46
 HTTP::MultiPartParser~0.02
+HTTP::Status~6.46
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::FDPass~1.3
@@ -51,7 +51,7 @@ Math::BigInt~2.003003
 Module::Build::Tiny~0.051
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode::PP~2.500
+Net::IDN::Punycode~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.94
 POSIX::strftime::Compiler~0.46
@@ -82,7 +82,6 @@ Twiggy~0.1026
 Twiggy::Prefork~0.08
 Types::Serialiser~1.01
 URI~5.29
-URI::Escape~5.29
 URI::UTF8::Punycode~1.05
 Unicode::Normalize~1.26
 Unicode::Stringprep~1.105
