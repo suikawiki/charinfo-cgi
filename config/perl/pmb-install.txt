@@ -1,6 +1,7 @@
 AnyEvent~7.17
 AnyEvent::AIO~1.1
 AnyEvent::Fork~1.32
+AnyEvent::Handle
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.66
 Canary::Stability~2013
@@ -33,8 +34,8 @@ HTTP::Date~6.06
 HTTP::Entity::Parser~0.25
 HTTP::Headers~7.00
 HTTP::Headers::Fast~0.22
-HTTP::Message~7.00
 HTTP::MultiPartParser~0.02
+HTTP::Status~7.00
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::AIO~4.81
@@ -53,7 +54,7 @@ Math::BigInt~2.003003
 Module::Build::Tiny~0.051
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~2.500
+Net::IDN::Punycode::PP~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.94
 POSIX::strftime::Compiler~0.46
@@ -71,7 +72,7 @@ Socket~2.038
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
 Test::Deep~1.204
-Test::More~1.302204
+Test::More~1.302205
 Test::NoWarnings~1.06
 Test::Requires~0.11
 Test::SharedFork~0.35
