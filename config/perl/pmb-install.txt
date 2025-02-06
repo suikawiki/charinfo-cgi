@@ -1,6 +1,7 @@
 AnyEvent~7.17
 AnyEvent::AIO~1.1
 AnyEvent::Fork~1.32
+AnyEvent::Handle
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.67
 Canary::Stability~2013
@@ -33,8 +34,8 @@ HTTP::Date~6.06
 HTTP::Entity::Parser~0.25
 HTTP::Headers~7.00
 HTTP::Headers::Fast~0.22
-HTTP::Message~7.00
 HTTP::MultiPartParser~0.02
+HTTP::Status~7.00
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::AIO~4.81
