@@ -1,6 +1,7 @@
 AnyEvent~7.17
 AnyEvent::AIO~1.1
 AnyEvent::Fork~1.32
+AnyEvent::Socket
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.67
 Canary::Stability~2013
@@ -33,8 +34,8 @@ HTTP::Date~6.06
 HTTP::Entity::Parser~0.25
 HTTP::Headers~7.00
 HTTP::Headers::Fast~0.22
+HTTP::Message~7.00
 HTTP::MultiPartParser~0.02
-HTTP::Status~7.00
 Hash::MultiValue~0.16
 IDNA::Punycode~0.03
 IO::AIO~4.81
@@ -53,7 +54,7 @@ Math::BigInt~2.004001
 Module::Build::Tiny~0.051
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode::PP~2.500
+Net::IDN::Punycode~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.94
 POSIX::strftime::Compiler~0.46
@@ -84,6 +85,7 @@ Twiggy~0.1026
 Twiggy::Prefork~0.08
 Types::Serialiser~1.01
 URI~5.31
+URI::Escape~5.31
 URI::UTF8::Punycode~1.05
 Unicode::Normalize~1.26
 Unicode::Stringprep~1.105
