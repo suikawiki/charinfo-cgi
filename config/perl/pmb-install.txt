@@ -1,6 +1,7 @@
 AnyEvent~7.17
 AnyEvent::AIO~1.1
 AnyEvent::Fork~1.32
+AnyEvent::Socket
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.68
 Canary::Stability~2013
@@ -70,8 +71,8 @@ Signal::Mask~0.008
 Socket~2.038
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
-Test::Builder~1.302214
 Test::Deep~1.205
+Test::More~1.302214
 Test::NoWarnings~1.06
 Test::Requires~0.11
 Test::SharedFork~0.35
