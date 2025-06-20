@@ -1,7 +1,7 @@
 AnyEvent~7.17
 AnyEvent::AIO~1.1
 AnyEvent::Fork~1.32
-AnyEvent::Socket
+AnyEvent::Handle
 Apache::LogFormat::Compiler~0.36
 CGI::Carp~4.69
 Canary::Stability~2013
@@ -54,7 +54,7 @@ Math::BigInt~2.005003
 Module::Build::Tiny~0.052
 Mojo::Util
 Net::IDN::Nameprep~1.102
-Net::IDN::Punycode~2.500
+Net::IDN::Punycode::PP~2.500
 Net::LibIDN~0.12
 Net::SSLeay~1.94
 POSIX::strftime::Compiler~0.46
