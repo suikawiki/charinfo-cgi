@@ -70,8 +70,8 @@ Signal::Mask~0.008
 Socket~2.039
 Stream::Buffered~0.03
 Term::ANSIColor~5.01
-Test::Builder~1.302214
 Test::Deep~1.205
+Test::More~1.302214
 Test::NoWarnings~1.06
 Test::Requires~0.11
 Test::SharedFork~0.35
@@ -84,6 +84,7 @@ Twiggy~0.1026
 Twiggy::Prefork~0.08
 Types::Serialiser~1.01
 URI~5.32
+URI::URL~5.32
 URI::UTF8::Punycode~1.05
 Unicode::Normalize~1.26
 Unicode::Stringprep~1.105
