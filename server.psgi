@@ -32,7 +32,7 @@ sub {
         return $app->send_redirect ($url->stringify, status => 301);
       });
     } elsif ($app->http->url->{host} =~ /suikawiki\.org/ and
-             not $app->http->url->{host} =~ /\A(?:[a-z]{2}\.|)chars\.suikawiki\.org\z/) {
+             not $app->http->url->{host} =~ /\A(?:[a-z]{2}\.|)chars[-a-z]*\.suikawiki\.org\z/) {
       return $app->execute (sub {
         return $app->send_redirect ('https://chars.suikawiki.org/', status => 301);
       });
