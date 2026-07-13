@@ -29,16 +29,19 @@ sub {
       my $url = $app->http->url->clone;
       $url->{scheme} = 'https';
       return $app->execute (sub {
+        $app->http->set_response_header ('X-Request-URL' => $app->http->url->stringify);
         return $app->send_redirect ($url->stringify, status => 301);
       });
     } elsif ($app->http->url->{host} =~ /suikawiki\.org/ and
-             not $app->http->url->{host} =~ /\A(?:[a-z]{2}\.|)chars[-a-z]*\.suikawiki\.org\z/) {
+             not $app->http->url->{host} =~ /\A(?:[a-z]{2}\.|)(?:sw|)chars[-a-z]*\.suikawiki\.org\z/) {
       return $app->execute (sub {
+        $app->http->set_response_header ('X-Request-URL' => $app->http->url->stringify);
         return $app->send_redirect ('https://chars.suikawiki.org/', status => 301);
       });
     } elsif ($app->http->url->{host} =~ /^([a-z]{2})\./) {
       $locale->set_accept_langs ([$1]);
       return $app->execute (sub {
+        $app->http->set_response_header ('X-Request-URL' => $app->http->url->stringify);
         return $app->send_redirect ('https://chars.suikawiki.org/', status => 301);
       }) unless $1 eq $locale->lang;
     } else {
